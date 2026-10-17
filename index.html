@@ -84,51 +84,68 @@ const lines=s=>E(s).replace(/\n/g,'<br>');
 const val=k=>db?.settings?.[k]??'';
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hide');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.add('hide'),3800)}
 // GitHub Pages <-> GAS HtmlService bridge. No CORS workaround or exposed admin secret.
-const GAS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbysSpGynRmSdFStKUhUSq17SM87f-u3-wY8M-IIfAXZ1G-SyOUXLoc0doAYApyQocLV0Q/exec';
+const GAS_WEBAPP_URL = 'https://script.google.com/a/macros/cap89.com/s/AKfycbysSpGynRmSdFStKUhUSq17SM87f-u3-wY8M-IIfAXZ1G-SyOUXLoc0doAYApyQocLV0Q/exec';
 const RPC_ALLOWED = new Set(['getPublic','register','login','logout','getAdmin','changePassword','saveSettings','upsertPlayer','removePlayer','upsertNotice','removeNotice','generateBracket','saveMatch','resetBracket']);
+const BRIDGE_NONCE = Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2,'0')).join('');
 const bridgeFrame = document.createElement('iframe');
 bridgeFrame.title = '비전 당구클럽 데이터 연결';
 bridgeFrame.setAttribute('aria-hidden','true');
 bridgeFrame.style.cssText = 'position:absolute;width:0;height:0;border:0;opacity:0;pointer-events:none';
-bridgeFrame.src = GAS_WEBAPP_URL + '?bridge=1';
-let bridgeReady = false;
+const bridgeUrl = new URL(GAS_WEBAPP_URL);
+bridgeUrl.searchParams.set('bridge','1');
+bridgeUrl.searchParams.set('origin', location.origin);
+bridgeUrl.searchParams.set('nonce', BRIDGE_NONCE);
+bridgeFrame.src = bridgeUrl.href;
+let bridgePort = null;
 let bridgeWaiters = [];
 let rpcSequence = 0;
 const pendingRPC = new Map();
+function validGoogleOrigin(origin) {
+  try {
+    const u = new URL(origin);
+    return u.protocol === 'https:' &&
+      (u.hostname === 'script.googleusercontent.com' || u.hostname.endsWith('.script.googleusercontent.com') ||
+       u.hostname === 'googleusercontent.com' || u.hostname.endsWith('.googleusercontent.com'));
+  } catch (_) { return false; }
+}
 window.addEventListener('message', event => {
-  if (event.source !== bridgeFrame.contentWindow) return;
   const msg = event.data;
-  if (!msg || msg.visionBridge !== 'v1') return;
-  if (msg.kind === 'ready') {
-    bridgeReady = true;
-    bridgeWaiters.splice(0).forEach(fn=>fn());
-  } else if (msg.kind === 'result' && pendingRPC.has(msg.id)) {
-    const p = pendingRPC.get(msg.id);
-    pendingRPC.delete(msg.id);
+  if (!validGoogleOrigin(event.origin) || !msg || msg.visionBridge !== 'v2' ||
+      msg.nonce !== BRIDGE_NONCE || msg.kind !== 'ready' || bridgePort || !event.ports?.[0]) return;
+  bridgePort = event.ports[0];
+  bridgePort.onmessage = e => {
+    const x = e.data;
+    if (!x || x.visionBridge !== 'v2' || x.nonce !== BRIDGE_NONCE || x.kind !== 'result') return;
+    const p = pendingRPC.get(x.id);
+    if (!p) return;
+    pendingRPC.delete(x.id);
     clearTimeout(p.timer);
-    msg.ok ? p.resolve(msg.data) : p.reject(new Error(msg.error || '서버 처리 오류'));
-  }
+    x.ok ? p.resolve(x.data) : p.reject(new Error(x.error || '서버 처리 오류'));
+  };
+  bridgePort.start();
+  bridgePort.postMessage({visionBridge:'v2',nonce:BRIDGE_NONCE,kind:'ack'});
+  bridgeWaiters.splice(0).forEach(fn => fn());
 });
 document.body.appendChild(bridgeFrame);
-function call(method,...args){
+function call(method,...args) {
   if (!RPC_ALLOWED.has(method)) return Promise.reject(new Error('허용되지 않은 요청입니다.'));
-  return new Promise((resolve,reject)=>{
+  return new Promise((resolve,reject) => {
     const id = ++rpcSequence;
     const start = () => {
       const timer = setTimeout(() => {
         pendingRPC.delete(id);
-        reject(new Error('GAS 연결이 지연되고 있습니다. 웹앱 배포 및 액세스 설정을 확인해 주세요.'));
+        reject(new Error('GAS 서버 응답 시간이 초과되었습니다.'));
       }, 30000);
       pendingRPC.set(id,{resolve,reject,timer});
-      bridgeFrame.contentWindow.postMessage({visionBridge:'v1',kind:'call',id,method,args},'*');
+      bridgePort.postMessage({visionBridge:'v2',nonce:BRIDGE_NONCE,kind:'call',id,method,args});
     };
-    if (bridgeReady) start(); else {
-      const timeout = setTimeout(() => {
-        const idx=bridgeWaiters.indexOf(ready);
-        if(idx>=0)bridgeWaiters.splice(idx,1);
-        reject(new Error('GAS 연결 화면을 시작하지 못했습니다. 도메인 접근 및 임베드 설정을 확인하세요.'));
+    if (bridgePort) start(); else {
+      const timer = setTimeout(() => {
+        const idx = bridgeWaiters.indexOf(ready);
+        if (idx !== -1) bridgeWaiters.splice(idx,1);
+        reject(new Error('GAS 연결에 실패했습니다. 브라우저의 외부 iframe 제한 또는 GAS 배포 설정을 확인해 주세요.'));
       },20000);
-      const ready = () => {clearTimeout(timeout);start()};
+      const ready = () => {clearTimeout(timer);start();};
       bridgeWaiters.push(ready);
     }
   });
