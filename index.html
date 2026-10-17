@@ -1,1 +1,319 @@
-Hello, world!
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f8faf6;--text:#34443d;--muted:#66766f;--mint:#e7f3ea;--peach:#fff0dc;--pink:#fbe6eb;--lav:#e8eeff;--line:#e4ebe5;--green:#527b65;--shadow:0 12px 34px #35483d12}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:'Noto Sans KR','Malgun Gothic',sans-serif;line-height:1.6}button,input,textarea,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:wait}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid #79aa90;outline-offset:2px}a{color:inherit;text-decoration:none}.wrap{width:min(85%,1320px);margin:auto}.top{position:sticky;top:0;z-index:20;background:#f8faf6ed;backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:78px}.brand{font-weight:800;display:flex;align-items:center;gap:10px;letter-spacing:-.04em}.brandmark{display:grid;place-items:center;width:40px;height:40px;background:var(--mint);border-radius:14px;font-size:24px}.links{display:flex;gap:6px;flex-wrap:wrap}.navbtn{border:0;background:transparent;color:var(--muted);padding:9px 12px;border-radius:13px;font-weight:600}.navbtn.active,.navbtn:hover{background:var(--mint);color:var(--green)}.btn{background:var(--green);color:#fff;border:0;border-radius:14px;padding:12px 18px;font-weight:700;min-height:44px;transition:transform .18s,box-shadow .18s}.btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px #527b653d}.btn.secondary{color:var(--green);background:var(--mint)}.btn.light{color:var(--text);background:#fff}.btn.danger{background:#a94957}.btn.sm{min-height:36px;padding:7px 12px;font-size:13px}.hero{position:relative;overflow:hidden;background:linear-gradient(120deg,#e7f3ea,#f1f4fa 57%,#fff0dc);margin:30px 0 22px;border:1px solid #e0e8de;border-radius:30px;min-height:390px;display:flex;align-items:center}.hero-inner{width:66%;padding:55px 55px;z-index:1}.eyebrow{color:#597d67;font-size:13px;letter-spacing:.13em;font-weight:800}.hero h1{font-size:clamp(30px,4vw,59px);line-height:1.21;letter-spacing:-.055em;margin:17px 0}.hero p{font-size:17px;color:#5c7567;max-width:540px}.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}.billiard{position:absolute;right:7%;top:18%;width:300px;height:260px;transform:rotate(-11deg)}.ball{position:absolute;border-radius:50%;box-shadow:inset -14px -18px 22px #26352b40,inset 12px 12px 22px #ffffffc7,0 22px 30px #374b3836;animation:float 4s ease-in-out infinite}.ball.white{width:123px;height:123px;top:20px;left:85px;background:#fff}.ball.yellow{width:92px;height:92px;top:144px;left:28px;background:#ffdc7d;animation-delay:-1s}.ball.red{width:101px;height:101px;top:139px;left:186px;background:#f18d91;animation-delay:-2.2s}@keyframes float{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-15px) rotate(5deg)}}.banner{background:var(--green);border-radius:16px;color:white;padding:14px 22px;margin-bottom:20px;font-weight:600}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.card{padding:23px;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s}.card:hover{transform:translateY(-3px);box-shadow:0 18px 35px #35483d1a}.card.mint{background:var(--mint)}.card.peach{background:var(--peach)}.card.pink{background:var(--pink)}.card.lav{background:var(--lav)}.caption{color:var(--muted);font-size:13px;font-weight:600}.value{font-weight:800;font-size:23px;letter-spacing:-.04em;margin-top:8px;overflow-wrap:anywhere}main{min-height:65vh}.section{margin:44px 0}.section h2{font-size:28px;letter-spacing:-.04em;margin:0 0 18px}.section p{white-space:pre-line}.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}.notice{border-bottom:1px solid var(--line);padding:17px 0}.notice:last-child{border:0}.notice h3{margin:0 0 5px;font-size:17px}.notice p{margin:0;color:var(--muted)}.chip{display:inline-flex;background:var(--mint);color:var(--green);border-radius:50px;padding:5px 11px;font-size:12px;font-weight:700}.panel{background:white;border-radius:24px;padding:27px;border:1px solid var(--line)}.panel h3{margin:0 0 13px}.field{display:flex;flex-direction:column;gap:5px;margin:10px 0}.field label{font-size:13px;font-weight:700;color:#536c5b}.field input,.field textarea,.field select{width:100%;border-radius:12px;border:1px solid #dbe5dc;background:#fff;padding:12px;color:var(--text);min-height:44px}.field textarea{min-height:110px;resize:vertical}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 15px}.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:18px}.pill{background:var(--lav);padding:6px 12px;border-radius:40px;font-size:12px;font-weight:700}.rowitem{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}.rowitem:last-child{border:0}.rowitem small{display:block;color:var(--muted)}.rounds{display:flex;align-items:stretch;gap:17px;overflow-x:auto;padding:8px 3px 25px}.round{min-width:245px;flex:1}.round h3{text-align:center;margin:5px 0 15px}.match{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px;margin-bottom:12px;box-shadow:0 6px 20px #34443d0c}.contestant{display:flex;justify-content:space-between;gap:12px;padding:7px 6px;border-radius:9px}.contestant.win{background:var(--mint);font-weight:800}.contestant + .contestant{border-top:1px dashed var(--line)}.editable{position:relative}.pencil{display:none;position:absolute;right:10px;top:10px;background:#fff;border:1px solid #cfded2;color:var(--green);border-radius:12px;padding:6px 10px;z-index:3}.admin-on .editable:hover .pencil,.admin-on .pencil:focus{display:block}.admin-on .editable{outline:1px dashed #aac3ae;outline-offset:3px}footer{margin-top:60px;background:var(--mint);padding:38px 0;color:#53705f}.modalback{position:fixed;inset:0;background:#263a30a3;z-index:80;display:grid;place-items:center;padding:14px}.modal{background:white;border-radius:24px;width:min(100%,650px);max-height:90vh;overflow:auto;box-shadow:0 25px 80px #1118;padding:26px}.modalhead{display:flex;justify-content:space-between;align-items:center;gap:12px}.modalhead h2{margin:0}.x{background:var(--mint);color:var(--green);border:0;border-radius:50%;width:37px;height:37px}.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:#34443d;color:white;padding:14px 20px;border-radius:16px;z-index:100;box-shadow:var(--shadow);width:max-content;max-width:90vw}.hide{display:none!important}.adminbar{position:sticky;top:78px;z-index:18;background:#fff0dc;border-bottom:1px solid #e9dbbc;padding:10px 0}.adminbar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.muted{color:var(--muted)}.empty{text-align:center;padding:42px;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:22px}.poster{width:100%;max-height:410px;object-fit:cover;border-radius:20px}.fade{animation:enter .35s ease both}@keyframes enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@media(max-width:1050px){.wrap{width:94%}.nav{align-items:flex-start;padding:12px 0;flex-direction:column}.links{overflow-x:auto;max-width:100%;flex-wrap:nowrap}.navbtn{white-space:nowrap}.hero-inner{padding:40px;width:70%}.billiard{right:0;transform:scale(.75) rotate(-11deg)}.grid{grid-template-columns:repeat(2,1fr)}.adminbar{top:117px}}@media(max-width:650px){.wrap{width:100%;padding:0 15px}.hero{min-height:450px;margin:16px 0}.hero-inner{width:100%;align-self:flex-start;padding:28px 25px}.hero h1{font-size:33px}.hero p{font-size:14px}.billiard{top:auto;bottom:2px;right:-54px;transform:scale(.55) rotate(-11deg);transform-origin:bottom right;opacity:.7}.grid,.two,.formgrid{grid-template-columns:1fr}.card{padding:18px}.section{margin:32px 0}.modal{padding:18px}.value{font-size:20px}.adminbar{top:120px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+
+/* 32강 독립 대진표 화면: Lucian에서 영감을 받은 어두운 스포츠 UI */
+body.tournament-mode{background:#0a0d14;color:#f3f4f6}
+body.tournament-mode .cap89-app>header,body.tournament-mode .cap89-app>.adminbar,body.tournament-mode .cap89-app>footer{display:none!important}
+body.tournament-mode #app{width:100%;max-width:none;padding:0;margin:0}
+.tour-page{min-height:100vh;padding:20px clamp(12px,3vw,38px);background:radial-gradient(ellipse at 85% 8%,#252b54,#0a0d14 45%);color:#f3f4f6}
+.tour-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.tour-title{font-weight:800;font-size:clamp(21px,2.5vw,30px);color:#f0efff;margin:0}
+.tour-sub{font-size:12px;color:#9ca3af;margin-top:4px}
+.tour-btn{border:1px solid #536080;background:#20283d;color:white;border-radius:13px;padding:11px 16px;cursor:pointer;font:inherit;font-size:13px;font-weight:700}
+.tour-btn:hover{background:#343f5e}.tour-btn.primary{background:#4f46e5;border-color:#6665ec}.tour-btn:disabled{opacity:.35;cursor:not-allowed}
+.tour-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.tour-status{border:1px solid #354057;background:#161e30e8;border-radius:17px;padding:13px 18px;margin-bottom:16px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;color:#c1c9df}
+.tour-track{width:100%;overflow-x:auto;border:1px solid #293348;border-radius:20px;background:#0b111e;padding:22px 18px}
+.tour-grid{display:flex;gap:46px;min-width:max-content;align-items:stretch}
+.tour-round{width:232px;display:flex;flex-direction:column;flex-shrink:0}
+.tour-round-title{padding:11px;text-align:center;background:#262b45;border:1px solid #3d4462;border-radius:12px;color:#c5cbff;font-weight:800;margin-bottom:12px}
+.tour-matches{display:flex;flex-direction:column;justify-content:space-around;flex:1;gap:12px}
+.tour-match{background:#161e30;border:1px solid #343d54;border-radius:15px;padding:6px;box-shadow:0 8px 28px #0004;position:relative}
+.tour-match:after{content:' ';position:absolute;top:50%;left:100%;height:1px;width:23px;background:#57637a}
+.tour-match-label{font-size:10px;color:#929fba;padding:3px 7px}
+.tour-player{display:flex;justify-content:space-between;gap:8px;align-items:center;border:1px solid transparent;border-radius:9px;min-height:36px;padding:7px 8px;font-size:13px;font-weight:700}
+.tour-player+.tour-player{border-top:1px solid #30384b}
+.tour-player.win{color:#67e9ae;background:#163d34;border-color:#2a7c63}
+.tour-player.lose{opacity:.35;filter:grayscale(1)}
+.tour-player.bye{color:#8894a8;font-style:italic}
+.tour-player .score{color:#c1c9da;font-size:12px}
+.tour-match button{width:100%;margin-top:5px;padding:7px;font-size:12px;border:1px solid #444f72;border-radius:8px;background:#242f53;color:white;cursor:pointer}
+.tour-champ{background:#3b321e;border:1px solid #b58c43;border-radius:18px;padding:20px;color:#ffdc88;text-align:center;box-shadow:0 0 20px #94742933}
+.tour-empty{padding:26px;text-align:center;color:#aab4cf}
+.tour-note{margin-top:12px;color:#9ca3af;font-size:12px}
+@media(max-width:700px){.tour-page{padding:12px}.tour-round{width:205px}.tour-grid{gap:28px}}
+.hero:has(.hero-poster-link){display:grid;grid-template-columns:minmax(0,1.15fr) minmax(200px,.72fr);gap:22px;align-items:center}
+.hero-poster-link{position:relative;z-index:2;display:block;max-width:290px;justify-self:center;transition:transform .25s}
+.hero-poster-link:hover{transform:translateY(-5px) rotate(-1deg)}
+.hero-poster-link img{display:block;width:100%;max-height:380px;object-fit:contain;border-radius:20px;box-shadow:0 12px 38px #304b3c44}
+@media(max-width:720px){.hero:has(.hero-poster-link){grid-template-columns:1fr}.hero-poster-link{width:70%;max-width:270px}.hero-poster-link img{max-height:330px}}
+@media(prefers-reduced-motion:reduce){.hero-poster-link{transition:none}}
+
+.tour-roster{display:flex;flex-wrap:wrap;gap:7px;padding:10px 0}.tour-roster span{background:#232f49;border:1px solid #455475;border-radius:10px;padding:7px 10px;font-size:12px;color:#d9e4fa}.tour-roster .bye{opacity:.58}.tour-sim-label{color:#ffe19d;font-weight:800;border:1px solid #a48a4a;padding:7px 12px;border-radius:12px}.tour-btn.warning{background:#554124;border-color:#86663a}.tour-btn.danger{background:#5c2634;border-color:#a34b60}.tour-btn.sim{background:#195c51;border-color:#2f9584}.tour-btn.light{background:#2a354e}.tour-preview{border:1px dashed #5a6a88;background:#141e33;padding:15px;border-radius:15px;margin-bottom:16px;color:#e9eefb}
+
+/* v3.4 Lucian-inspired tournament neon connectors and state hierarchy */
+.tour-grid{position:relative;isolation:isolate}
+.tour-round{position:relative;z-index:2}
+.tour-connectors{position:absolute;left:0;top:0;width:100%;height:100%;z-index:1;overflow:visible;pointer-events:none}
+.tour-match:after{display:none}
+.tour-match{transition:border-color .22s,box-shadow .22s,background .22s}
+.tour-match.state-upcoming{background:#141b2a;border-color:#36415a}
+.tour-match.state-upcoming .tour-match-label{color:#94a1ba}
+.tour-match.state-ready{background:#1c263b;border-color:#526489}
+.tour-match.state-progress{border-color:#e1ab58;background:#282337;box-shadow:0 0 0 1px #e1ab5840,0 0 16px #e1ab5829}
+.tour-match.state-complete{border-color:#28bb88;background:#142d2b;box-shadow:0 0 0 1px #14a97940,0 0 18px #00dd9955}
+.tour-match.state-bye{border-color:#557d9c;background:#172538}
+.tour-match.state-complete .tour-player.win{color:#91ffd2;border-color:#33d99b;background:#126044;box-shadow:inset 0 0 10px #03e3a525,0 0 9px #03e3a52c}
+.tour-match.state-complete .tour-player.lose{opacity:.33}
+.tour-match-state{font-size:10px;font-weight:800;letter-spacing:.025em;margin-left:auto}
+.state-complete .tour-match-state{color:#6bf2b7}.state-ready .tour-match-state{color:#abc5ff}.state-upcoming .tour-match-state{color:#91a0b9}.state-progress .tour-match-state{color:#ffd28b}.state-bye .tour-match-state{color:#94cbff}
+.tour-legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:0 0 14px;color:#d2dcf0;font-size:12px}
+.tour-legend span{display:inline-flex;align-items:center;gap:7px}.tour-dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.tour-dot.done{background:#27db9f;box-shadow:0 0 10px #27db9f}.tour-dot.pending{background:#8390a7}.tour-dot.live{background:#f7b65b}.tour-dot.bye{background:#7cb8eb}
+.tour-line-done{filter:drop-shadow(0 0 5px #00e7a7) drop-shadow(0 0 2px #00e7a7)}
+.tour-line-bye{stroke-dasharray:5 5}
+@media(prefers-reduced-motion:reduce){.tour-match{transition:none}.tour-line-done{filter:none}}
+</style>
+<style>
+.brand{min-width:0}.brand #brandTitle{overflow-wrap:anywhere;font-size:clamp(14px,1.5vw,19px)}.brandmark{font-size:0}.brandmark:after{content:'';display:block;width:19px;height:19px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#ffb1aa,#e14048 60%,#a4192e);box-shadow:inset -4px -5px 9px #7b102055,0 3px 8px #77333322}.brand-pencil{position:static!important;flex:none}.admin-on .brand-pencil{display:inline-flex}.sunday{color:#e03949;font-weight:800}.venue-meta{margin-top:7px;display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;font-size:clamp(11px,1vw,13px);font-weight:500;letter-spacing:0;line-height:1.5}.venue-phone{white-space:nowrap;color:#476e59}.guide-cards>.panel:nth-child(1){background:#e7f3ea}.guide-cards>.panel:nth-child(2){background:#fff0dc}.guide-cards>.panel:nth-child(3){background:#e8eeff}.guide-cards>.panel:nth-child(4){background:#fbe6eb}.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0 18px}.stat-card{display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:16px;padding:10px 13px;min-height:74px}.stat-card.mint{background:var(--mint)}.stat-card.peach{background:var(--peach)}.stat-card.lav{background:var(--lav)}.stat-card.pink{background:var(--pink)}.stat-card span{font-size:12px;color:var(--muted)}.stat-card strong{font-size:19px}.player-actions{display:flex;gap:6px;flex-wrap:wrap}@media(max-width:760px){.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.rowitem{align-items:flex-start}.player-actions{justify-content:flex-end}}@media(max-width:400px){.player-actions{flex-direction:column}}
+</style></head><body><div class="cap89-app">
+<header class="top"><div class="wrap nav"><div class="brand"><span class="brandmark">🔴</span><span id="brandTitle">비전 당구 클럽 동호인 대회</span><button class="pencil brand-pencil" id="brandEdit" onclick="openSettings(['appName'])" title="사이트명 수정" aria-label="사이트명 수정">✏️</button></div><nav class="links" aria-label="메인 메뉴"><button class="navbtn active" data-page="home">홈</button><button class="navbtn" data-page="guide">대회 안내</button><button class="navbtn" data-page="apply">참가 신청</button><button class="navbtn" data-page="players">참가 현황</button><button class="navbtn" data-page="bracket">대진표</button><button class="navbtn" data-page="results">경기 결과</button><button class="navbtn" data-page="admin">⚙ 관리자</button></nav></div></header>
+<div id="adminbar" class="adminbar hide"><div class="wrap"><strong>✏️ 관리자 편집 모드</strong><span class="muted">카드 위 연필을 클릭해 수정하세요.</span><button class="btn sm secondary" onclick="openSettings()">전체 설정</button><button class="btn sm secondary" onclick="refresh()">새로고침</button><button class="btn sm light" onclick="signout()">로그아웃</button></div></div>
+<main class="wrap" id="app"><div class="empty">대회 정보를 불러오는 중…</div></main><footer><div class="wrap"><strong>🎱 VISION BILLIARD CLUB</strong><div id="footerText">2026 비전 당구클럽 친목 대회</div></div></footer>
+<div id="modalRoot"></div><div id="toast" class="toast hide" role="status" aria-live="polite"></div>
+<script>
+'use strict';
+let db=null,admin=null,token='',page='home',busy=false,modalCloser=null;
+const $=id=>document.getElementById(id);
+const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const lines=s=>E(s).replace(/\n/g,'<br>');
+const val=k=>db?.settings?.[k]??'';
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hide');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.add('hide'),3800)}
+// GitHub Pages <-> GAS HtmlService bridge. No CORS workaround or exposed admin secret.
+const GAS_WEBAPP_URL = 'https://script.google.com/a/macros/cap89.com/s/AKfycbysSpGynRmSdFStKUhUSq17SM87f-u3-wY8M-IIfAXZ1G-SyOUXLoc0doAYApyQocLV0Q/exec';
+const RPC_ALLOWED = new Set(['getPublic','register','login','logout','getAdmin','changePassword','saveSettings','upsertPlayer','removePlayer','upsertNotice','removeNotice','generateBracket','saveMatch','resetBracket']);
+const bridgeFrame = document.createElement('iframe');
+bridgeFrame.title = '비전 당구클럽 데이터 연결';
+bridgeFrame.setAttribute('aria-hidden','true');
+bridgeFrame.style.cssText = 'position:absolute;width:0;height:0;border:0;opacity:0;pointer-events:none';
+bridgeFrame.src = GAS_WEBAPP_URL + '?bridge=1';
+let bridgeReady = false;
+let bridgeWaiters = [];
+let rpcSequence = 0;
+const pendingRPC = new Map();
+window.addEventListener('message', event => {
+  if (event.source !== bridgeFrame.contentWindow) return;
+  const msg = event.data;
+  if (!msg || msg.visionBridge !== 'v1') return;
+  if (msg.kind === 'ready') {
+    bridgeReady = true;
+    bridgeWaiters.splice(0).forEach(fn=>fn());
+  } else if (msg.kind === 'result' && pendingRPC.has(msg.id)) {
+    const p = pendingRPC.get(msg.id);
+    pendingRPC.delete(msg.id);
+    clearTimeout(p.timer);
+    msg.ok ? p.resolve(msg.data) : p.reject(new Error(msg.error || '서버 처리 오류'));
+  }
+});
+document.body.appendChild(bridgeFrame);
+function call(method,...args){
+  if (!RPC_ALLOWED.has(method)) return Promise.reject(new Error('허용되지 않은 요청입니다.'));
+  return new Promise((resolve,reject)=>{
+    const id = ++rpcSequence;
+    const start = () => {
+      const timer = setTimeout(() => {
+        pendingRPC.delete(id);
+        reject(new Error('GAS 연결이 지연되고 있습니다. 웹앱 배포 및 액세스 설정을 확인해 주세요.'));
+      }, 30000);
+      pendingRPC.set(id,{resolve,reject,timer});
+      bridgeFrame.contentWindow.postMessage({visionBridge:'v1',kind:'call',id,method,args},'*');
+    };
+    if (bridgeReady) start(); else {
+      const timeout = setTimeout(() => {
+        const idx=bridgeWaiters.indexOf(ready);
+        if(idx>=0)bridgeWaiters.splice(idx,1);
+        reject(new Error('GAS 연결 화면을 시작하지 못했습니다. 도메인 접근 및 임베드 설정을 확인하세요.'));
+      },20000);
+      const ready = () => {clearTimeout(timeout);start()};
+      bridgeWaiters.push(ready);
+    }
+  });
+}
+
+async function run(method,...args){if(busy)return;busy=true;document.querySelectorAll('button[type=submit]').forEach(b=>b.disabled=true);try{return await call(method,...args)}catch(e){toast('⚠ '+e.message);throw e}finally{busy=false;document.querySelectorAll('button[type=submit]').forEach(b=>b.disabled=false)}}
+function editBtn(keys){return token?`<button class="pencil" aria-label="이 영역 수정" onclick='openSettings(${JSON.stringify(keys)})'>✏️ 수정</button>`:''}
+function editable(html,keys,cls=''){return `<div class="editable ${cls}">${editBtn(keys)}${html}</div>`}
+function nav(p){page=p;document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===p));render();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.page)));
+function infoCard(label,value,color,keys,raw=false){const inner=`<div class="caption">${E(label)}</div><div class="value">${raw?value:E(value||'추후 안내')}</div>`;return keys?.length?editable(inner,keys,`card ${color}`):`<div class="card ${color}">${inner}</div>`}
+function formatDate(long=false){const raw=String(val('date')||'');const m=raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return E(raw+' '+val('time'));const d=new Date(+m[1],+m[2]-1,+m[3]);const weekday=['일','월','화','수','목','금','토'][d.getDay()];const day=weekday==='일'?'<span class="sunday">일</span>':weekday;const time=E(val('time')||'10:00');return long?`${m[1]}년 ${+m[2]}월 ${+m[3]}일 ${day}요일 ${time}~`:`${m[1]}.${m[2]}.${m[3]}.(${day}) ${time}~`}
+function venueText(){return `<div>${E(val('venue'))}</div><div class="venue-meta"><span>${E(val('address'))}</span><span class="venue-phone">☎ ${E(val('phone'))}</span></div>`}
+function statCard(label,value,color){return `<div class="stat-card ${color}"><span>${E(label)}</span><strong>${E(value)}</strong></div>`}
+function phoneFormat(input){const v=String(input||'').replace(/\D/g,'').slice(0,11);if(v.length<=3)return v;if(v.startsWith('02')){if(v.length<=5)return v.slice(0,2)+'-'+v.slice(2);if(v.length<=9)return v.slice(0,2)+'-'+v.slice(2,v.length-4)+'-'+v.slice(-4);return v.slice(0,2)+'-'+v.slice(2,6)+'-'+v.slice(6)}if(v.length<=7)return v.slice(0,3)+'-'+v.slice(3);return v.slice(0,3)+'-'+v.slice(3,v.length-4)+'-'+v.slice(-4)}
+function isMobile(){return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)}
+function messageEditor(id){const p=admin?.players?.find(x=>x.id===id);if(!p)return;const phone=String(p.phone||'').replace(/\D/g,'');if(!phone){toast('신청자 전화번호가 없습니다.');return}const initial='비전 당구클럽 동호인 대회 관련 안내 드립니다.';modal('✉️ 문자 메시지 작성',`<p><strong>${E(p.name)}</strong> · ${E(phoneFormat(phone))}</p><div class="field"><label for="smsBody">전송할 안내 문구</label><textarea id="smsBody" rows="5">${E(initial)}</textarea></div><p class="muted">휴대전화 문자 앱을 열어 발송 전 확인합니다. 홈페이지가 문자를 자동 전송하지는 않습니다.</p>`,async()=>{const message=$('smsBody').value.trim();if(!message)throw Error('메시지 내용을 입력해 주세요.');if(!isMobile()){await navigator.clipboard.writeText(message);toast('PC에서는 문자 내용을 복사했습니다. 휴대전화에서 발송해 주세요.');return}const sep=/iPhone|iPad|iPod/i.test(navigator.userAgent)?'&':'?';window.location.href=`sms:${phone}${sep}body=${encodeURIComponent(message)}`;});const b=$('modalForm').querySelector('button[type="submit"]');b.textContent=isMobile()?'문자 앱 열기':'문구 복사하기'}
+function hero(){return `<div class="hero editable">${editBtn(['title','subTitle','heroBadge','intro'])}<div class="hero-inner"><div class="eyebrow">${E(val('heroBadge'))}</div><h1>${E(val('title'))}</h1><p>${E(val('subTitle'))}</p><div class="hero-actions"><button class="btn" onclick="nav('apply')">참가 신청하기 ↗</button><button class="btn light" onclick="nav('guide')">대회 요강 확인 →</button></div></div>${val('posterUrl')?`<a class="hero-poster-link" href="${E(val('posterUrl'))}" target="_blank" rel="noopener" title="대회 포스터 크게 보기"><img src="${E(val('posterUrl'))}" alt="대회 공식 포스터" loading="lazy"></a>`:''}<div class="billiard" aria-hidden="true"><div class="ball white"></div><div class="ball yellow"></div><div class="ball red"></div></div></div>`}
+function home(){return `${hero()}${editable(`<div class="banner">${E(val('noticeBanner'))}</div>`,['noticeBanner'])}<section class="grid">${infoCard('📅 대회 일시',formatDate(true),'mint',['date','time'],true)}${infoCard('🏆 총상금',val('prizeTotal'),'peach',['prizeTotal','prizeDetail'])}${infoCard('📍 대회 장소',venueText(),'lav',['venue','address','phone'],true)}${infoCard('👥 참가 신청 현황',`${db.appliedCount}명 신청`,'pink',[])}</section><section class="section two">${editable(`<h2>🎱 올해의 마지막 승부!</h2><p>${E(val('intro'))}</p><p><strong>단판 토너먼트 · 개인별 핸디 적용</strong></p><button class="btn secondary" onclick="nav('guide')">대회 규정 살펴보기</button>`,['intro','rules'],'panel')}${editable(`<h2>📢 대회 공지</h2>${noticeList(3)}<div style="margin-top:15px"><button class="btn secondary" onclick="nav('guide')">모든 공지 보기</button>${token?'<button class="btn sm" onclick="noticeEditor()">+ 공지 추가</button>':''}</div>`,[],'panel')}</section>`}
+function noticeList(limit=100){const ns=db.notices.slice(0,limit);return ns.length?ns.map(n=>`<div class="notice"><h3>${E(n.title)}</h3><p>${lines(n.body)}</p></div>`).join(''):'<p class="muted">등록된 공지가 없습니다.</p>'}
+function guide(){return `<section class="section"><h2>📋 대회 안내</h2><div class="two guide-cards">${editable(`<h3>대회 개요</h3><p>일시: ${formatDate(true)}<br>주최: ${E(val('organizer'))}<br>장소: ${E(val('venue'))}<br>주소: ${E(val('address'))}<br>문의: ${E(val('phone'))}</p>`,['date','time','organizer','venue','address','phone'],'panel')}${editable(`<h3>참가 및 시상</h3><p>참가비: ${E(val('entryFee'))}<br>모집 정원: ${E(val('capacity')||'제한 미정')}<br>총상금: ${E(val('prizeTotal'))}<br>${lines(val('prizeDetail'))}</p>`,['entryFee','capacity','prizeTotal','prizeDetail'],'panel')}${editable(`<h3>경기 규정</h3><p>${lines(val('rules'))}</p>`,['rules'],'panel')}${editable(`<h3>참가 자격 및 공지</h3><p>${lines(val('eligibility'))}</p>`,['eligibility'],'panel')}</div></section><section class="section panel"><div class="toolbar"><h2 style="margin:0">📢 공지사항</h2>${token?'<button class="btn sm" onclick="noticeEditor()">+ 공지 추가</button>':''}</div>${noticeList()}${token?adminNoticeList():''}</section>`}
+function application(){const open=val('registrationOpen')==='TRUE';return `<section class="section"><h2>📝 온라인 참가 신청</h2><div class="two"><div class="panel"><h3>${open?'참가 신청서':'접수가 마감되었습니다'}</h3>${open?`<form id="applyForm"><div class="field"><label for="pname">선수 이름 *</label><input id="pname" name="name" maxlength="40" required></div><div class="field"><label for="pphone">휴대전화 *</label><input id="pphone" name="phone" inputmode="numeric" autocomplete="tel" maxlength="13" placeholder="010-1234-5678" required></div><div class="field"><label for="phandi">개인 핸디 *</label><input id="phandi" name="handicap" type="number" min="1" max="50" required></div><div class="field"><label for="pclub">소속 클럽 (선택)</label><input id="pclub" name="club" maxlength="60"></div><p class="muted" style="font-size:13px">참가 접수·본인 확인을 위해 입력 정보를 저장합니다. 공개 참가자 명단에는 전화번호를 표시하지 않습니다. 정보 정정 또는 삭제는 대회 운영진에게 문의해 주세요.</p><button class="btn" type="submit">신청서 제출하기</button></form>`:'<p>신청 접수 일정은 대회 운영진에게 문의해 주세요.</p>'}</div><div class="panel"><h3>대회 참가 안내</h3><p>🗓 ${formatDate(false)}</p><p>📍 ${E(val('venue'))}</p><p>💳 참가비: ${E(val('entryFee'))}</p><p>👥 현재 신청: ${db.appliedCount}명</p><p>☎ ${E(val('phone'))}</p><span class="chip">관리자 승인 후 명단 공개</span></div></div></section>`}
+function players(){return `<section class="section"><h2>👥 참가 현황</h2><div class="stats-grid">${statCard('신청 인원',db.appliedCount+'명','mint')}${statCard('참가 확정',db.approvedCount+'명','peach')}${statCard('모집 정원',val('capacity')?val('capacity')+'명':'미정','lav')}${statCard('접수 상태',val('registrationOpen')==='TRUE'?'접수 중':'접수 마감','pink')}</div><div class="panel"><div class="toolbar"><h3 style="margin:0">참가 확정 선수</h3>${token?'<button class="btn sm" onclick="playerEditor()">+ 선수 등록</button>':''}</div>${db.players.length?db.players.map((p,i)=>`<div class="rowitem"><span><strong>${i+1}. ${E(p.name)}</strong><small>${E(p.club||'개인 참가')}</small></span><span class="chip">핸디 ${E(p.handicap)}</span></div>`).join(''):'<div class="empty">참가 확정 선수가 없습니다.</div>'}</div></section>${token?adminPlayers():''}`}
+function displayName(id){if(!id)return '진출 대기';if(String(id).startsWith('BYE_'))return '부전승 '+String(id).split('_')[1];const p=[...(admin?.players||[]),...db.players].find(p=>p.id===id);return p?`${p.name} (${p.handicap})`:'선수 정보 없음'}
+let previewRoster=null;
+let simulation=null;
+let simTimer=null;
+function sampleRoster(){
+ if(!db) return;
+ const roster=(db.players||[]).slice();
+ if(roster.length>32){toast('승인된 참가자가 32명을 초과했습니다.');return;}
+ previewRoster=roster;
+ simulation=null;
+ render();toast(`확정 선수 ${roster.length}명 명단을 불러왔습니다. 추첨 배정은 별도로 진행하세요.`);
+}
+function askBracket(action){
+ if(!token)return;
+ const reroll=action==='draw'&&db.matches.length>0;
+ const title=action==='reset'?'대진표 초기화 확인':reroll?'다시 배정 확인':'추첨 배정 확인';
+ const warning=action==='reset'?'저장된 대진표 및 모든 경기 결과를 삭제합니다. 참가자 명단은 유지됩니다.':reroll?'기존 대진표와 입력된 경기 결과가 모두 삭제되고 무작위로 다시 배정됩니다.':'확정 선수 명단을 무작위로 배치하고 나머지는 부전승으로 채웁니다.';
+ modal(title,`<p>${E(warning)}</p><p style="color:#b34b5c;font-weight:700">이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?</p>`,async()=>{
+  stopSimulation(false);
+  if(action==='reset') await run('resetBracket',token);
+  else await run('generateBracket',token);
+  previewRoster=null;
+  await refresh();
+  nav('bracket');
+ });
+ const submit=$('modalForm').querySelector('button[type="submit"]');
+ submit.textContent=action==='reset'?'초기화 실행':reroll?'다시 추첨 실행':'추첨 배정 실행';
+}
+function stopSimulation(repaint=true){if(simTimer){clearInterval(simTimer);simTimer=null;} simulation=null;if(repaint&&db)render();}
+function startSimulation(){
+ if(!token)return;
+ if(!db.matches.length){toast('먼저 실제 대진표를 추첨해 주세요.');return;}
+ const rows=db.matches.map(m=>({...m,score1:'',score2:'',winner:''}));
+ rows.filter(m=>+m.round>1).forEach(m=>{m.player1='';m.player2=''});
+ propagateSimulationByes(rows);
+ simulation={matches:rows, step:0};
+ previewRoster=null;
+ advanceSimulation();
+}
+function propagateSimulationByes(rows){
+ const lookup=(r,s)=>rows.find(m=>+m.round===r&&+m.slot===s);
+ const sizes={};
+ for(let slot=0;slot<16;slot++){
+  const m=lookup(1,slot);if(!m)continue;
+  const a=m.player1&&!String(m.player1).startsWith('BYE_');
+  const b=m.player2&&!String(m.player2).startsWith('BYE_');
+  sizes['1:'+slot]=Number(!!a)+Number(!!b);
+  if(a&&!b)m.winner=m.player1;else if(b&&!a)m.winner=m.player2;
+ }
+ for(let round=2;round<=5;round++)for(let slot=0;slot<32/(2**round);slot++){
+  const m=lookup(round,slot),a=lookup(round-1,slot*2),b=lookup(round-1,slot*2+1);
+  if(!m||!a||!b)continue;
+  m.player1=a.winner||'';m.player2=b.winner||'';
+  const ac=sizes[(round-1)+':'+(slot*2)]||0,bc=sizes[(round-1)+':'+(slot*2+1)]||0;
+  sizes[round+':'+slot]=ac+bc;
+  if(ac&&!bc)m.winner=m.player1;
+  else if(bc&&!ac)m.winner=m.player2;
+ }
+}
+function advanceSimulation(){
+ if(!simulation)return;
+ const rows=simulation.matches;
+ const order=rows.slice().sort((a,b)=>+a.round-+b.round||+a.slot-+b.slot);
+ const m=order.find(x=>x.player1&&x.player2&&!x.winner&&!String(x.player1).startsWith('BYE_')&&!String(x.player2).startsWith('BYE_'));
+ if(!m){if(simTimer){clearInterval(simTimer);simTimer=null;}render();toast('가상 경기 시뮬레이션이 끝났습니다. 실제 데이터는 변경하지 않았습니다.');return;}
+ m.winner=Math.random()<.5?m.player1:m.player2;
+ m.score1=m.winner===m.player1?'승':'패';m.score2=m.winner===m.player2?'승':'패';
+ simulation.step++;
+ propagateSimulationByes(rows);
+ render();
+}
+function autoSimulation(){
+ if(!simulation)startSimulation();
+ if(!simulation||simTimer)return;
+ simTimer=setInterval(()=>{if(simulation)advanceSimulation()},420);
+ render();
+}
+function toggleSimPause(){if(simTimer){clearInterval(simTimer);simTimer=null;render();}}
+function matchVisualState(m){
+ const isBye=x=>String(x||'').startsWith('BYE_');
+ const a=!!m.player1&&!isBye(m.player1),b=!!m.player2&&!isBye(m.player2);
+ if(m.winner&&a&&b)return {type:'complete',label:'경기 완료'};
+ if((a||b)&&m.winner&&!(a&&b))return {type:'bye',label:'자동 진출'};
+ if(a&&b&&((m.score1!==''&&m.score1!=null)||(m.score2!==''&&m.score2!=null)))return {type:'progress',label:'진행 중'};
+ if(a&&b)return {type:'ready',label:'경기 전'};
+ return {type:'upcoming',label:'진출 대기'};
+}
+function drawTourConnectors(){
+ if(page!=='bracket')return;
+ const grid=document.getElementById('tourGrid'),svg=document.getElementById('tourSvg');
+ if(!grid||!svg)return;
+ const base=grid.getBoundingClientRect(),w=grid.scrollWidth,h=grid.scrollHeight;
+ svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+ svg.setAttribute('width',w);svg.setAttribute('height',h);
+ svg.replaceChildren();
+ const rounds=simulation?simulation.matches:db.matches;
+ if(!rounds?.length)return;
+ const els=(id)=>document.getElementById(id);
+ const center=(el)=>{const r=el.getBoundingClientRect();return {x:r.left-base.left+r.width/2,y:r.top-base.top+r.height/2,left:r.left-base.left,right:r.right-base.left}};
+ for(let round=1;round<=5;round++){
+  const matches=rounds.filter(m=>+m.round===round);
+  for(const m of matches){
+   const source=els(`tour-match-${round}-${m.slot}`);
+   const target=round===5?els('tour-champion'):els(`tour-match-${round+1}-${Math.floor(+m.slot/2)}`);
+   if(!source||!target)continue;
+   const a=center(source),b=center(target),slot=(+m.slot%2===0)?'first':'second';
+   const targetSlot=round===5?target:target.querySelector(`.tour-player[data-position="${slot}"]`);
+   const tc=center(targetSlot||target);
+   const x1=a.right,x2=b.left,y1=a.y,y2=tc.y,middle=x1+(x2-x1)/2;
+   const isBye=m.winner&&[m.player1,m.player2].some(x=>String(x||'').startsWith('BYE_'));
+   const done=!!m.winner;
+   const stroke=done?(isBye?'#73b5eb':'#15eca9'):'#56617b';
+   const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+   path.setAttribute('d',`M ${x1} ${y1} L ${middle} ${y1} L ${middle} ${y2} L ${x2} ${y2}`);
+   path.setAttribute('stroke',stroke);path.setAttribute('stroke-width',done?'3':'1.5');
+   path.setAttribute('stroke-opacity',done?'1':'.55');path.setAttribute('fill','none');
+   path.setAttribute('stroke-linecap','round');path.setAttribute('stroke-linejoin','round');
+   if(done)path.setAttribute('class',isBye?'tour-line-bye':'tour-line-done');
+   svg.appendChild(path);
+  }
+ }
+}
+window.addEventListener('resize',()=>requestAnimationFrame(drawTourConnectors));
+function bracket(showResults=false){
+ const arr=[...(simulation?simulation.matches:db.matches)].sort((a,b)=>+a.round-+b.round||+a.slot-+b.slot);
+ const rounds=[1,2,3,4,5];
+ const completed=arr.filter(m=>m.winner&&m.player1&&!String(m.player1).startsWith('BYE_')&&m.player2&&!String(m.player2).startsWith('BYE_')).length;
+ const final=arr.find(m=>+m.round===5), champion=final?.winner?displayName(final.winner):'';
+ const slotView=(pid,m,isFirst)=>{const win=m.winner===pid&&!!pid;const lose=m.winner&&pid&&pid!==m.winner;
+ const bye=String(pid||'').startsWith('BYE_');const name=pid?displayName(pid):'진출 대기';const score=isFirst?m.score1:m.score2;
+ return `<div data-position="${isFirst?'first':'second'}" class="tour-player ${win?'win':''} ${lose?'lose':''} ${bye?'bye':''}"><span>${E(name)}</span><span class="score">${E(score||'')}</span></div>`};
+ return `<div class="tour-page"><div class="tour-head"><div><h1 class="tour-title">🏆 ${E(val('title'))} · 32강 대진표</h1><div class="tour-sub">단판 토너먼트 · 개인 핸디 · 참가 확정 선수 자동 배치</div></div><div class="tour-toolbar"><button class="tour-btn" onclick="nav('home')">⌂ HOME</button>${token?`<button class="tour-btn light" onclick="sampleRoster()">👥 참가자 불러오기</button><button class="tour-btn primary" onclick="askBracket('draw')">🎲 ${db.matches.length?'다시 배정':'추첨 배정'}</button><button class="tour-btn danger" onclick="askBracket('reset')">↺ 초기화</button><button class="tour-btn sim" onclick="startSimulation()">▶ 시뮬레이션</button>${simulation?`<button class="tour-btn" onclick="advanceSimulation()">다음 경기</button><button class="tour-btn" onclick="autoSimulation()" ${simTimer?'disabled':''}>전체 자동 진행</button><button class="tour-btn" onclick="toggleSimPause()">일시 정지</button><button class="tour-btn warning" onclick="stopSimulation()">시뮬레이션 종료</button>`:''}`:''}</div></div>
+ <div class="tour-status"><span>경기 진행 <strong style="color:#a5b4fc">${completed} / 31</strong> · 참가 확정 <strong>${db.approvedCount}명</strong> · 부전승 <strong>${Math.max(0,32-db.approvedCount)}명</strong></span><span>${champion?'👑 우승 '+E(champion):'우승자 미정'}</span></div>
+ ${simulation?`<div class="tour-preview"><span class="tour-sim-label">🧪 시뮬레이션 모드</span>　가상 경기 ${simulation.step}회 진행 · 실제 Matches 데이터는 변경되지 않습니다.</div>`:''}
+ ${previewRoster&&!simulation?`<div class="tour-preview"><strong>불러온 선수 명단 (${previewRoster.length}명)</strong><p>현재는 미리보기입니다. 추첨 배정 버튼을 눌러야 실제 대진표에 반영됩니다.</p><div class="tour-roster">${previewRoster.map(p=>`<span>${E(p.name)} (${E(p.handicap)})</span>`).join('')}${Array.from({length:Math.max(0,32-previewRoster.length)},(_,i)=>`<span class="bye">부전승 ${i+1}</span>`).join('')}</div></div>`:''}
+ ${arr.length?`<div class="tour-legend"><span><i class="tour-dot done"></i>경기 완료</span><span><i class="tour-dot live"></i>진행 중</span><span><i class="tour-dot pending"></i>경기 전·진출 대기</span><span><i class="tour-dot bye"></i>부전승 자동 진출</span></div><div class="tour-track"><div class="tour-grid" id="tourGrid"><svg id="tourSvg" class="tour-connectors" aria-hidden="true"></svg>${rounds.map(r=>`<div class="tour-round"><div class="tour-round-title">${['32강','16강','8강','4강','결승'][r-1]}</div><div class="tour-matches">${arr.filter(m=>+m.round===r).map(m=>`<div id="tour-match-${r}-${m.slot}" class="tour-match state-${matchVisualState(m).type}"><div class="tour-match-label" style="display:flex;gap:8px;align-items:center">${r}라운드 · ${+m.slot+1}경기 <span class="tour-match-state">${matchVisualState(m).label}</span></div>${slotView(m.player1,m,true)}${slotView(m.player2,m,false)}${token&&!simulation&&m.player1&&m.player2&&!String(m.player1).startsWith('BYE_')&&!String(m.player2).startsWith('BYE_')?`<button onclick="matchEditor('${E(m.id)}')">✏️ 승자 / 점수 등록</button>`:''}</div>`).join('')}</div></div>`).join('')}<div class="tour-round" style="justify-content:center"><div class="tour-round-title">CHAMPION</div><div id="tour-champion" class="tour-champ">🏆<br>${E(champion||'우승자 대기')}</div></div></div></div>`:`<div class="tour-empty">대진표가 아직 생성되지 않았습니다.${token?' 위의 참가자 불러오기 버튼으로 대진표를 생성하세요.':' 관리자가 참가 확정 후 공개할 예정입니다.'}</div>`}
+ <div class="tour-note">※ 부전승은 별도 경기 없이 자동 진출합니다. 대진표 수정 및 경기 결과 입력은 관리자만 가능합니다.</div></div>`
+}
+function adminPage(){if(!token)return `<section class="section panel" style="max-width:460px;margin-left:auto;margin-right:auto"><h2>🔐 관리자 로그인</h2><form id="loginForm"><div class="field"><label for="pass">관리자 비밀번호</label><input id="pass" type="password" autocomplete="current-password" required></div><button type="submit" class="btn">로그인</button></form></section>`;return `<section class="section"><h2>⚙ 대회 관리자</h2><div class="grid">${infoCard('전체 신청',db.appliedCount+'명','mint',[])}${infoCard('참가 확정',db.approvedCount+'명','peach',[])}${infoCard('경기 수',db.matches.length+'경기','lav',[])}${infoCard('접수 상태',val('registrationOpen')==='TRUE'?'접수 중':'마감','pink',['registrationOpen'])}</div><div class="panel" style="margin-top:20px"><div class="toolbar"><button class="btn" onclick="openSettings()">✏️ 전체 대회 정보 수정</button><button class="btn secondary" onclick="playerEditor()">+ 선수 등록</button><button class="btn secondary" onclick="noticeEditor()">+ 공지 등록</button><button class="btn secondary" onclick="askBracket('draw')">🎲 대진표 추첨</button>${admin?.role==='admin'?'<button class="btn secondary" onclick="passwordEditor()">🔒 비밀번호 변경</button>':''}</div><p class="muted">다른 메뉴에서 선수 승인, 경기 기록 및 영역별 연필 수정을 진행할 수 있습니다.</p></div>${adminPlayers()}${adminNoticeList()}</section>`}
+function adminPlayers(){if(!token)return '';return `<section class="section panel"><h3>관리자 · 신청자 관리 (${admin?.players?.length||0}명)</h3>${(admin?.players||[]).map(p=>`<div class="rowitem"><div><strong>${E(p.name)}</strong> <span class="chip">${E(p.status)}</span><small>핸디 ${E(p.handicap)} · ${E(p.phone)} · ${E(p.club)}</small></div><div class="player-actions"><button class="btn sm secondary" onclick="messageEditor('${E(p.id)}')">✉ 문자</button><button class="btn sm secondary" onclick="playerEditor('${E(p.id)}')">✏️ 편집</button></div></div>`).join('')||'<p>아직 신청자가 없습니다.</p>'}</section>`}
+function adminNoticeList(){if(!token)return '';return `<section class="section panel"><h3>관리자 · 공지 관리</h3>${(admin?.notices||[]).map(n=>`<div class="rowitem"><span>${E(n.title)} <small>${n.visible==='TRUE'?'공개':'비공개'}</small></span><button class="btn sm secondary" onclick="noticeEditor('${E(n.id)}')">✏️ 편집</button></div>`).join('')||'<p>등록된 공지가 없습니다.</p>'}</section>`}
+function render(){if(!db)return;document.body.classList.toggle('tournament-mode',page==='bracket');document.body.classList.toggle('admin-on',!!token);$('adminbar').classList.toggle('hide',!token);$('app').innerHTML=({home,guide,apply:application,players,bracket,results:()=>bracket(true),admin:adminPage}[page]||home)();$('footerText').textContent=val('appName')+' · '+val('organizer');$('brandTitle').textContent=val('appName')||'비전 당구 클럽 동호인 대회';document.title=val('appName');if(page==='bracket')requestAnimationFrame(()=>requestAnimationFrame(drawTourConnectors));}
+async function refresh(){try{db=await call('getPublic');if(token)admin=await call('getAdmin',token);render()}catch(e){$('app').innerHTML=`<div class="empty">정보를 불러오지 못했습니다. ${E(e.message)}<br><button class="btn" onclick="refresh()">다시 시도</button></div>`}}
+function modal(title,content,onSubmit){closeModal();$('modalRoot').innerHTML=`<div class="modalback" id="backdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modalhead"><h2 id="modalTitle">${E(title)}</h2><button class="x" id="modalClose" aria-label="닫기">✕</button></div><form id="modalForm">${content}<div class="toolbar" style="justify-content:flex-end;margin-top:20px"><button type="button" class="btn secondary" id="cancelModal">닫기</button><button type="submit" class="btn">저장하기</button></div></form></div></div>`;$('backdrop').addEventListener('click',e=>{if(e.target.id==='backdrop')closeModal()});$('modalClose').onclick=closeModal;$('cancelModal').onclick=closeModal;$('modalForm').onsubmit=async e=>{e.preventDefault();try{await onSubmit(new FormData(e.target));closeModal();await refresh();toast('저장했습니다.')}catch(e){}};modalCloser=e=>{if(e.key==='Escape')closeModal()};document.addEventListener('keydown',modalCloser);$('modalClose').focus()}
+function closeModal(){if(modalCloser)document.removeEventListener('keydown',modalCloser);modalCloser=null;$('modalRoot').innerHTML=''}
+const FIELDS={appName:['홈페이지명','text'],title:['대회명','text'],subTitle:['대회 부제','text'],heroBadge:['상단 영문 문구','text'],intro:['대회 소개','textarea'],date:['대회 날짜','date'],time:['시작 시간','time'],organizer:['주최','text'],venue:['대회 장소','text'],address:['주소','text'],phone:['전화번호','text'],prizeTotal:['총상금 표시','text'],prizeDetail:['시상 내역','textarea'],entryFee:['참가비','text'],capacity:['모집 정원(미정은 빈칸)','number'],deadline:['접수 마감일(미정은 빈칸)','date'],registrationOpen:['참가 접수','toggle'],rules:['경기 규정','textarea'],eligibility:['참가 자격','textarea'],posterUrl:['포스터 이미지 URL','url'],noticeBanner:['상단 알림 문구','text']};
+function openSettings(keys){if(!token)return;const names=keys?.length?keys:Object.keys(FIELDS);modal('✏️ 대회 정보 수정',names.map(k=>{const [label,type]=FIELDS[k];return `<div class="field"><label for="f_${k}">${E(label)}</label>${type==='textarea'?`<textarea id="f_${k}" name="${k}">${E(val(k))}</textarea>`:type==='toggle'?`<select id="f_${k}" name="${k}"><option value="TRUE" ${val(k)==='TRUE'?'selected':''}>접수 중</option><option value="FALSE" ${val(k)==='FALSE'?'selected':''}>마감</option></select>`:`<input id="f_${k}" name="${k}" type="${type}" value="${E(val(k))}">`}</div>`}).join(''),async fd=>await run('saveSettings',token,Object.fromEntries(fd.entries())))}
+function playerEditor(id){const p=admin?.players?.find(x=>x.id===id)||{};modal(id?'✏️ 선수 수정':'➕ 선수 등록',`<div class="formgrid"><div class="field"><label>선수 이름 *</label><input name="name" value="${E(p.name||'')}" required></div><div class="field"><label>연락처</label><input name="phone" inputmode="numeric" maxlength="13" value="${E(p.phone||'')}"></div><div class="field"><label>개인 핸디 *</label><input type="number" min="1" max="50" name="handicap" value="${E(p.handicap||'')}" required></div><div class="field"><label>소속 클럽</label><input name="club" value="${E(p.club||'')}"></div><div class="field"><label>신청 상태</label><select name="status">${['대기','승인','취소'].map(s=>`<option ${p.status===s?'selected':''}>${s}</option>`).join('')}</select></div></div>${id?'<p class="muted">삭제가 필요하면 아래 버튼을 이용해 주세요.</p><button type="button" class="btn sm danger" id="deleteEntry">선수 삭제</button>':''}`,async fd=>await run('upsertPlayer',token,{...Object.fromEntries(fd.entries()),id:id||''}));if(id)$('deleteEntry').onclick=()=>confirmDelete('정말 선수를 삭제하시겠습니까?',()=>run('removePlayer',token,id))}
+function noticeEditor(id){const n=admin?.notices?.find(x=>x.id===id)||{};modal(id?'✏️ 공지 수정':'➕ 공지 등록',`<div class="field"><label>공지 제목</label><input name="title" required value="${E(n.title||'')}"></div><div class="field"><label>내용</label><textarea name="body">${E(n.body||'')}</textarea></div><div class="field"><label>노출 여부</label><select name="visible"><option value="TRUE" ${n.visible!=='FALSE'?'selected':''}>공개</option><option value="FALSE" ${n.visible==='FALSE'?'selected':''}>비공개</option></select></div>${id?'<button type="button" id="deleteEntry" class="btn sm danger">공지 삭제</button>':''}`,async fd=>await run('upsertNotice',token,{...Object.fromEntries(fd.entries()),id:id||''}));if(id)$('deleteEntry').onclick=()=>confirmDelete('정말 공지를 삭제하시겠습니까?',()=>run('removeNotice',token,id))}
+function confirmDelete(question,action){modal('삭제 확인',`<p>${E(question)}</p>`,async()=>{await action()})}
+function matchEditor(id){
+ const m=db.matches.find(x=>x.id===id);
+ if(!m)return;
+ const playerOne=E(displayName(m.player1));
+ const playerTwo=E(displayName(m.player2));
+ const options=[m.player1,m.player2].filter(Boolean).map(pid=>`<option value="${E(pid)}" ${m.winner===pid?'selected':''}>${E(displayName(pid))}</option>`).join('');
+ modal('✏️ 경기 결과 기록',`<p class="muted">${playerOne} vs ${playerTwo}</p><div class="formgrid"><div class="field"><label for="matchScore1">${playerOne} 점수</label><input id="matchScore1" name="score1" type="number" min="0" value="${E(m.score1)}"></div><div class="field"><label for="matchScore2">${playerTwo} 점수</label><input id="matchScore2" name="score2" type="number" min="0" value="${E(m.score2)}"></div></div><div class="field"><label for="matchWinner">승자</label><select id="matchWinner" name="winner" required><option value="">선택해 주세요</option>${options}</select></div>`,async fd=>await run('saveMatch',token,id,fd.get('score1'),fd.get('score2'),fd.get('winner')));
+}
+function createBracket(){return askBracket('draw')}
+function passwordEditor(){modal('관리자 비밀번호 변경',`<div class="field"><label>새 비밀번호 (8자 이상)</label><input name="password" type="password" minlength="8" required autocomplete="new-password"></div>`,async fd=>await run('changePassword',token,fd.get('password')))}
+async function signout(){try{await call('logout',token)}catch(e){}token='';admin=null;nav('home');toast('로그아웃했습니다.')}
+document.addEventListener('input',e=>{if(e.target.id==='pphone'||(e.target.name==='phone'&&e.target.closest('#modalForm'))){const el=e.target;const pos=el.selectionStart;el.value=phoneFormat(el.value);if(pos===el.value.length-1)el.setSelectionRange(el.value.length,el.value.length)}});
+document.addEventListener('submit',async e=>{if(e.target.id==='loginForm'){e.preventDefault();try{const result=await run('login',$('pass').value);token=result.token;admin=await call('getAdmin',token);await refresh();toast('관리자 로그인 성공')}catch(e){} }else if(e.target.id==='applyForm'){e.preventDefault();const data=Object.fromEntries(new FormData(e.target).entries());try{const result=await run('register',data);e.target.reset();await refresh();toast(result.message)}catch(e){}}});
+refresh();
+</script></div></body></html>
