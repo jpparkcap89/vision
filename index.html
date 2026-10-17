@@ -84,7 +84,7 @@ const lines=s=>E(s).replace(/\n/g,'<br>');
 const val=k=>db?.settings?.[k]??'';
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hide');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.add('hide'),3800)}
 // GitHub Pages <-> GAS HtmlService bridge. No CORS workaround or exposed admin secret.
-const GAS_WEBAPP_URL = 'https://script.google.com/a/macros/cap89.com/s/AKfycbysSpGynRmSdFStKUhUSq17SM87f-u3-wY8M-IIfAXZ1G-SyOUXLoc0doAYApyQocLV0Q/exec';
+const GAS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbysSpGynRmSdFStKUhUSq17SM87f-u3-wY8M-IIfAXZ1G-SyOUXLoc0doAYApyQocLV0Q/exec';
 const RPC_ALLOWED = new Set(['getPublic','register','login','logout','getAdmin','changePassword','saveSettings','upsertPlayer','removePlayer','upsertNotice','removeNotice','generateBracket','saveMatch','resetBracket']);
 const bridgeFrame = document.createElement('iframe');
 bridgeFrame.title = '비전 당구클럽 데이터 연결';
