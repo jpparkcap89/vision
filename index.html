@@ -439,45 +439,32 @@ footer{background:var(--surface-glass);border-top:1px solid var(--line);color:va
 :root[data-theme=dark] .payment-info,:root[data-theme=dark] .privacy-block{background:var(--field);color:var(--text)}
 :root[data-theme=dark] .tour-page{background:radial-gradient(ellipse at 85% 8%,#24345d,#0a111e 55%)}
 button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
-.cap89-app{transition:opacity .6s,transform .8s cubic-bezier(.2,.8,.2,1)}
-.cap89-app[data-loading=true]{opacity:0;transform:translateY(16px)}
-.loading-screen{position:fixed;inset:0;z-index:150;display:grid;place-content:center;justify-items:center;gap:18px;padding:16px;background:var(--bg);transition:opacity .3s}
+.cap89-app{transition:opacity .32s ease}
+.cap89-app[data-loading=true]{opacity:0}
+.loading-screen{position:fixed;inset:0;z-index:150;display:grid;place-content:center;justify-items:center;gap:14px;padding:24px;background:var(--bg);transition:opacity .32s ease}
 .loading-screen.is-leaving{opacity:0;pointer-events:none}
-.loading-screen[hidden]{display:none}
-.loading-screen .u256{max-width:100%;background:var(--surface);color:var(--text)}
-.loading-screen .u256-hf{background:#24324a}
-.loading-screen .u256-ct,.loading-screen .u256-bn{color:#fff}
-.loading-screen .u256-ct small{color:#cbd5ea}
-.loading-screen .u256-br i{background:var(--secondary)}
-.loading-screen .u256-br{background:#ffffff2e}
-.loading-screen .u256-bn{display:flex;gap:8px;align-items:center}
-.loading-screen .u256-ct{bottom:26px}
-.loading-screen .u256-n{margin-top:10px}
-.loading-screen .u256-ct .loading-estimate{font-size:10px;color:#cbd5ea;margin-top:5px}
-.loading-screen .u256-hd{color:var(--text);font-size:26px}
-.loading-screen .u256-sb,.loading-screen .u256-nv span{color:var(--muted)}
-.loading-meta{margin:0;max-width:340px;text-align:center;font-size:13px;line-height:1.7;color:var(--muted)}
-.loading-retry{min-height:44px}
-.cushion-table{position:absolute;left:24px;right:24px;top:76px;height:122px;border-radius:14px;background:linear-gradient(135deg,#22458e,#3065b4);border:7px solid #657db0;box-shadow:inset 0 0 0 2px #b5d4ff55}
-.cushion-table svg{width:100%;height:100%;overflow:visible}
-.cushion-route{fill:none;stroke:#bcefe4;stroke-width:1;stroke-dasharray:3 3;opacity:.65}
-.cushion-ball{fill:#fff;filter:drop-shadow(0 2px 2px #0005)}
-.loading-route{position:absolute;left:24px;right:24px;top:68px;height:106px;z-index:1}
-.loading-route .cushion-table{inset:0;height:auto}
-.cue-motion{offset-path:path('M 30 64 L 106 8 L 252 76 L 220 92 L 84 66');animation:carom-shot 3.6s cubic-bezier(.2,.8,.2,1) infinite;offset-rotate:0deg;position:absolute;width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#fff,#e2e9f5);left:0;top:0;box-shadow:0 2px 5px #0006}
-.loading-screen .is-open .loading-route{opacity:0;transition:opacity .3s}
-@keyframes carom-shot{0%,8%{offset-distance:0}85%,100%{offset-distance:100%}}
-@media(max-width:400px){.loading-screen .u256{width:min(340px,calc(100vw - 32px))}.theme-toggle{margin-left:2px}.hero-inner{padding:26px 22px}.links{width:100%}}
+.loading-screen[hidden],.loading-retry[hidden]{display:none}
+.loading-brand{font-size:17px;font-weight:800;letter-spacing:.14em;color:var(--text)}
+.loading-brand span{font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--muted)}
+.loading-balls{display:flex;gap:18px;align-items:center;padding:22px 0 18px}
+.loading-balls i{display:block;width:30px;height:30px;border-radius:50%;border:1px solid #24324a20;background:radial-gradient(circle at 32% 28%,#fff 12%,#e4eaf2 72%,#c6cfdd);box-shadow:inset -2px -3px 5px #24324a18,0 3px 8px #24324a12;animation:ball-glow 2.4s ease-in-out infinite}
+.loading-balls i:nth-child(2){background:radial-gradient(circle at 32% 28%,#fff2ae,#ffd34e 65%,#e7ad22);animation-delay:.4s}
+.loading-balls i:nth-child(3){background:radial-gradient(circle at 32% 28%,#ffb8be,#e84c5c 65%,#b92e3d);animation-delay:.8s}
+@keyframes ball-glow{0%,60%,100%{opacity:.48;filter:brightness(.97)}30%{opacity:1;filter:brightness(1.12)}}
+.loading-screen.is-error .loading-balls i{animation:none;opacity:.65;filter:none}
+.loading-status{margin:0;text-align:center;font-size:15px;font-weight:600;color:var(--text)}
+.loading-meta{margin:0;max-width:340px;text-align:center;font-size:13px;line-height:1.7;color:var(--muted);overflow-wrap:anywhere}
+.loading-retry{min-height:44px;margin-top:8px}
+@media(max-width:400px){.theme-toggle{margin-left:2px}.hero-inner{padding:26px 22px}.links{width:100%}}
 @media(max-width:650px){.billiard{right:22px;bottom:15px}}
-@media(prefers-reduced-motion:reduce){.cue-motion{animation:none;offset-distance:0}.cap89-app,.loading-screen{transition:none;transform:none}.cap89-app[data-loading=true]{transform:none}}
+@media(prefers-reduced-motion:reduce){.loading-balls i{animation:none;opacity:1;filter:none}.cap89-app,.loading-screen{transition:none}}
 
 </style></head><body><!-- Lucian UX/UI Prompt #256 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#256 -->
 <div id="firstLoad" class="loading-screen">
- <div class="ux u256">
-  <div class="u256-site"><div class="u256-nv" data-s style="--d:.15s"><b>VISION</b><span>THREE CUSHION</span></div><div class="cushion-table"><svg viewBox="0 0 260 100" aria-hidden="true"><path class="cushion-route" d="M30 64 L106 8 L252 76 L220 92 L84 66"/><circle cx="30" cy="64" r="6" fill="#ffd34e"/><circle cx="84" cy="66" r="6" fill="#e84c5c"/><circle class="cushion-ball" cx="192" cy="32" r="6"/></svg></div><h3 class="u256-hd" data-s style="--d:.45s">다음 한 수를<br>함께 만듭니다.</h3><div class="u256-sb" data-s style="--d:.6s">흰공 · 노란공 · 빨간공</div></div>
-  <div class="u256-ld" role="progressbar" aria-label="대회 정보 준비 예상 진행" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="u256-hf u256-a"></div><div class="u256-hf u256-b"></div><div class="u256-bn"><span class="carom-mark" role="img" aria-label="3쿠션 공"><i></i><i></i><i></i></span> VISION · 3 CUSHION</div><div class="loading-route"><div class="cushion-table"><svg viewBox="0 0 260 100" aria-hidden="true"><path class="cushion-route" d="M30 64 L106 8 L252 76 L220 92 L84 66"/><circle cx="30" cy="64" r="6" fill="#ffd34e"/><circle cx="84" cy="66" r="6" fill="#e84c5c"/></svg><span class="cue-motion"></span></div></div><div class="u256-ct"><small id="loadStatus" role="status" aria-live="polite">대회 정보를 불러오는 중</small><div class="u256-n"><span>0</span><i>%</i></div><div class="u256-br"><i></i></div><small class="loading-estimate">준비 예상 진행</small></div></div>
- </div>
- <p class="loading-meta" id="loadNote">3쿠션의 다음 한 수를 준비합니다.</p>
+ <div class="loading-brand">VISION <span>· 3 CUSHION</span></div>
+ <div class="loading-balls" aria-hidden="true"><i></i><i></i><i></i></div>
+ <p class="loading-status" id="loadStatus" role="status" aria-live="polite">대회 정보를 불러오는 중</p>
+ <p class="loading-meta" id="loadNote">잠시만 기다려 주세요.</p>
  <button class="btn loading-retry" id="loadRetry" type="button" hidden>다시 연결하기</button>
 </div><div class="cap89-app">
 <header class="top"><div class="wrap nav"><div class="brand"><span class="brandmark">🔴</span><span id="brandTitle" class="fit-title brand-title" aria-label="홈페이지 제목">비전 당구 클럽 동호인 대회</span><button class="pencil brand-pencil" id="brandEdit" onclick="openSettings(['appNameLine1','appNameLine2','appName'])" title="사이트명 수정" aria-label="사이트명 수정">✏️</button></div><nav class="links" aria-label="메인 메뉴"><button class="navbtn active" data-page="home">홈</button><button class="navbtn" data-page="guide">대회 안내</button><button class="navbtn" data-page="apply">참가 신청</button><button class="navbtn" data-page="players">참가 현황</button><button class="navbtn" data-page="bracket">대진표</button><button class="navbtn" data-page="results">경기 결과</button><button class="navbtn" data-page="admin">⚙ 관리자</button><button id="themeToggle" class="theme-toggle" type="button" aria-label="어두운 화면으로 전환" aria-pressed="false">☾</button></nav></div></header>
@@ -486,52 +473,37 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 <div id="taskStage" class="task-stage hide" role="status" aria-live="polite"></div><div id="modalRoot"></div><div id="toast" class="toast hide" role="status" aria-live="polite"></div>
 <script>
 'use strict';
-/* Lucian UX/UI Prompt #256 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#256 */
-// Ported load()/set() lifecycle: estimated preparation stops at 90; only real data completes it.
+// The three balls pulse while real data loads; completion fades directly into the app.
 const firstLoad = (() => {
-  const screen=document.getElementById('firstLoad'),root=screen.querySelector('.u256');
-  const ld=root.querySelector('.u256-ld'),n=root.querySelector('.u256-n span'),bar=root.querySelector('.u256-br i');
+  const screen=document.getElementById('firstLoad');
   const status=document.getElementById('loadStatus'),note=document.getElementById('loadNote'),retry=document.getElementById('loadRetry');
   const app=document.querySelector('.cap89-app'),motion=window.matchMedia('(prefers-reduced-motion: reduce)');
-  let t=0,finish=0,v=0,finished=false,generation=0;
-  function set(value){v=value;n.textContent=value;bar.style.width=value+'%';ld.setAttribute('aria-valuenow',value);}
+  let finish=0,finished=false;
   function start(){
     if(finished)return;
-    generation++;clearTimeout(t);clearTimeout(finish);screen.hidden=false;
-    screen.classList.remove('is-leaving');root.classList.remove('is-open');retry.hidden=true;
+    clearTimeout(finish);screen.hidden=false;
+    screen.classList.remove('is-leaving','is-error');retry.hidden=true;
     app.dataset.loading='true';app.inert=true;document.getElementById('app').setAttribute('aria-busy','true');
-    ld.removeAttribute('aria-valuetext');
-    status.textContent='대회 정보를 불러오는 중';note.textContent='3쿠션의 다음 한 수를 준비합니다. 잠시만 기다려 주세요.';
-    set(0);
-    function step(){
-      if(!root.isConnected||v>=90)return;
-      set(Math.min(90,v+(v>70?1:3)));
-      t=setTimeout(step,v>70?500:120);
-    }
-    // Reduced motion keeps the loading state and real completion without the count-up.
-    if(!motion.matches)step();
+    status.textContent='대회 정보를 불러오는 중';note.textContent='잠시만 기다려 주세요.';
   }
   function complete(){
     if(finished)return;
-    clearTimeout(t);set(100);status.textContent='대회 정보 준비 완료';ld.setAttribute('aria-valuetext','대회 정보 준비 완료');
-    note.textContent='준비가 끝났습니다. 대회 화면을 엽니다.';
-    document.getElementById('app').setAttribute('aria-busy','false');app.inert=false;
-    app.dataset.loading='false';finished=true;
-    finish=setTimeout(()=>{
-      root.classList.add('is-open');
-      finish=setTimeout(()=>{screen.classList.add('is-leaving');finish=setTimeout(()=>{screen.hidden=true},motion.matches?0:300)},motion.matches?0:900);
-    },motion.matches?0:300);
+    clearTimeout(finish);finished=true;
+    status.textContent='대회 정보 준비 완료';
+    document.getElementById('app').setAttribute('aria-busy','false');
+    const retryFocused=document.activeElement===retry;
+    app.inert=false;app.dataset.loading='false';screen.classList.add('is-leaving');
+    if(retryFocused){const main=document.getElementById('app');main.setAttribute('tabindex','-1');main.focus({preventScroll:true});}
+    finish=setTimeout(()=>{screen.hidden=true},motion.matches?0:320);
   }
   function fail(error){
     if(finished)return;
-    generation++;clearTimeout(t);clearTimeout(finish);
-    status.textContent='연결을 확인해 주세요';note.textContent=error.message||'대회 정보를 불러오지 못했습니다.';
-    ld.setAttribute('aria-valuetext','연결 실패');retry.hidden=false;retry.focus({preventScroll:true});
+    clearTimeout(finish);screen.classList.add('is-error');
+    status.textContent='연결을 확인해 주세요';note.textContent=error?.message||'대회 정보를 불러오지 못했습니다.';
+    retry.hidden=false;retry.focus({preventScroll:true});
     document.getElementById('app').setAttribute('aria-busy','false');
   }
   retry.addEventListener('click',()=>refresh());
-  window.addEventListener('pagehide',()=>{generation++;clearTimeout(t);clearTimeout(finish)});
-  motion.addEventListener('change',()=>{if(motion.matches)clearTimeout(t)});
   return {start,complete,fail};
 })();
 const themeToggle=document.getElementById('themeToggle');
