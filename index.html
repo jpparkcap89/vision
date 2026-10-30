@@ -446,18 +446,19 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 .loading-screen[hidden],.loading-retry[hidden]{display:none}
 .loading-brand{font-size:17px;font-weight:800;letter-spacing:.14em;color:var(--text)}
 .loading-brand span{font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--muted)}
-.loading-balls{display:flex;gap:18px;align-items:center;padding:22px 0 18px}
-.loading-balls i{display:block;width:30px;height:30px;border-radius:50%;border:1px solid #24324a20;background:radial-gradient(circle at 32% 28%,#fff 12%,#e4eaf2 72%,#c6cfdd);box-shadow:inset -2px -3px 5px #24324a18,0 3px 8px #24324a12;animation:ball-glow 2.4s ease-in-out infinite}
-.loading-balls i:nth-child(2){background:radial-gradient(circle at 32% 28%,#fff2ae,#ffd34e 65%,#e7ad22);animation-delay:.4s}
-.loading-balls i:nth-child(3){background:radial-gradient(circle at 32% 28%,#ffb8be,#e84c5c 65%,#b92e3d);animation-delay:.8s}
-@keyframes ball-glow{0%,60%,100%{opacity:.48;filter:brightness(.97)}30%{opacity:1;filter:brightness(1.12)}}
+.loading-balls{display:flex;gap:18px;align-items:center;padding:30px 0 28px}
+.loading-balls i{display:block;width:30px;height:30px;border-radius:50%;border:1px solid #24324a20;background:radial-gradient(circle at 32% 28%,#fff 12%,#e4eaf2 72%,#c6cfdd);box-shadow:inset -2px -3px 5px #24324a18,0 3px 8px #24324a12;--gather-x:-76px;--gather-y:-34px}
+.loading-balls i:nth-child(2){background:radial-gradient(circle at 32% 28%,#fff2ae,#ffd34e 65%,#e7ad22);--gather-x:0px;--gather-y:44px;animation-delay:.09s}
+.loading-balls i:nth-child(3){background:radial-gradient(circle at 32% 28%,#ffb8be,#e84c5c 65%,#b92e3d);--gather-x:76px;--gather-y:-34px;animation-delay:.18s}
+.loading-screen.is-gathering .loading-balls i{animation-name:ball-gather;animation-duration:1.4s;animation-timing-function:cubic-bezier(.22,.7,.24,1);animation-fill-mode:both}
+@keyframes ball-gather{0%{transform:translate(var(--gather-x),var(--gather-y));opacity:.45}12%{transform:translate(var(--gather-x),var(--gather-y));opacity:.65}100%{transform:translate(0,0);opacity:1}}
 .loading-screen.is-error .loading-balls i{animation:none;opacity:.65;filter:none}
 .loading-status{margin:0;text-align:center;font-size:15px;font-weight:600;color:var(--text)}
 .loading-meta{margin:0;max-width:340px;text-align:center;font-size:13px;line-height:1.7;color:var(--muted);overflow-wrap:anywhere}
 .loading-retry{min-height:44px;margin-top:8px}
 @media(max-width:400px){.theme-toggle{margin-left:2px}.hero-inner{padding:26px 22px}.links{width:100%}}
 @media(max-width:650px){.billiard{right:22px;bottom:15px}}
-@media(prefers-reduced-motion:reduce){.loading-balls i{animation:none;opacity:1;filter:none}.cap89-app,.loading-screen{transition:none}}
+@media(prefers-reduced-motion:reduce){.loading-screen.is-gathering .loading-balls i{animation:none;transform:none;opacity:1;filter:none}.cap89-app,.loading-screen{transition:none}}
 
 </style></head><body><!-- Lucian UX/UI Prompt #256 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#256 -->
 <div id="firstLoad" class="loading-screen">
@@ -473,7 +474,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 <div id="taskStage" class="task-stage hide" role="status" aria-live="polite"></div><div id="modalRoot"></div><div id="toast" class="toast hide" role="status" aria-live="polite"></div>
 <script>
 'use strict';
-// The three balls pulse while real data loads; completion fades directly into the app.
+// Three balls gather once, matching the approved preview; real data controls completion.
 const firstLoad = (() => {
   const screen=document.getElementById('firstLoad');
   const status=document.getElementById('loadStatus'),note=document.getElementById('loadNote'),retry=document.getElementById('loadRetry');
@@ -482,7 +483,8 @@ const firstLoad = (() => {
   function start(){
     if(finished)return;
     clearTimeout(finish);screen.hidden=false;
-    screen.classList.remove('is-leaving','is-error');retry.hidden=true;
+    screen.classList.remove('is-leaving','is-error','is-gathering');retry.hidden=true;
+    void screen.offsetWidth;screen.classList.add('is-gathering');
     app.dataset.loading='true';app.inert=true;document.getElementById('app').setAttribute('aria-busy','true');
     status.textContent='대회 정보를 불러오는 중';note.textContent='잠시만 기다려 주세요.';
   }
