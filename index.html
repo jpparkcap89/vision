@@ -460,6 +460,32 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 @media(max-width:650px){.billiard{right:22px;bottom:15px}}
 @media(prefers-reduced-motion:reduce){.loading-screen.is-gathering .loading-balls i{animation:none;transform:none;opacity:1;filter:none}.cap89-app,.loading-screen{transition:none}}
 
+</style><style>
+/* Lucian #039 sliding pill and staggered content, adapted to CAP89. */
+.guide-tablist{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:7px;background:var(--surface);border:1px solid var(--line);border-radius:23px;isolation:isolate}
+.guide-tab-pill{position:absolute;left:0;top:0;z-index:-1;border-radius:17px;pointer-events:none;transition:transform .42s cubic-bezier(.22,.8,.25,1),width .42s cubic-bezier(.22,.8,.25,1),height .3s,background .3s;background:var(--mint)}
+.guide-tab-pill[data-color=peach]{background:var(--peach)}.guide-tab-pill[data-color=lav]{background:var(--lav)}.guide-tab-pill[data-color=pink]{background:var(--pink)}
+.guide-tab{display:flex;gap:9px;justify-content:center;align-items:center;position:relative;min-width:0;min-height:62px;padding:12px 10px;border:0;border-radius:17px;background:transparent;color:var(--muted);font-weight:700;font-size:14px;line-height:1.45;transition:color .2s,transform .2s;text-wrap:balance}
+.guide-tab:hover{color:var(--text);transform:translateY(-1px)}.guide-tab[aria-selected=true]{color:var(--text)}
+.guide-tab-no{display:grid;place-items:center;flex:none;width:25px;height:25px;border-radius:9px;background:var(--field);font-size:10px;letter-spacing:.03em;color:var(--muted)}
+.guide-tab[aria-selected=true] .guide-tab-no{background:var(--surface);color:var(--text)}
+.guide-tab-content{margin-top:18px}.guide-tab-panel[hidden]{display:none!important}
+.guide-tab-panel{--guide-direction:1}.guide-tab-panel .guide-box{min-height:330px;overflow:hidden;padding:30px;border-radius:24px;box-shadow:0 12px 32px #24324a08;background:var(--guide-pale)!important;border-color:var(--guide-bg)}
+.guide-tab-panel .guide-heading{margin-bottom:22px!important}.guide-tab-panel .guide-heading span{padding:9px 17px}
+.guide-tab-panel .guide-list{gap:13px}.guide-tab-panel .guide-emphasis{background:var(--surface);padding:18px 20px;border-color:var(--guide-bg)}
+.guide-capacity{margin:20px 0 0;color:var(--muted);font-size:13px}
+.guide-tab-panel .award-rules{background:var(--surface);border-color:var(--guide-bg);margin-top:24px}.guide-tab-panel .award-rules h3{color:var(--guide-text)}
+.guide-enter .guide-box{animation:guide-card-in .32s ease both}
+.guide-enter .guide-list>li{animation:guide-line-in .38s ease both;animation-delay:40ms}.guide-enter .guide-list>li:nth-child(2){animation-delay:75ms}.guide-enter .guide-list>li:nth-child(3){animation-delay:110ms}.guide-enter .guide-list>li:nth-child(4){animation-delay:145ms}.guide-enter .guide-list>li:nth-child(n+5){animation-delay:180ms}
+@keyframes guide-card-in{from{opacity:.35;transform:translateX(calc(var(--guide-direction)*12px))}to{opacity:1;transform:translateX(0)}}
+@keyframes guide-line-in{from{opacity:0;transform:translateX(calc(var(--guide-direction)*10px))}to{opacity:1;transform:translateX(0)}}
+:root[data-theme=dark] .guide-mint{--guide-bg:#326b61;--guide-text:#a1e3cf;--guide-pale:#19342f}
+:root[data-theme=dark] .guide-peach{--guide-bg:#755c37;--guide-text:#f5d3a0;--guide-pale:#332c23}
+:root[data-theme=dark] .guide-lav{--guide-bg:#4a5c91;--guide-text:#b8caff;--guide-pale:#232e48}
+:root[data-theme=dark] .guide-pink{--guide-bg:#74465f;--guide-text:#f0b6d1;--guide-pale:#352635}
+@media(max-width:650px){.guide-tablist{grid-template-columns:repeat(2,minmax(0,1fr));border-radius:20px}.guide-tab{justify-content:flex-start;min-height:58px;font-size:12px;padding:10px;gap:7px}.guide-tab-panel .guide-box{padding:22px 19px;min-height:300px}.guide-tab-panel .guide-emphasis{padding:14px}.guide-tab-panel .guide-list{gap:11px}}
+@media(prefers-reduced-motion:reduce){.guide-tab-pill,.guide-tab{transition:none}.guide-enter .guide-box,.guide-enter .guide-list>li{animation:none}}
+
 </style></head><body><!-- Lucian UX/UI Prompt #256 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#256 -->
 <div id="firstLoad" class="loading-screen">
  <div class="loading-brand">VISION <span>· 3 CUSHION</span></div>
@@ -738,34 +764,59 @@ function guideItems(value) {
   }
   return output ? '<ul class="guide-list">' + output + '</ul>' : '<p class="muted">추후 안내합니다.</p>';
 }
-function guidePanel(titleKey, defaultTitle, content, keys, color) {
-  const title = E(val(titleKey) || defaultTitle);
-  return editable('<h3 class="guide-heading"><span>' + title + '</span></h3>' + content,
-    [titleKey].concat(keys), 'panel guide-box ' + color);
+/* Lucian UX/UI Prompt #039 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#039
+   Adapted sliding pill and staggered content for the tournament guide. */
+let guideTabIndex=0;
+function updateGuidePill(animate=true){
+  const root=document.getElementById('guideTabs');if(!root)return;
+  const tab=root.querySelector('[aria-selected="true"]'),pill=root.querySelector('.guide-tab-pill');
+  if(!tab||!pill)return;
+  if(!animate)pill.style.transition='none';
+  pill.style.transform='translate('+tab.offsetLeft+'px,'+tab.offsetTop+'px)';
+  pill.style.width=tab.offsetWidth+'px';pill.style.height=tab.offsetHeight+'px';
+  pill.dataset.color=tab.dataset.color;
+  if(!animate){void pill.offsetWidth;pill.style.transition='';}
 }
-function guide() {
-  const newline = String.fromCharCode(10);
-  const overview = guideItems([
-    '일시: ' + val('date') + ' ' + val('time') + '~',
-    '주최: ' + val('organizer'), '장소: ' + val('venue'),
-    '주소: ' + val('address'), '문의: ' + val('phone')
-  ].join(newline));
-  const qualification = '<div class="guide-emphasis"><small>참가비</small><strong>' + E(val('entryFee') || '추후 안내') + '</strong></div>' +
-    guideItems(val('eligibility')) + '<p class="muted">모집 정원: ' + E(val('capacity') || '미정') + '</p>';
-  const awards = '<div class="guide-emphasis"><small>총상금</small><strong>' + E(val('prizeTotal') || '추후 안내') + '</strong></div>' + guideItems(val('prizeDetail'));
-  const cards = [
-    guidePanel('guideOverviewTitle', '대회 개요', overview, ['date','time','organizer','venue','address','phone'], 'guide-mint'),
-    guidePanel('guideEligibilityTitle', '참가 자격 및 참가비', qualification, ['eligibility','entryFee','capacity'], 'guide-peach'),
-    guidePanel('guideAwardsTitle', '시상 내역', awards, ['prizeTotal','prizeDetail'], 'guide-lav'),
-    guidePanel('guideRulesTitle', '경기 규정', guideItems(val('rules')), ['rules'], 'guide-pink')
-  ].join('');
+function selectGuideTab(index,focus=false){
+  const root=document.getElementById('guideTabs');if(!root)return;
+  const tabs=[...root.querySelectorAll('[role="tab"]')];
+  const direction=index>=guideTabIndex?1:-1;guideTabIndex=index;
+  tabs.forEach((tab,i)=>{tab.setAttribute('aria-selected',String(i===index));tab.tabIndex=i===index?0:-1;});
+  root.querySelectorAll('[role="tabpanel"]').forEach((panel,i)=>{
+    panel.hidden=i!==index;
+    if(i===index){panel.style.setProperty('--guide-direction',direction);panel.classList.remove('guide-enter');void panel.offsetWidth;panel.classList.add('guide-enter');}
+  });
+  updateGuidePill();if(focus)tabs[index].focus({preventScroll:true});
+}
+function guideTabKey(event,index){
+  let next=index;
+  if(event.key==='ArrowRight'||event.key==='ArrowDown')next=(index+1)%4;
+  else if(event.key==='ArrowLeft'||event.key==='ArrowUp')next=(index+3)%4;
+  else if(event.key==='Home')next=0;else if(event.key==='End')next=3;else return;
+  event.preventDefault();selectGuideTab(next,true);
+}
+window.addEventListener('resize',()=>updateGuidePill(false));
+function guidePanel(titleKey,defaultTitle,content,keys,color){
+  return editable('<h3 class="guide-heading"><span>'+E(val(titleKey)||defaultTitle)+'</span></h3>'+content,[titleKey].concat(keys),'panel guide-box '+color);
+}
+function guide(){
+  const overview=guideItems(['일시: '+val('date')+' '+val('time')+'~','주최: '+val('organizer'),'장소: '+val('venue'),'주소: '+val('address'),'문의: '+val('phone')].join('\n'));
+  const qualification='<div class="guide-emphasis"><small>참가비</small><strong>'+E(val('entryFee')||'추후 안내')+'</strong></div>'+guideItems(val('eligibility'))+'<p class="guide-capacity">모집 정원: '+E(val('capacity')||'미정')+'</p>';
   const awardRules=editable('<h3>'+E(val('specialAwardTitle')||'특별상 시상 기준')+'</h3><p>'+lines(val('specialAwardRules'))+'</p>',['specialAwardTitle','specialAwardRules'],'award-rules');
-  const addNotice = token ? '<button class="btn sm" onclick="noticeEditor()">+ 공지 추가</button>' : '';
-  const adminNotices = token ? adminNoticeList() : '';
-  return '<section class="section"><h2>📋 대회 안내</h2><div class="two guide-cards">' + cards + '</div>'+awardRules+'</section>' +
-    '<section class="section panel"><div class="toolbar"><h2 style="margin:0">📢 공지사항</h2>' + addNotice +
-    '</div>' + noticeList() + adminNotices + '</section>';
+  const awards='<div class="guide-emphasis"><small>총상금</small><strong>'+E(val('prizeTotal')||'추후 안내')+'</strong></div>'+guideItems(val('prizeDetail'))+awardRules;
+  const data=[
+    ['대회 개요','guideOverviewTitle',overview,['date','time','organizer','venue','address','phone'],'mint','01'],
+    ['참가 자격 및 참가비','guideEligibilityTitle',qualification,['eligibility','entryFee','capacity'],'peach','02'],
+    ['시상 내역','guideAwardsTitle',awards,['prizeTotal','prizeDetail'],'lav','03'],
+    ['경기 규정','guideRulesTitle',guideItems(val('rules')),['rules'],'pink','04']
+  ];
+  const tabs=data.map((d,i)=>'<button class="guide-tab" id="guideTab'+i+'" role="tab" type="button" aria-selected="'+(i===guideTabIndex)+'" aria-controls="guidePanel'+i+'" tabindex="'+(i===guideTabIndex?0:-1)+'" data-color="'+d[4]+'" onclick="selectGuideTab('+i+')" onkeydown="guideTabKey(event,'+i+')"><span class="guide-tab-no" aria-hidden="true">'+d[5]+'</span><span>'+E(val(d[1])||d[0])+'</span></button>').join('');
+  const panels=data.map((d,i)=>'<div class="guide-tab-panel'+(i===guideTabIndex?' guide-enter':'')+'" id="guidePanel'+i+'" role="tabpanel" aria-labelledby="guideTab'+i+'"'+(i===guideTabIndex?'':' hidden')+'>'+guidePanel(d[1],d[0],d[2],d[3],'guide-'+d[4])+'</div>').join('');
+  requestAnimationFrame(()=>updateGuidePill(false));
+  const addNotice=token?'<button class="btn sm" onclick="noticeEditor()">+ 공지 추가</button>':'';
+  return '<section class="section guide-section"><h2>📋 대회 안내</h2><div id="guideTabs"><div class="guide-tablist" role="tablist" aria-label="대회 안내 항목"><span class="guide-tab-pill" aria-hidden="true"></span>'+tabs+'</div><div class="guide-tab-content">'+panels+'</div></div></section><section class="section panel"><div class="toolbar"><h2 style="margin:0">📢 공지사항</h2>'+addNotice+'</div>'+noticeList()+(token?adminNoticeList():'')+'</section>';
 }
+
 
 function openApplicationGuide(){
  const title=val('applicationGuideTitle')||'참가 신청 안내';
