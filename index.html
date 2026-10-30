@@ -465,16 +465,16 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 .guide-tablist{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;padding:7px;background:var(--surface);border:1px solid var(--line);border-radius:23px;isolation:isolate}
 .guide-tab-pill{position:absolute;left:0;top:0;z-index:-1;border-radius:17px;pointer-events:none;transition:transform .42s cubic-bezier(.22,.8,.25,1),width .42s cubic-bezier(.22,.8,.25,1),height .3s,background .3s;background:var(--mint)}
 .guide-tab-pill[data-color=peach]{background:var(--peach)}.guide-tab-pill[data-color=lav]{background:var(--lav)}.guide-tab-pill[data-color=pink]{background:var(--pink)}
-.guide-tab{display:flex;gap:9px;justify-content:center;align-items:center;position:relative;min-width:0;min-height:62px;padding:12px 10px;border:0;border-radius:17px;background:transparent;color:var(--muted);font-weight:700;font-size:14px;line-height:1.45;transition:color .2s,transform .2s;text-wrap:balance}
+.guide-tab{display:flex;gap:9px;justify-content:center;align-items:center;position:relative;min-width:0;min-height:62px;padding:12px 10px;border:0;border-radius:17px;background:transparent;color:var(--muted);font-weight:700;font-size:16px;line-height:1.5;transition:color .2s,transform .2s;text-wrap:balance}
 .guide-tab:hover{color:var(--text);transform:translateY(-1px)}.guide-tab[aria-selected=true]{color:var(--text)}
-.guide-tab-no{display:grid;place-items:center;flex:none;width:25px;height:25px;border-radius:9px;background:var(--field);font-size:10px;letter-spacing:.03em;color:var(--muted)}
+.guide-tab-no{display:grid;place-items:center;flex:none;width:25px;height:25px;border-radius:9px;background:var(--field);font-size:12px;letter-spacing:.03em;color:var(--muted)}
 .guide-tab[aria-selected=true] .guide-tab-no{background:var(--surface);color:var(--text)}
 .guide-tab-content{margin-top:18px}.guide-tab-panel[hidden]{display:none!important}
 .guide-tab-panel{--guide-direction:1}.guide-tab-panel .guide-box{min-height:330px;overflow:hidden;padding:30px;border-radius:24px;box-shadow:0 12px 32px #24324a08;background:var(--guide-pale)!important;border-color:var(--guide-bg)}
-.guide-tab-panel .guide-heading{margin-bottom:22px!important}.guide-tab-panel .guide-heading span{padding:9px 17px}
-.guide-tab-panel .guide-list{gap:13px}.guide-tab-panel .guide-emphasis{background:var(--surface);padding:18px 20px;border-color:var(--guide-bg)}
-.guide-capacity{margin:20px 0 0;color:var(--muted);font-size:13px}
-.guide-tab-panel .award-rules{background:var(--surface);border-color:var(--guide-bg);margin-top:24px}.guide-tab-panel .award-rules h3{color:var(--guide-text)}
+.guide-tab-panel .guide-heading{margin-bottom:22px!important}.guide-tab-panel .guide-heading span{padding:9px 17px;font-size:20px}
+.guide-tab-panel .guide-list{gap:14px;font-size:18px;line-height:1.85}.guide-tab-panel .guide-emphasis{background:var(--surface);padding:18px 20px;border-color:var(--guide-bg)}
+.guide-capacity{margin:20px 0 0;color:var(--muted);font-size:16px}
+.guide-tab-panel .award-rules{background:var(--surface);border-color:var(--guide-bg);margin-top:24px}.guide-tab-panel .award-rules h3{color:var(--guide-text);font-size:18px}.guide-tab-panel .award-rules p{font-size:16px;line-height:1.85}.guide-tab-panel .guide-emphasis small{font-size:15px}.guide-tab-panel .guide-emphasis strong{font-size:24px}
 .guide-enter .guide-box{animation:guide-card-in .32s ease both}
 .guide-enter .guide-list>li{animation:guide-line-in .38s ease both;animation-delay:40ms}.guide-enter .guide-list>li:nth-child(2){animation-delay:75ms}.guide-enter .guide-list>li:nth-child(3){animation-delay:110ms}.guide-enter .guide-list>li:nth-child(4){animation-delay:145ms}.guide-enter .guide-list>li:nth-child(n+5){animation-delay:180ms}
 @keyframes guide-card-in{from{opacity:.35;transform:translateX(calc(var(--guide-direction)*12px))}to{opacity:1;transform:translateX(0)}}
@@ -483,7 +483,7 @@ button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid 
 :root[data-theme=dark] .guide-peach{--guide-bg:#755c37;--guide-text:#f5d3a0;--guide-pale:#332c23}
 :root[data-theme=dark] .guide-lav{--guide-bg:#4a5c91;--guide-text:#b8caff;--guide-pale:#232e48}
 :root[data-theme=dark] .guide-pink{--guide-bg:#74465f;--guide-text:#f0b6d1;--guide-pale:#352635}
-@media(max-width:650px){.guide-tablist{grid-template-columns:repeat(2,minmax(0,1fr));border-radius:20px}.guide-tab{justify-content:flex-start;min-height:58px;font-size:12px;padding:10px;gap:7px}.guide-tab-panel .guide-box{padding:22px 19px;min-height:300px}.guide-tab-panel .guide-emphasis{padding:14px}.guide-tab-panel .guide-list{gap:11px}}
+@media(max-width:650px){.guide-tablist{grid-template-columns:repeat(2,minmax(0,1fr));border-radius:20px}.guide-tab{justify-content:flex-start;min-height:62px;font-size:14px;padding:10px;gap:7px}.guide-tab-panel .guide-box{padding:22px 19px;min-height:300px}.guide-tab-panel .guide-emphasis{padding:14px}.guide-tab-panel .guide-list{gap:12px;font-size:16px;line-height:1.8}.guide-tab-panel .guide-heading span{font-size:18px}}
 @media(prefers-reduced-motion:reduce){.guide-tab-pill,.guide-tab{transition:none}.guide-enter .guide-box,.guide-enter .guide-list>li{animation:none}}
 
 </style></head><body><!-- Lucian UX/UI Prompt #256 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#256 -->
