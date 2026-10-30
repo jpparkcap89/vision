@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="ko" data-theme="light"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -67,94 +67,592 @@ body.tournament-mode #app{width:100%;max-width:none;padding:0;margin:0}
 .tour-line-done{filter:drop-shadow(0 0 5px #00e7a7) drop-shadow(0 0 2px #00e7a7)}
 .tour-line-bye{stroke-dasharray:5 5}
 @media(prefers-reduced-motion:reduce){.tour-match{transition:none}.tour-line-done{filter:none}}
+
+/* CAP89 step feedback: stage transitions depend on server responses, not fake progress */
+.task-stage{position:fixed;top:94px;left:50%;transform:translateX(-50%);z-index:110;max-width:min(92vw,420px);width:max-content;background:#f9fffa;border:1px solid #bfd9c8;border-radius:16px;padding:13px 20px;box-shadow:0 16px 46px #314b3540;color:#355e49;font-weight:800;display:flex;align-items:center;gap:9px}
+.task-stage::before{content:"";width:9px;height:9px;background:#5a9873;border-radius:50%;box-shadow:0 0 0 5px #dcefe2;animation:stage-pulse 1.5s ease-in-out infinite}
+@keyframes stage-pulse{50%{opacity:.35}}
+.confirm-note{padding:15px 17px;background:#f4f7f4;border:1px solid #dfebe1;border-radius:14px;color:#536859;font-size:14px}
+.confirm-context{font-size:16px;font-weight:750;color:#385746;margin:0 0 12px}
+@media(prefers-reduced-motion:reduce){.task-stage::before{animation:none}}
+/* CAP89 soft-fill loading feedback: indeterminate, not a fake percentage */
+.btn.loading,.tour-btn.loading{position:relative;overflow:hidden;cursor:wait;opacity:1!important;pointer-events:none;isolation:isolate}
+.btn.loading::before,.tour-btn.loading::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(95,213,172,.45);transform:translateX(-100%);animation:cap89-fill 2.3s ease-in-out infinite}
+@keyframes cap89-fill{0%{transform:translateX(-100%)}65%{transform:translateX(0)}100%{transform:translateX(100%)}}
+.btn.loading,.tour-btn.loading{color:inherit}
+@media(prefers-reduced-motion:reduce){.btn.loading::before,.tour-btn.loading::before{animation:none;transform:none;background:rgba(95,213,172,.22)}}
+
+/* CAP89 bank payment information: no account number is hard-coded */
+.payment-info{margin:18px 0;background:#f1f8f3;border:1px solid #dcebdd;border-radius:17px;padding:18px;position:relative}.payment-fee{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#527b65;font-weight:700}.payment-fee strong{font-size:23px;color:#273f35}.payment-inner{border-top:1px solid #d8e7dc;margin-top:13px;padding-top:15px}.payment-inner>strong,.payment-notice>strong{color:#527b65}.payment-inner dl{display:grid;grid-template-columns:87px 1fr;gap:10px;margin:15px 0 0}.payment-inner dt{color:#687c70;font-size:13px}.payment-inner dd{margin:0;min-width:0;overflow-wrap:anywhere;font-weight:650}.account-line{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.payment-notice{border-top:1px solid #d8e7dc;margin-top:15px;padding-top:13px}.payment-notice p{margin:8px 0 0;font-size:13px;color:#536b5c;white-space:pre-line}.admin-on .payment-info .pencil{right:10px;top:10px}.admin-on .payment-info{padding-top:38px}@media(max-width:650px){.payment-inner dl{grid-template-columns:75px 1fr}}
+
+/* Home: compact confirmed-player names beneath the total registration count. */
+.home-applicant-card{min-width:0}
+.home-applicant-summary{min-width:0}
+.home-applicant-names{margin-top:5px;font-size:10px;line-height:1.45;color:#795c69;font-weight:500;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow-wrap:anywhere;max-height:2.9em}
+@media(max-width:650px){.home-applicant-names{font-size:10px}}
+.pay-choices{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:6px 0}.pay-choices label{font-size:13px;font-weight:650;display:flex;gap:6px;align-items:center}.pay-choices input{accent-color:#527b65}.sms-request{display:inline-flex;align-items:center;gap:7px;margin:10px 0}.award-rules{margin-top:16px;background:#f1f8f3;border:1px solid #d1e6d8;border-radius:18px;padding:16px}.award-rules p{white-space:pre-line;font-size:13px;margin:8px 0}.run-entry{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 9px;border-bottom:1px solid #ffffff23;color:#e8f9ed;font-size:12px}.run-entry .run-round{color:#b8cbe3;font-size:11px}.run-entry.champion{border:1px solid #eab85d;background:#4d3c1e;border-radius:10px}.run-entry .run-score{color:#ffdb82;font-weight:900}.tour-stat.run.record-top{background:#62431c;color:#ffe49f;border:1px solid #e4ad42;box-shadow:0 0 0 1px #e4ad4260}.application-quickguide{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.modal-openonly .toolbar{display:none}
 </style>
 <style>
-.brand{min-width:0}.brand #brandTitle{overflow-wrap:anywhere;font-size:clamp(14px,1.5vw,19px)}.brandmark{font-size:0}.brandmark:after{content:'';display:block;width:19px;height:19px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#ffb1aa,#e14048 60%,#a4192e);box-shadow:inset -4px -5px 9px #7b102055,0 3px 8px #77333322}.brand-pencil{position:static!important;flex:none}.admin-on .brand-pencil{display:inline-flex}.sunday{color:#e03949;font-weight:800}.venue-meta{margin-top:7px;display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;font-size:clamp(11px,1vw,13px);font-weight:500;letter-spacing:0;line-height:1.5}.venue-phone{white-space:nowrap;color:#476e59}.guide-cards>.panel:nth-child(1){background:#e7f3ea}.guide-cards>.panel:nth-child(2){background:#fff0dc}.guide-cards>.panel:nth-child(3){background:#e8eeff}.guide-cards>.panel:nth-child(4){background:#fbe6eb}.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0 18px}.stat-card{display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:16px;padding:10px 13px;min-height:74px}.stat-card.mint{background:var(--mint)}.stat-card.peach{background:var(--peach)}.stat-card.lav{background:var(--lav)}.stat-card.pink{background:var(--pink)}.stat-card span{font-size:12px;color:var(--muted)}.stat-card strong{font-size:19px}.player-actions{display:flex;gap:6px;flex-wrap:wrap}@media(max-width:760px){.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.rowitem{align-items:flex-start}.player-actions{justify-content:flex-end}}@media(max-width:400px){.player-actions{flex-direction:column}}
-</style></head><body><div class="cap89-app">
-<header class="top"><div class="wrap nav"><div class="brand"><span class="brandmark">🔴</span><span id="brandTitle">비전 당구 클럽 동호인 대회</span><button class="pencil brand-pencil" id="brandEdit" onclick="openSettings(['appName'])" title="사이트명 수정" aria-label="사이트명 수정">✏️</button></div><nav class="links" aria-label="메인 메뉴"><button class="navbtn active" data-page="home">홈</button><button class="navbtn" data-page="guide">대회 안내</button><button class="navbtn" data-page="apply">참가 신청</button><button class="navbtn" data-page="players">참가 현황</button><button class="navbtn" data-page="bracket">대진표</button><button class="navbtn" data-page="results">경기 결과</button><button class="navbtn" data-page="admin">⚙ 관리자</button></nav></div></header>
+.brand{min-width:0}.brand #brandTitle{overflow-wrap:anywhere;font-size:clamp(14px,1.5vw,19px)}.brandmark{font-size:0}.brandmark:after{content:'';display:block;width:19px;height:19px;border-radius:50%;background:radial-gradient(circle at 35% 28%,#ffb1aa,#e14048 60%,#a4192e);box-shadow:inset -4px -5px 9px #7b102055,0 3px 8px #77333322}.brand-pencil{position:static!important;flex:none}.admin-on .brand-pencil{display:inline-flex}.sunday{color:inherit;font-weight:inherit}.venue-meta{margin-top:7px;display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;font-size:clamp(11px,1vw,13px);font-weight:500;letter-spacing:0;line-height:1.5}.venue-phone{white-space:nowrap;color:#476e59}.guide-cards>.panel:nth-child(1){background:#e7f3ea}.guide-cards>.panel:nth-child(2){background:#fff0dc}.guide-cards>.panel:nth-child(3){background:#e8eeff}.guide-cards>.panel:nth-child(4){background:#fbe6eb}.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0 18px}.stat-card{display:flex;flex-direction:column;gap:3px;border:1px solid var(--line);border-radius:16px;padding:10px 13px;min-height:74px}.stat-card.mint{background:var(--mint)}.stat-card.peach{background:var(--peach)}.stat-card.lav{background:var(--lav)}.stat-card.pink{background:var(--pink)}.stat-card span{font-size:12px;color:var(--muted)}.stat-card strong{font-size:19px}.player-actions{display:flex;gap:6px;flex-wrap:wrap}@media(max-width:760px){.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.rowitem{align-items:flex-start}.player-actions{justify-content:flex-end}}@media(max-width:400px){.player-actions{flex-direction:column}}
+</style><style>
+.guide-box{background:#fff!important;position:relative;padding:25px;border:1px solid #e1e8df}
+.guide-mint{--guide-bg:#d5eadd;--guide-text:#35644c;--guide-pale:#f0f8f3}
+.guide-peach{--guide-bg:#fce4c5;--guide-text:#845f36;--guide-pale:#fff9f0}
+.guide-lav{--guide-bg:#dce5fb;--guide-text:#485e91;--guide-pale:#f4f6ff}
+.guide-pink{--guide-bg:#f5dce4;--guide-text:#8b5268;--guide-pale:#fff4f7}
+.guide-heading{margin:0 0 17px!important;padding-right:60px}
+.guide-heading span{display:inline-block;padding:7px 15px;border-radius:12px;background:var(--guide-bg);color:var(--guide-text);font-weight:800}
+.guide-list{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.guide-list li{position:relative;padding-left:19px;overflow-wrap:anywhere}
+.guide-list li:before{content:'•';position:absolute;left:3px;color:var(--guide-text)}
+.guide-list li.featured{padding:10px 13px 10px 33px;background:var(--guide-pale);border:1px solid var(--guide-bg);border-radius:12px;color:var(--guide-text);font-weight:800}
+.guide-list li.featured:before{content:'★';left:12px;top:10px}
+.guide-emphasis{display:flex;justify-content:space-between;gap:12px;align-items:center;background:var(--guide-pale);border:1px solid var(--guide-bg);border-radius:12px;padding:13px;margin-bottom:18px;flex-wrap:wrap}
+.guide-emphasis small,.guide-emphasis strong{color:var(--guide-text);font-weight:800}.guide-emphasis strong{font-size:20px}
+@media(max-width:650px){.guide-box{padding:19px}}
+
+/* CAP89: final results and sports statistics */
+.final-board{border:1px solid #465473;border-radius:20px;background:linear-gradient(135deg,#18243c,#111a2f);padding:20px;margin:16px 0;color:#f5f7ff}
+.final-board h2{margin:0 0 16px;color:#fff;font-size:23px}.final-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.final-rank{border:1px solid #465679;background:#23314c;border-radius:15px;padding:14px;text-align:center}.final-rank strong{display:block;font-size:23px;color:#ffe39c}.final-rank span{font-weight:800;display:block;margin-top:5px;overflow-wrap:anywhere}.final-extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:13px}.final-extra{background:#193b37;border:1px solid #367d69;border-radius:14px;padding:15px}.final-extra:nth-child(2){background:#222d4c;border-color:#526db1}.final-extra strong{display:block;color:#b7f8de}.final-extra:nth-child(2) strong{color:#bdd0ff}.third-place{border:1px solid #496076;border-radius:17px;background:#142339;padding:18px;margin:14px 0}.third-place h3{color:#d0e5fa;margin:0 0 12px}.third-place .tour-match{max-width:330px;margin:0}.final-muted{color:#b3c2df;font-size:12px;margin-top:9px}@media(max-width:650px){.final-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.final-extras{grid-template-columns:1fr}}
+
+/* 경기 카드: 선수별 점수/하이런/에버리지. 미입력은 짧은 '-' 표시 */
+.tour-player{flex-wrap:wrap;align-items:center;gap:5px 8px}
+.tour-player-name{flex:1 1 90px;min-width:0;overflow-wrap:anywhere}
+.tour-player-stats{display:flex;flex-wrap:wrap;align-items:center;gap:4px;justify-content:flex-end}
+.tour-stat{font-size:10px;line-height:1.4;padding:3px 5px;border-radius:6px;white-space:nowrap;font-weight:800}
+.tour-stat.point{background:#253047;color:#edf2ff}
+.tour-stat.run{background:#174f40;color:#9af4cf;border:1px solid #367e68}
+.tour-stat.avg{background:#302d56;color:#d2c5ff;border:1px solid #61579a}
+.tour-player.lose{opacity:.65;filter:none}
+.tour-player.lose .tour-stat{opacity:.8}
+.sim-result-player{display:flex;flex-direction:column;gap:4px;min-width:0}
+.sim-result-player strong{overflow-wrap:anywhere}
+.sim-result-player .tour-player-stats{justify-content:flex-start}
+/* Tournament dialogs always use a light, high-contrast text scheme. */
+body.tournament-mode #modalRoot,
+body.tournament-mode #modalRoot .modal {
+  color: #263d36;
+}
+body.tournament-mode #modalRoot .modalhead h2,
+body.tournament-mode #modalRoot .modal strong,
+body.tournament-mode #modalRoot .modal .field label {
+  color: #263d36;
+}
+body.tournament-mode #modalRoot .modal .panel {
+  background: #f9fbf9;
+  border: 1px solid #dce6de;
+  color: #263d36;
+}
+body.tournament-mode #modalRoot .modal .field input,
+body.tournament-mode #modalRoot .modal .field select,
+body.tournament-mode #modalRoot .modal .field textarea {
+  color: #243b31;
+  background: #ffffff;
+  border-color: #cfddd2;
+  -webkit-text-fill-color: #243b31;
+}
+body.tournament-mode #modalRoot .modal .field input::placeholder {
+  color: #7a8d81;
+}
+body.tournament-mode #modalRoot .modal .btn:not(.secondary) {
+  color: #ffffff;
+}
+body.tournament-mode #modalRoot .modal .btn.secondary {
+  color: #527b65;
+}
+body.tournament-mode #modalRoot .modal ::selection {
+  background: #d9eee0;
+  color: #243b31;
+}
+
+/* v5.7 simulation awards and match history */
+.sim-results{background:#16243a;border:1px solid #425879;border-radius:18px;padding:20px;margin:15px 0;color:#eff6ff}
+.sim-results h3{margin:0 0 14px;color:#f9e1a0}
+.sim-results-list{display:grid;gap:6px;max-height:460px;overflow-y:auto}
+.sim-result-row{display:grid;grid-template-columns:95px minmax(0,1fr) 65px minmax(0,1fr) minmax(130px,1.2fr);align-items:center;gap:10px;background:#1d304b;border-radius:9px;padding:10px 12px;font-size:12px}
+.sim-result-row strong{overflow-wrap:anywhere}.sim-round-label{color:#b3c6e9}
+@media(max-width:800px){.sim-result-row{grid-template-columns:1fr 1fr;gap:5px}.sim-result-row .sim-round-label:last-child{grid-column:1/-1}}
+
+/* v5.8.3: compact forms, preserving readable tap targets and textarea usability */
+.field{gap:4px;margin:7px 0}
+.field input,.field select{min-height:38px;height:38px;padding:6px 11px;border-radius:10px;font-size:14px}
+.field textarea{min-height:94px;padding:9px 11px;border-radius:10px;font-size:14px;line-height:1.5}
+.modal{padding:22px;max-height:88vh}
+.modalhead{margin-bottom:9px}.modalhead h2{font-size:clamp(20px,2vw,25px)}
+#modalForm .toolbar{margin-top:13px!important;margin-bottom:0}
+#modalForm .btn{min-height:39px;padding:8px 14px}
+#loginForm .btn,#applyForm .btn{min-height:40px;padding:9px 15px}
+@media(max-width:650px){.modal{padding:16px}.field input,.field select{min-height:40px;height:40px}}
+.home-applicant-card{cursor:pointer;position:relative;outline-offset:3px}
+.home-applicant-card:focus-visible{outline:3px solid #79aa90}
+.home-applicant-card:hover{box-shadow:0 16px 32px #986b861f}
+.home-applicant-hint{font-size:10px;color:#875c6b;margin-top:5px;font-weight:700}
+.roster-modal-intro{margin:5px 0 14px;color:#66766f;font-size:13px}
+.roster-modal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.roster-modal-item{display:flex;align-items:center;gap:8px;min-width:0;border:1px solid #e4ebe5;background:#f8faf6;border-radius:10px;padding:8px 10px;font-size:13px}
+.roster-modal-no{color:#66826e;min-width:24px;font-size:11px;font-weight:700}
+.roster-modal-name{flex:1;min-width:0;overflow-wrap:anywhere;font-weight:700;color:#30483b}
+.roster-modal-handicap{font-size:11px;color:#527b65;border-radius:8px;background:#e7f3ea;padding:3px 7px;white-space:nowrap}
+@media(max-width:560px){.roster-modal-grid{grid-template-columns:1fr}}
+</style><style>
+.privacy-block{border:1px solid #cddfd2;background:#f3f9f5;border-radius:15px;padding:15px;margin:15px 0;color:#34443d;position:relative}
+.privacy-block>strong{display:block;margin-bottom:9px;padding-right:72px}
+.privacy-details{display:grid;grid-template-columns:105px minmax(0,1fr);gap:6px 10px;font-size:12px;margin:0}
+.privacy-details dt{color:#527b65;font-weight:750}.privacy-details dd{margin:0;white-space:pre-line;overflow-wrap:anywhere}
+.privacy-footnote{color:#61746b;font-size:11px;margin:9px 0!important;line-height:1.5}
+.privacy-agree{display:flex;gap:9px;align-items:flex-start;margin-top:12px;padding-top:11px;border-top:1px solid #dce8df;font-size:12px;font-weight:700;cursor:pointer}
+.privacy-agree input{width:17px!important;height:17px!important;min-height:0!important;flex:none;margin:2px 0 0;accent-color:#527b65}
+@media(max-width:520px){.privacy-details{grid-template-columns:1fr;gap:2px}.privacy-details dd{margin-bottom:6px}}
+</style>
+<style>
+.final-extra .run-entry{display:grid;grid-template-columns:55px minmax(0,1fr) auto;gap:8px;align-items:center;padding:7px 9px;border-bottom:1px solid #ffffff21;font-size:12px;line-height:1.5}
+.final-extra .run-entry.champion{background:#77582455;border:1px solid #c6a053;border-radius:9px}
+.final-extra .run-round{font-size:10px;color:#aebfd4}
+.final-extra .run-score{font-weight:800;color:#fbd27d;white-space:nowrap}
+.final-extra .average-score{font-weight:800;color:#cbbdff;white-space:nowrap}
+@media(max-width:420px){.final-extra .run-entry{grid-template-columns:42px minmax(0,1fr) auto;font-size:11px;gap:5px;padding:6px}}
+
+/* v6.2.4: Keep hero heading and description on one line on desktop. */
+@media (min-width: 721px) {
+  .hero:has(.hero-poster-link) {
+    grid-template-columns: minmax(0, 1.65fr) minmax(180px, .72fr);
+    column-gap: 12px;
+  }
+  .hero:has(.hero-poster-link) .hero-inner {
+    width: 100%;
+    min-width: 0;
+    padding: 34px 18px 34px 30px;
+  }
+  .hero:has(.hero-poster-link) .hero-heading,
+  .hero:has(.hero-poster-link) .hero-heading .title-line {
+    white-space: nowrap;
+    word-break: keep-all;
+  }
+  .hero:has(.hero-poster-link) .hero-inner > p {
+    max-width: none;
+    white-space: nowrap;
+    word-break: keep-all;
+    font-size: clamp(12px, 1.42vw, 17px);
+    letter-spacing: -0.035em;
+  }
+  .hero:has(.hero-poster-link) .hero-poster-link {
+    min-width: 0;
+    width: min(100%, 260px);
+    margin-right: 16px;
+  }
+}
+@media (max-width: 720px) {
+  .hero:has(.hero-poster-link) .hero-inner {
+    width: 100%;
+    min-width: 0;
+    padding: 28px 24px;
+  }
+  .hero:has(.hero-poster-link) .hero-inner > p,
+  .hero:has(.hero-poster-link) .hero-heading,
+  .hero:has(.hero-poster-link) .hero-heading .title-line {
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+}
+</style>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2216%22%20fill%3D%22%23edf1ff%22%2F%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2239%22%20r%3D%2212%22%20fill%3D%22white%22%20stroke%3D%22%23cbd5e1%22%2F%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2223%22%20r%3D%2212%22%20fill%3D%22%23ffd34e%22%2F%3E%3Ccircle%20cx%3D%2246%22%20cy%3D%2239%22%20r%3D%2212%22%20fill%3D%22%23e84c5c%22%2F%3E%3C%2Fsvg%3E"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"><style>
+/* Lucian UX/UI Prompt theme tokens · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/
+   Every element reads its colors from these --ux-* tokens and uses the .ux base rules below. */
+/* lucianLabs UI 요소 — 공통 테마 토큰 (라이트 / 다크)
+   라이트 기본값 → 시스템이 다크면 다크 → data-theme으로 명시하면 그 값을 우선합니다.
+   요소 CSS는 --ux-* 토큰만 참조하므로, 프로젝트 테마 변수에 이 값을 매핑하면 됩니다. */
+:root{
+  color-scheme:light;
+  --ux-page:#F4F2EE;
+  --ux-surface:#FFFFFF;
+  --ux-surface-2:#F5F3EF;
+  --ux-surface-3:#EAE7E1;
+  --ux-ink:#16151B;
+  --ux-ink-2:#57535F;
+  --ux-ink-3:#8E8A97;
+  --ux-line:rgba(22,21,27,.09);
+  --ux-line-2:rgba(22,21,27,.17);
+  --ux-accent:#6A57F2;
+  --ux-accent-2:#2F8FE0;
+  --ux-accent-soft:rgba(106,87,242,.12);
+  --ux-accent-ink:#FFFFFF;
+  --ux-mint:#119C72;
+  --ux-warn:#D6731E;
+  --ux-danger:#D93A55;
+  --ux-glass:rgba(255,255,255,.58);
+  --ux-glass-line:rgba(255,255,255,.85);
+  --ux-shadow:rgba(40,30,80,.14);
+  --ux-shadow-strong:rgba(40,30,80,.3);
+  --ux-grad:linear-gradient(120deg,#7B61FF,#3D8BFF 55%,#1FB89A);
+  --ux-ease:cubic-bezier(.2,.8,.2,1);
+  --ux-spring:cubic-bezier(.34,1.45,.64,1);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ux-page:#07080D;
+    --ux-surface:#13141C;
+    --ux-surface-2:#1A1B25;
+    --ux-surface-3:#252632;
+    --ux-ink:#F4F0E8;
+    --ux-ink-2:rgba(244,240,232,.68);
+    --ux-ink-3:rgba(244,240,232,.42);
+    --ux-line:rgba(255,255,255,.08);
+    --ux-line-2:rgba(255,255,255,.16);
+    --ux-accent:#B7A4FF;
+    --ux-accent-2:#7DB4FF;
+    --ux-accent-soft:rgba(183,164,255,.15);
+    --ux-accent-ink:#0B0C12;
+    --ux-mint:#7EE8C0;
+    --ux-warn:#FFB26B;
+    --ux-danger:#FF7D8C;
+    --ux-glass:rgba(255,255,255,.07);
+    --ux-glass-line:rgba(255,255,255,.18);
+    --ux-shadow:rgba(0,0,0,.45);
+    --ux-shadow-strong:rgba(0,0,0,.72);
+    --ux-grad:linear-gradient(120deg,#B7A4FF,#7DB4FF 55%,#A5F2D3);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ux-page:#07080D;
+  --ux-surface:#13141C;
+  --ux-surface-2:#1A1B25;
+  --ux-surface-3:#252632;
+  --ux-ink:#F4F0E8;
+  --ux-ink-2:rgba(244,240,232,.68);
+  --ux-ink-3:rgba(244,240,232,.42);
+  --ux-line:rgba(255,255,255,.08);
+  --ux-line-2:rgba(255,255,255,.16);
+  --ux-accent:#B7A4FF;
+  --ux-accent-2:#7DB4FF;
+  --ux-accent-soft:rgba(183,164,255,.15);
+  --ux-accent-ink:#0B0C12;
+  --ux-mint:#7EE8C0;
+  --ux-warn:#FFB26B;
+  --ux-danger:#FF7D8C;
+  --ux-glass:rgba(255,255,255,.07);
+  --ux-glass-line:rgba(255,255,255,.18);
+  --ux-shadow:rgba(0,0,0,.45);
+  --ux-shadow-strong:rgba(0,0,0,.72);
+  --ux-grad:linear-gradient(120deg,#B7A4FF,#7DB4FF 55%,#A5F2D3);
+}
+/* 요소 공통 베이스 — 루트에 .ux 클래스를 붙입니다 */
+.ux,.ux *,.ux *::before,.ux *::after{box-sizing:border-box}
+.ux{
+  font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",Roboto,"Noto Sans KR",sans-serif;
+  color:var(--ux-ink);-webkit-font-smoothing:antialiased;letter-spacing:-.01em;
+  -webkit-tap-highlight-color:transparent;
+  word-break:keep-all;overflow-wrap:break-word;
+}
+/* :where()로 명시도를 0으로 둬서, 요소 클래스가 버튼·입력의 색과 글꼴을 덮어쓸 수 있게 합니다 */
+:where(.ux) :is(button,input,textarea,select){font:inherit;color:inherit}
+:where(.ux) button{cursor:pointer}
+.ux :focus-visible{outline:2px solid var(--ux-accent);outline-offset:3px}
+.ux [hidden]{display:none!important}
+/* 모션 줄이기: 전환은 즉시 끝나고, 무한 반복은 한 번으로 줄여 최종 상태가 보이게 합니다 */
+@media (prefers-reduced-motion:reduce){
+  .ux,.ux *,.ux *::before,.ux *::after{
+    animation-duration:.001ms!important;animation-iteration-count:1!important;
+    transition-duration:.001ms!important;scroll-behavior:auto!important;
+  }
+}
+
+
+.u256{position:relative;width:340px;height:340px;border-radius:30px;overflow:hidden;background:#F4F1EA;box-shadow:0 0 0 1px var(--ux-line),0 30px 60px -36px var(--ux-shadow-strong);color:#1C1A17}
+.u256-site{position:absolute;inset:0;padding:18px}
+.u256-nv{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:800}
+.u256-nv b{font-size:13px;font-weight:900;letter-spacing:-.02em}
+.u256-nv span{display:flex;gap:12px;color:#5E5A52}
+.u256-ph{position:absolute;left:18px;right:18px;top:52px;height:150px;border-radius:14px;overflow:hidden;background:linear-gradient(160deg,#D8C3A5,#8E7C68 60%,#4B4037)}
+.u256-ph::before{content:"";position:absolute;left:18%;top:22%;width:40%;height:78%;background:linear-gradient(#EFE6D8,#CDBBA2);border-radius:80px 80px 0 0;box-shadow:60px 20px 0 -6px #B9A386}
+.u256-ph::after{content:"";position:absolute;right:12%;top:16%;width:34px;height:34px;border-radius:50%;background:#F7EBD3;opacity:.9}
+.u256-hd{position:absolute;left:18px;right:18px;top:214px;margin:0;font-size:26px;line-height:1.12;font-weight:900;letter-spacing:-.04em}
+.u256-sb{position:absolute;left:18px;bottom:20px;font-size:10.5px;font-weight:700;color:#7A746A}
+.u256-site [data-s]{opacity:0;transform:translateY(16px);transition:opacity .6s,transform .8s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d)}
+.u256-site .u256-ph[data-s]{transform:scale(1.08);clip-path:inset(12% 8% 12% 8% round 14px);transition:opacity .6s,transform 1.2s cubic-bezier(.2,.8,.2,1),clip-path 1.1s cubic-bezier(.2,.8,.2,1);transition-delay:var(--d)}
+.u256.is-open .u256-site [data-s]{opacity:1;transform:none;clip-path:inset(0 0 0 0 round 14px)}
+.u256-ld{position:absolute;inset:0;z-index:2;pointer-events:none}
+.u256-hf{position:absolute;left:0;right:0;height:50.5%;background:#1C1A17;transition:transform .9s cubic-bezier(.76,0,.24,1)}
+.u256-hf.u256-a{top:0}
+.u256-hf.u256-b{bottom:0}
+.u256.is-open .u256-a{transform:translateY(-101%)}
+.u256.is-open .u256-b{transform:translateY(101%)}
+.u256-ct{position:absolute;left:20px;right:20px;bottom:26px;color:#F4F1EA;transition:opacity .3s}
+.u256.is-open .u256-ct{opacity:0}
+.u256-ct small{display:block;font-size:10.5px;font-weight:700;color:#A8A196}
+.u256-n{font-size:74px;line-height:.9;font-weight:900;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.u256-n i{font-style:normal;font-size:24px;margin-left:2px;vertical-align:top}
+.u256-br{margin-top:12px;height:2px;background:rgba(244,241,234,.18)}
+.u256-br i{display:block;height:100%;width:0;background:#F4F1EA}
+.u256-bn{position:absolute;left:20px;top:20px;color:#F4F1EA;font-size:13px;font-weight:900;transition:opacity .3s}
+.u256.is-open .u256-bn{opacity:0}
+.u256-re{position:absolute;right:14px;bottom:14px;z-index:3;border:0;padding:6px 11px;border-radius:999px;background:#1C1A17;color:#F4F1EA;font:inherit;font-size:10.5px;font-weight:800;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .3s .6s}
+.u256.is-open .u256-re{opacity:1;pointer-events:auto}
+.u256-re:focus-visible{outline:2px solid #1C1A17;outline-offset:2px}
+.u256.is-snap *{transition:none!important}
+@media (prefers-reduced-motion: reduce){.u256-hf,.u256-site [data-s]{transition:none}}
+
+/* CAP89 reference tokens inspected at https://cap89.com/ on 2026-10-30. */
+:root{
+  color-scheme:light;--primary:#3b63f6;--primary-hover:#254ed8;--secondary:#7fd8c9;--accent:#ffcf70;
+  --bg:#f8fbff;--text:#24324a;--muted:#667085;--green:var(--primary);--mint:#e5f7f1;--peach:#fff5db;--pink:#fff0f4;--lav:#edf1ff;--line:#e5eaf3;
+  --surface:#fff;--surface-glass:rgba(255,255,255,.78);--field:#f4f7ff;--shadow:0 8px 24px rgba(50,68,110,.08);
+  --ux-page:var(--bg);--ux-surface:var(--surface);--ux-surface-2:var(--field);--ux-surface-3:var(--lav);
+  --ux-ink:var(--text);--ux-ink-2:var(--muted);--ux-line:var(--line);--ux-accent:var(--primary);--ux-shadow-strong:rgba(67,89,146,.32);
+  --font:Pretendard,'Pretendard Variable','Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif;
+}
+:root[data-theme=dark]{color-scheme:dark;--bg:#11192a;--text:#edf2ff;--muted:#b0bed6;--surface:#1b263b;--surface-glass:rgba(27,38,59,.86);--field:#222f48;--line:#35435f;--mint:#193e3c;--peach:#403725;--pink:#422b3c;--lav:#26365b;--shadow:0 8px 24px #0003;--ux-accent:#7ea0ff;--ux-line:var(--line);--ux-shadow-strong:#0008}
+body{font-family:var(--font);background:linear-gradient(135deg,#f8fbff 0%,#fffdf7 45%,#f8fffc 100%);color:var(--text)}
+:root[data-theme=dark] body{background:linear-gradient(135deg,#11192a,#171d30 55%,#142d30)}
+.ux{font-family:var(--font)}
+.top{background:var(--surface-glass);border-color:var(--line)}
+.brandmark{background:var(--lav)}
+.brandmark:after{display:none}
+.brandmark{font-size:0!important;position:relative;width:46px;flex:none}
+.brandmark:before{content:'';width:15px;height:15px;border-radius:50%;background:#fff;box-shadow:11px -5px 0 #ffd34e,22px 2px 0 #e84c5c,inset -2px -2px 3px #24324a30;position:absolute;left:5px;top:15px}
+.navbtn{color:var(--muted)}.navbtn.active,.navbtn:hover{background:var(--lav);color:var(--primary)}
+.navbtn.active{box-shadow:inset 0 -2px var(--primary)}
+.btn{background:var(--primary);box-shadow:0 6px 18px #3b63f61a}.btn:hover{box-shadow:0 8px 22px #3b63f633}
+.btn.secondary{background:var(--lav);color:var(--primary)}.btn.light{background:var(--surface);color:var(--text)}
+.btn.danger{background:#ad3653;color:#fff}
+.hero{background:linear-gradient(120deg,#edf2ff,#edfaf5 60%,#fff4da);border-color:var(--line);box-shadow:0 20px 60px #43599212}
+.hero h1{color:var(--text);font-weight:850}.hero p,.eyebrow{color:#50627e}
+.banner{background:var(--lav);border:1px solid #3b63f622;color:var(--text)}
+.panel,.card,.empty,.match,.modal{background:var(--surface);color:var(--text);border-color:var(--line)}
+.guide-cards>.panel:nth-child(1){background:var(--mint)}.guide-cards>.panel:nth-child(2){background:var(--peach)}.guide-cards>.panel:nth-child(3){background:var(--lav)}.guide-cards>.panel:nth-child(4){background:var(--pink)}
+.field label,.venue-phone{color:var(--text)}
+.field input,.field textarea,.field select{background:var(--field);color:var(--text);border-color:var(--line)}
+.field :is(input,textarea,select):focus{border-color:var(--primary);box-shadow:0 0 0 3px #3b63f615}
+.chip{color:var(--text)}.adminbar{background:var(--peach);border-color:var(--line)}
+footer{background:var(--surface-glass);border-top:1px solid var(--line);color:var(--text)}
+.toast{background:#24324a}.task-stage{background:var(--surface);color:var(--text);border-color:var(--line)}
+.carom-mark{display:inline-flex;align-items:center;gap:3px;vertical-align:middle;margin-right:.3em}
+.carom-mark i{display:block;width:.75em;height:.75em;border-radius:50%;background:radial-gradient(circle at 30% 25%,#fff,#e8edf4);box-shadow:inset -1px -2px 2px #24324a30;border:1px solid #24324a20}
+.carom-mark i:nth-child(2){background:radial-gradient(circle at 30% 25%,#fff5ba,#ffd34e 65%,#e7ad22)}
+.carom-mark i:nth-child(3){background:radial-gradient(circle at 30% 25%,#ffb8be,#e84c5c 65%,#b92e3d)}
+.ball.yellow{background:#ffd34e}.ball.red{background:#e84c5c}
+.theme-toggle{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:12px;min-width:40px;min-height:40px;padding:6px 10px}
+:root[data-theme=dark] .hero{background:linear-gradient(120deg,#202e52,#193c3d 65%,#403725)}
+:root[data-theme=dark] :is(.hero p,.eyebrow){color:var(--muted)}
+:root[data-theme=dark] .payment-info,:root[data-theme=dark] .privacy-block{background:var(--field);color:var(--text)}
+:root[data-theme=dark] .tour-page{background:radial-gradient(ellipse at 85% 8%,#24345d,#0a111e 55%)}
+button:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+.cap89-app{transition:opacity .6s,transform .8s cubic-bezier(.2,.8,.2,1)}
+.cap89-app[data-loading=true]{opacity:0;transform:translateY(16px)}
+.loading-screen{position:fixed;inset:0;z-index:150;display:grid;place-content:center;justify-items:center;gap:18px;padding:16px;background:var(--bg);transition:opacity .3s}
+.loading-screen.is-leaving{opacity:0;pointer-events:none}
+.loading-screen[hidden]{display:none}
+.loading-screen .u256{max-width:100%;background:var(--surface);color:var(--text)}
+.loading-screen .u256-hf{background:#24324a}
+.loading-screen .u256-ct,.loading-screen .u256-bn{color:#fff}
+.loading-screen .u256-ct small{color:#cbd5ea}
+.loading-screen .u256-br i{background:var(--secondary)}
+.loading-screen .u256-br{background:#ffffff2e}
+.loading-screen .u256-bn{display:flex;gap:8px;align-items:center}
+.loading-screen .u256-ct{bottom:26px}
+.loading-screen .u256-n{margin-top:10px}
+.loading-screen .u256-ct .loading-estimate{font-size:10px;color:#cbd5ea;margin-top:5px}
+.loading-screen .u256-hd{color:var(--text);font-size:26px}
+.loading-screen .u256-sb,.loading-screen .u256-nv span{color:var(--muted)}
+.loading-meta{margin:0;max-width:340px;text-align:center;font-size:13px;line-height:1.7;color:var(--muted)}
+.loading-retry{min-height:44px}
+.cushion-table{position:absolute;left:24px;right:24px;top:76px;height:122px;border-radius:14px;background:linear-gradient(135deg,#22458e,#3065b4);border:7px solid #657db0;box-shadow:inset 0 0 0 2px #b5d4ff55}
+.cushion-table svg{width:100%;height:100%;overflow:visible}
+.cushion-route{fill:none;stroke:#bcefe4;stroke-width:1;stroke-dasharray:3 3;opacity:.65}
+.cushion-ball{fill:#fff;filter:drop-shadow(0 2px 2px #0005)}
+.loading-route{position:absolute;left:24px;right:24px;top:68px;height:106px;z-index:1}
+.loading-route .cushion-table{inset:0;height:auto}
+.cue-motion{offset-path:path('M 30 64 L 106 8 L 252 76 L 220 92 L 84 66');animation:carom-shot 3.6s cubic-bezier(.2,.8,.2,1) infinite;offset-rotate:0deg;position:absolute;width:12px;height:12px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#fff,#e2e9f5);left:0;top:0;box-shadow:0 2px 5px #0006}
+.loading-screen .is-open .loading-route{opacity:0;transition:opacity .3s}
+@keyframes carom-shot{0%,8%{offset-distance:0}85%,100%{offset-distance:100%}}
+@media(max-width:400px){.loading-screen .u256{width:min(340px,calc(100vw - 32px))}.theme-toggle{margin-left:2px}.hero-inner{padding:26px 22px}.links{width:100%}}
+@media(max-width:650px){.billiard{right:22px;bottom:15px}}
+@media(prefers-reduced-motion:reduce){.cue-motion{animation:none;offset-distance:0}.cap89-app,.loading-screen{transition:none;transform:none}.cap89-app[data-loading=true]{transform:none}}
+
+</style></head><body><!-- Lucian UX/UI Prompt #256 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#256 -->
+<div id="firstLoad" class="loading-screen">
+ <div class="ux u256">
+  <div class="u256-site"><div class="u256-nv" data-s style="--d:.15s"><b>VISION</b><span>THREE CUSHION</span></div><div class="cushion-table"><svg viewBox="0 0 260 100" aria-hidden="true"><path class="cushion-route" d="M30 64 L106 8 L252 76 L220 92 L84 66"/><circle cx="30" cy="64" r="6" fill="#ffd34e"/><circle cx="84" cy="66" r="6" fill="#e84c5c"/><circle class="cushion-ball" cx="192" cy="32" r="6"/></svg></div><h3 class="u256-hd" data-s style="--d:.45s">다음 한 수를<br>함께 만듭니다.</h3><div class="u256-sb" data-s style="--d:.6s">흰공 · 노란공 · 빨간공</div></div>
+  <div class="u256-ld" role="progressbar" aria-label="대회 정보 준비 예상 진행" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="u256-hf u256-a"></div><div class="u256-hf u256-b"></div><div class="u256-bn"><span class="carom-mark" role="img" aria-label="3쿠션 공"><i></i><i></i><i></i></span> VISION · 3 CUSHION</div><div class="loading-route"><div class="cushion-table"><svg viewBox="0 0 260 100" aria-hidden="true"><path class="cushion-route" d="M30 64 L106 8 L252 76 L220 92 L84 66"/><circle cx="30" cy="64" r="6" fill="#ffd34e"/><circle cx="84" cy="66" r="6" fill="#e84c5c"/></svg><span class="cue-motion"></span></div></div><div class="u256-ct"><small id="loadStatus" role="status" aria-live="polite">대회 정보를 불러오는 중</small><div class="u256-n"><span>0</span><i>%</i></div><div class="u256-br"><i></i></div><small class="loading-estimate">준비 예상 진행</small></div></div>
+ </div>
+ <p class="loading-meta" id="loadNote">3쿠션의 다음 한 수를 준비합니다.</p>
+ <button class="btn loading-retry" id="loadRetry" type="button" hidden>다시 연결하기</button>
+</div><div class="cap89-app">
+<header class="top"><div class="wrap nav"><div class="brand"><span class="brandmark">🔴</span><span id="brandTitle" class="fit-title brand-title" aria-label="홈페이지 제목">비전 당구 클럽 동호인 대회</span><button class="pencil brand-pencil" id="brandEdit" onclick="openSettings(['appNameLine1','appNameLine2','appName'])" title="사이트명 수정" aria-label="사이트명 수정">✏️</button></div><nav class="links" aria-label="메인 메뉴"><button class="navbtn active" data-page="home">홈</button><button class="navbtn" data-page="guide">대회 안내</button><button class="navbtn" data-page="apply">참가 신청</button><button class="navbtn" data-page="players">참가 현황</button><button class="navbtn" data-page="bracket">대진표</button><button class="navbtn" data-page="results">경기 결과</button><button class="navbtn" data-page="admin">⚙ 관리자</button><button id="themeToggle" class="theme-toggle" type="button" aria-label="어두운 화면으로 전환" aria-pressed="false">☾</button></nav></div></header>
 <div id="adminbar" class="adminbar hide"><div class="wrap"><strong>✏️ 관리자 편집 모드</strong><span class="muted">카드 위 연필을 클릭해 수정하세요.</span><button class="btn sm secondary" onclick="openSettings()">전체 설정</button><button class="btn sm secondary" onclick="refresh()">새로고침</button><button class="btn sm light" onclick="signout()">로그아웃</button></div></div>
-<main class="wrap" id="app"><div class="empty">대회 정보를 불러오는 중…</div></main><footer><div class="wrap"><strong>🎱 VISION BILLIARD CLUB</strong><div id="footerText">2026 비전 당구클럽 친목 대회</div></div></footer>
-<div id="modalRoot"></div><div id="toast" class="toast hide" role="status" aria-live="polite"></div>
+<main class="wrap" id="app"><div class="empty">대회 정보를 불러오는 중…</div></main><footer><div class="wrap"><strong><span class="carom-mark" role="img" aria-label="3쿠션 공"><i></i><i></i><i></i></span> VISION BILLIARD CLUB</strong><div id="footerText">2026 비전 당구클럽 친목 대회</div></div></footer>
+<div id="taskStage" class="task-stage hide" role="status" aria-live="polite"></div><div id="modalRoot"></div><div id="toast" class="toast hide" role="status" aria-live="polite"></div>
 <script>
 'use strict';
+/* Lucian UX/UI Prompt #256 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#256 */
+// Ported load()/set() lifecycle: estimated preparation stops at 90; only real data completes it.
+const firstLoad = (() => {
+  const screen=document.getElementById('firstLoad'),root=screen.querySelector('.u256');
+  const ld=root.querySelector('.u256-ld'),n=root.querySelector('.u256-n span'),bar=root.querySelector('.u256-br i');
+  const status=document.getElementById('loadStatus'),note=document.getElementById('loadNote'),retry=document.getElementById('loadRetry');
+  const app=document.querySelector('.cap89-app'),motion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  let t=0,finish=0,v=0,finished=false,generation=0;
+  function set(value){v=value;n.textContent=value;bar.style.width=value+'%';ld.setAttribute('aria-valuenow',value);}
+  function start(){
+    if(finished)return;
+    generation++;clearTimeout(t);clearTimeout(finish);screen.hidden=false;
+    screen.classList.remove('is-leaving');root.classList.remove('is-open');retry.hidden=true;
+    app.dataset.loading='true';app.inert=true;document.getElementById('app').setAttribute('aria-busy','true');
+    ld.removeAttribute('aria-valuetext');
+    status.textContent='대회 정보를 불러오는 중';note.textContent='3쿠션의 다음 한 수를 준비합니다. 잠시만 기다려 주세요.';
+    set(0);
+    function step(){
+      if(!root.isConnected||v>=90)return;
+      set(Math.min(90,v+(v>70?1:3)));
+      t=setTimeout(step,v>70?500:120);
+    }
+    // Reduced motion keeps the loading state and real completion without the count-up.
+    if(!motion.matches)step();
+  }
+  function complete(){
+    if(finished)return;
+    clearTimeout(t);set(100);status.textContent='대회 정보 준비 완료';ld.setAttribute('aria-valuetext','대회 정보 준비 완료');
+    note.textContent='준비가 끝났습니다. 대회 화면을 엽니다.';
+    document.getElementById('app').setAttribute('aria-busy','false');app.inert=false;
+    app.dataset.loading='false';finished=true;
+    finish=setTimeout(()=>{
+      root.classList.add('is-open');
+      finish=setTimeout(()=>{screen.classList.add('is-leaving');finish=setTimeout(()=>{screen.hidden=true},motion.matches?0:300)},motion.matches?0:900);
+    },motion.matches?0:300);
+  }
+  function fail(error){
+    if(finished)return;
+    generation++;clearTimeout(t);clearTimeout(finish);
+    status.textContent='연결을 확인해 주세요';note.textContent=error.message||'대회 정보를 불러오지 못했습니다.';
+    ld.setAttribute('aria-valuetext','연결 실패');retry.hidden=false;retry.focus({preventScroll:true});
+    document.getElementById('app').setAttribute('aria-busy','false');
+  }
+  retry.addEventListener('click',()=>refresh());
+  window.addEventListener('pagehide',()=>{generation++;clearTimeout(t);clearTimeout(finish)});
+  motion.addEventListener('change',()=>{if(motion.matches)clearTimeout(t)});
+  return {start,complete,fail};
+})();
+const themeToggle=document.getElementById('themeToggle');
+function setDesignTheme(theme){
+  document.documentElement.dataset.theme=theme;
+  themeToggle.textContent=theme==='dark'?'☀':'☾';
+  themeToggle.setAttribute('aria-label',theme==='dark'?'밝은 화면으로 전환':'어두운 화면으로 전환');
+  themeToggle.setAttribute('aria-pressed',String(theme==='dark'));
+}
+setDesignTheme('light');
+themeToggle.addEventListener('click',()=>setDesignTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
+
 let db=null,admin=null,token='',page='home',busy=false,modalCloser=null;
 const $=id=>document.getElementById(id);
-const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const E=s=>String(s??'').replace(/\u{1f3b1}/gu,'⚪ 🟡 🔴').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const lines=s=>E(s).replace(/\n/g,'<br>');
 const val=k=>db?.settings?.[k]??'';
+function stage(msg){const el=$('taskStage');if(!el)return;el.textContent=msg;el.classList.toggle('hide',!msg)}
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.remove('hide');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.add('hide'),3800)}
-// GitHub Pages <-> GAS HtmlService bridge. No CORS workaround or exposed admin secret.
-const GAS_WEBAPP_URL = 'https://script.google.com/a/macros/cap89.com/s/AKfycbysSpGynRmSdFStKUhUSq17SM87f-u3-wY8M-IIfAXZ1G-SyOUXLoc0doAYApyQocLV0Q/exec';
+// GitHub Pages transport. Passwords/tokens travel inside MessagePort, never URLs.
+const GAS_WEBAPP_URL = 'https://script.google.com/macros/s/AKfycbysSpGynRmSdFStKUhUSq17SM87f-u3-wY8M-IIfAXZ1G-SyOUXLoc0doAYApyQocLV0Q/exec';
 const RPC_ALLOWED = new Set(['getPublic','register','login','logout','getAdmin','changePassword','saveSettings','upsertPlayer','removePlayer','upsertNotice','removeNotice','generateBracket','saveMatch','resetBracket']);
-const BRIDGE_NONCE = Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2,'0')).join('');
-const bridgeFrame = document.createElement('iframe');
-bridgeFrame.title = '비전 당구클럽 데이터 연결';
-bridgeFrame.setAttribute('aria-hidden','true');
-bridgeFrame.style.cssText = 'position:absolute;width:0;height:0;border:0;opacity:0;pointer-events:none';
-const bridgeUrl = new URL(GAS_WEBAPP_URL);
-bridgeUrl.searchParams.set('bridge','1');
-bridgeUrl.searchParams.set('origin', location.origin);
-bridgeUrl.searchParams.set('nonce', BRIDGE_NONCE);
-bridgeFrame.src = bridgeUrl.href;
-let bridgePort = null;
-let bridgeWaiters = [];
-let rpcSequence = 0;
+let bridgeConnection = null, bridgeFrame = null, rpcSequence = 0;
 const pendingRPC = new Map();
-function validGoogleOrigin(origin) {
+function googleBridgeOrigin(origin) {
   try {
     const u = new URL(origin);
-    return u.protocol === 'https:' &&
-      (u.hostname === 'script.googleusercontent.com' || u.hostname.endsWith('.script.googleusercontent.com') ||
-       u.hostname === 'googleusercontent.com' || u.hostname.endsWith('.googleusercontent.com'));
+    return u.protocol === 'https:' && (u.hostname === 'script.googleusercontent.com' || u.hostname.endsWith('-script.googleusercontent.com') || u.hostname.endsWith('.script.googleusercontent.com'));
   } catch (_) { return false; }
 }
-window.addEventListener('message', event => {
-  const msg = event.data;
-  if (!validGoogleOrigin(event.origin) || !msg || msg.visionBridge !== 'v2' ||
-      msg.nonce !== BRIDGE_NONCE || msg.kind !== 'ready' || bridgePort || !event.ports?.[0]) return;
-  bridgePort = event.ports[0];
-  bridgePort.onmessage = e => {
-    const x = e.data;
-    if (!x || x.visionBridge !== 'v2' || x.nonce !== BRIDGE_NONCE || x.kind !== 'result') return;
-    const p = pendingRPC.get(x.id);
-    if (!p) return;
-    pendingRPC.delete(x.id);
-    clearTimeout(p.timer);
-    x.ok ? p.resolve(x.data) : p.reject(new Error(x.error || '서버 처리 오류'));
-  };
-  bridgePort.start();
-  bridgePort.postMessage({visionBridge:'v2',nonce:BRIDGE_NONCE,kind:'ack'});
-  bridgeWaiters.splice(0).forEach(fn => fn());
-});
-document.body.appendChild(bridgeFrame);
-function call(method,...args) {
-  if (!RPC_ALLOWED.has(method)) return Promise.reject(new Error('허용되지 않은 요청입니다.'));
+function connectBridge() {
+  if (bridgeConnection) return bridgeConnection;
+  const nonce = Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2,'0')).join('');
+  const frame = document.createElement('iframe');
+  frame.title = '비전 당구클럽 데이터 연결';
+  frame.setAttribute('aria-hidden','true');
+  frame.style.cssText = 'position:absolute;width:0;height:0;border:0;opacity:0;pointer-events:none';
+  if (bridgeFrame) bridgeFrame.remove();
+  bridgeFrame = frame;
+  bridgeConnection = new Promise((resolve,reject) => {
+    const timer = setTimeout(() => {
+      window.removeEventListener('message',ready);
+      frame.remove();
+      reject(new Error('GAS 연결에 실패했습니다. 웹앱 배포 버전과 iframe 허용 설정을 확인해 주세요.'));
+    },20000);
+    function ready(event) {
+      const msg = event.data;
+      if (!googleBridgeOrigin(event.origin) || !msg || msg.visionBridge !== 'v2' || msg.kind !== 'ready' || msg.nonce !== nonce || !event.ports?.[0]) return;
+      clearTimeout(timer);
+      window.removeEventListener('message',ready);
+      const port = event.ports[0];
+      port.onmessage = e => {
+        const x = e.data;
+        if (!x || x.visionBridge !== 'v2' || x.nonce !== nonce || x.kind !== 'result') return;
+        const p = pendingRPC.get(x.id);
+        if (!p) return;
+        pendingRPC.delete(x.id);clearTimeout(p.timer);
+        x.ok ? p.resolve(x.data) : p.reject(new Error(x.error || '서버 처리 오류'));
+      };
+      port.start();
+      port.postMessage({visionBridge:'v2',nonce,kind:'ack'});
+      resolve({port,nonce});
+    }
+    window.addEventListener('message',ready);
+    const url = new URL(GAS_WEBAPP_URL);
+    url.searchParams.set('bridge','1');
+    url.searchParams.set('origin',location.origin);
+    url.searchParams.set('nonce',nonce);
+    frame.src = url.href;
+    document.body.appendChild(frame);
+  }).catch(error => {bridgeConnection=null;throw error;});
+  return bridgeConnection;
+}
+async function call(method,...args) {
+  if (!RPC_ALLOWED.has(method)) throw new Error('허용되지 않은 요청입니다.');
+  const {port,nonce} = await connectBridge();
   return new Promise((resolve,reject) => {
     const id = ++rpcSequence;
-    const start = () => {
-      const timer = setTimeout(() => {
-        pendingRPC.delete(id);
-        reject(new Error('GAS 서버 응답 시간이 초과되었습니다.'));
-      }, 30000);
-      pendingRPC.set(id,{resolve,reject,timer});
-      bridgePort.postMessage({visionBridge:'v2',nonce:BRIDGE_NONCE,kind:'call',id,method,args});
-    };
-    if (bridgePort) start(); else {
-      const timer = setTimeout(() => {
-        const idx = bridgeWaiters.indexOf(ready);
-        if (idx !== -1) bridgeWaiters.splice(idx,1);
-        reject(new Error('GAS 연결에 실패했습니다. 브라우저의 외부 iframe 제한 또는 GAS 배포 설정을 확인해 주세요.'));
-      },20000);
-      const ready = () => {clearTimeout(timer);start();};
-      bridgeWaiters.push(ready);
-    }
+    const timer = setTimeout(() => {
+      pendingRPC.delete(id);
+      // Reconnect on the next request. Never replay a write automatically.
+      bridgeConnection = null;
+      reject(new Error('GAS 서버 응답 시간이 초과되었습니다. 저장 작업은 반영 여부를 확인한 후 다시 시도해 주세요.'));
+    },30000);
+    pendingRPC.set(id,{resolve,reject,timer});
+    try {port.postMessage({visionBridge:'v2',nonce,kind:'call',id,method,args});}
+    catch (error) {pendingRPC.delete(id);clearTimeout(timer);bridgeConnection=null;reject(error);}
   });
 }
 
-async function run(method,...args){if(busy)return;busy=true;document.querySelectorAll('button[type=submit]').forEach(b=>b.disabled=true);try{return await call(method,...args)}catch(e){toast('⚠ '+e.message);throw e}finally{busy=false;document.querySelectorAll('button[type=submit]').forEach(b=>b.disabled=false)}}
+async function run(method,...args){
+  if(busy)throw new Error('이미 다른 작업을 처리하고 있습니다.');
+  busy=true;
+  const active=document.activeElement;
+  const btn=active?.closest?.('button') || document.querySelector('#modalForm button[type=submit],#loginForm button[type=submit],#applyForm button[type=submit]');
+  const label=({login:'로그인 확인 중…',generateBracket:'대진표 편성 중…',resetBracket:'대진표 초기화 중…',register:'참가 신청 중…',saveMatch:'경기 결과 저장 중…',saveSettings:'설정 저장 중…',upsertPlayer:'참가자 저장 중…',upsertNotice:'공지 저장 중…',removePlayer:'참가자 삭제 중…',removeNotice:'공지 삭제 중…'})[method]||'서버에서 처리 중…';
+  const original=btn?.textContent;
+  stage(label);
+  if(btn){btn.disabled=true;btn.classList.add('loading');btn.textContent=label;btn.setAttribute('aria-busy','true')}
+  try{return await call(method,...args)}
+  catch(e){stage('');toast('⚠ '+e.message);throw e}
+  finally{busy=false;if(btn?.isConnected){btn.disabled=false;btn.classList.remove('loading');btn.textContent=original;btn.removeAttribute('aria-busy')}if(method!=='login')stage('')}
+}
 function editBtn(keys){return token?`<button class="pencil" aria-label="이 영역 수정" onclick='openSettings(${JSON.stringify(keys)})'>✏️ 수정</button>`:''}
 function editable(html,keys,cls=''){return `<div class="editable ${cls}">${editBtn(keys)}${html}</div>`}
-function nav(p){page=p;document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===p));render();window.scrollTo({top:0,behavior:'smooth'})}
+// 입력 화면과 편집 모달에서 첫 번째 입력 가능한 칸에 자동 포커스합니다.
+let automaticFocusSequence=0;
+function focusFirstField(rootSelector){
+  const requestId=++automaticFocusSequence;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    if(requestId!==automaticFocusSequence)return;
+    const root=document.querySelector(rootSelector);
+    if(!root)return;
+    const candidates=root.querySelectorAll('input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]),textarea,select');
+    const target=[...candidates].find(el=>!el.disabled&&!el.readOnly&&el.getClientRects().length>0);
+    if(target){
+      try{target.focus({preventScroll:true})}catch(_){target.focus()}
+    }
+  }));
+}
+function nav(p){page=p;document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===p));render();window.scrollTo({top:0,behavior:'smooth'});if(p==='admin'&&!token)focusFirstField('#loginForm');else if(p==='apply')focusFirstField('#applyForm');else automaticFocusSequence++}
 document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>nav(b.dataset.page)));
 function infoCard(label,value,color,keys,raw=false){const inner=`<div class="caption">${E(label)}</div><div class="value">${raw?value:E(value||'추후 안내')}</div>`;return keys?.length?editable(inner,keys,`card ${color}`):`<div class="card ${color}">${inner}</div>`}
 function formatDate(long=false){const raw=String(val('date')||'');const m=raw.match(/^(\d{4})-(\d{2})-(\d{2})$/);if(!m)return E(raw+' '+val('time'));const d=new Date(+m[1],+m[2]-1,+m[3]);const weekday=['일','월','화','수','목','금','토'][d.getDay()];const day=weekday==='일'?'<span class="sunday">일</span>':weekday;const time=E(val('time')||'10:00');return long?`${m[1]}년 ${+m[2]}월 ${+m[3]}일 ${day}요일 ${time}~`:`${m[1]}.${m[2]}.${m[3]}.(${day}) ${time}~`}
@@ -163,13 +661,144 @@ function statCard(label,value,color){return `<div class="stat-card ${color}"><sp
 function phoneFormat(input){const v=String(input||'').replace(/\D/g,'').slice(0,11);if(v.length<=3)return v;if(v.startsWith('02')){if(v.length<=5)return v.slice(0,2)+'-'+v.slice(2);if(v.length<=9)return v.slice(0,2)+'-'+v.slice(2,v.length-4)+'-'+v.slice(-4);return v.slice(0,2)+'-'+v.slice(2,6)+'-'+v.slice(6)}if(v.length<=7)return v.slice(0,3)+'-'+v.slice(3);return v.slice(0,3)+'-'+v.slice(3,v.length-4)+'-'+v.slice(-4)}
 function isMobile(){return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)}
 function messageEditor(id){const p=admin?.players?.find(x=>x.id===id);if(!p)return;const phone=String(p.phone||'').replace(/\D/g,'');if(!phone){toast('신청자 전화번호가 없습니다.');return}const initial='비전 당구클럽 동호인 대회 관련 안내 드립니다.';modal('✉️ 문자 메시지 작성',`<p><strong>${E(p.name)}</strong> · ${E(phoneFormat(phone))}</p><div class="field"><label for="smsBody">전송할 안내 문구</label><textarea id="smsBody" rows="5">${E(initial)}</textarea></div><p class="muted">휴대전화 문자 앱을 열어 발송 전 확인합니다. 홈페이지가 문자를 자동 전송하지는 않습니다.</p>`,async()=>{const message=$('smsBody').value.trim();if(!message)throw Error('메시지 내용을 입력해 주세요.');if(!isMobile()){await navigator.clipboard.writeText(message);toast('PC에서는 문자 내용을 복사했습니다. 휴대전화에서 발송해 주세요.');return}const sep=/iPhone|iPad|iPod/i.test(navigator.userAgent)?'&':'?';window.location.href=`sms:${phone}${sep}body=${encodeURIComponent(message)}`;});const b=$('modalForm').querySelector('button[type="submit"]');b.textContent=isMobile()?'문자 앱 열기':'문구 복사하기'}
-function hero(){return `<div class="hero editable">${editBtn(['title','subTitle','heroBadge','intro'])}<div class="hero-inner"><div class="eyebrow">${E(val('heroBadge'))}</div><h1>${E(val('title'))}</h1><p>${E(val('subTitle'))}</p><div class="hero-actions"><button class="btn" onclick="nav('apply')">참가 신청하기 ↗</button><button class="btn light" onclick="nav('guide')">대회 요강 확인 →</button></div></div>${val('posterUrl')?`<a class="hero-poster-link" href="${E(val('posterUrl'))}" target="_blank" rel="noopener" title="대회 포스터 크게 보기"><img src="${E(val('posterUrl'))}" alt="대회 공식 포스터" loading="lazy"></a>`:''}<div class="billiard" aria-hidden="true"><div class="ball white"></div><div class="ball yellow"></div><div class="ball red"></div></div></div>`}
-function home(){return `${hero()}${editable(`<div class="banner">${E(val('noticeBanner'))}</div>`,['noticeBanner'])}<section class="grid">${infoCard('📅 대회 일시',formatDate(true),'mint',['date','time'],true)}${infoCard('🏆 총상금',val('prizeTotal'),'peach',['prizeTotal','prizeDetail'])}${infoCard('📍 대회 장소',venueText(),'lav',['venue','address','phone'],true)}${infoCard('👥 참가 신청 현황',`${db.appliedCount}명 신청`,'pink',[])}</section><section class="section two">${editable(`<h2>🎱 올해의 마지막 승부!</h2><p>${E(val('intro'))}</p><p><strong>단판 토너먼트 · 개인별 핸디 적용</strong></p><button class="btn secondary" onclick="nav('guide')">대회 규정 살펴보기</button>`,['intro','rules'],'panel')}${editable(`<h2>📢 대회 공지</h2>${noticeList(3)}<div style="margin-top:15px"><button class="btn secondary" onclick="nav('guide')">모든 공지 보기</button>${token?'<button class="btn sm" onclick="noticeEditor()">+ 공지 추가</button>':''}</div>`,[],'panel')}</section>`}
+// Separate editable title lines; legacy Settings keys remain the fallback.
+function titleMarkup(firstKey, secondKey, legacyKey) {
+  const first=String(val(firstKey)||'').trim();
+  const second=String(val(secondKey)||'').trim();
+  const lines=first || second ? [first, second].filter(Boolean) : [String(val(legacyKey)||'').trim()];
+  return lines.map(t=>'<span class="title-line">'+E(t)+'</span>').join('');
+}
+function fitVisibleTitles() {
+  // Shrink toward a readable minimum. If still long, wrap only between words.
+  const configs=[['brandTitle',19,12],['heroHeading',59,23]];
+  configs.forEach(([id,max,min])=>{
+    const el=$(id);
+    if(!el)return;
+    const host=el.parentElement;
+    const available=id==='brandTitle' ? Math.max(90,host.clientWidth-(host.querySelector('.brandmark')?.offsetWidth||40)-(host.querySelector('#brandEdit')?.offsetWidth||0)-28) : Math.max(160,el.clientWidth);
+    const lines=[...el.querySelectorAll('.title-line')];
+    el.style.fontSize='';
+    const desired=Math.min(max,Math.max(min,parseFloat(getComputedStyle(el).fontSize)||max));
+    let size=desired;
+    el.style.fontSize=size+'px';
+    el.classList.remove('title-wrap');
+    while(size>min && lines.some(line=>line.scrollWidth>available+2)) {
+      size-=.5;
+      el.style.fontSize=size+'px';
+    }
+    if(lines.some(line=>line.scrollWidth>available+2))el.classList.add('title-wrap');
+  });
+}
+function hero(){return `<div class="hero editable">${editBtn(['heroTitleLine1','heroTitleLine2','title','subTitle','heroBadge','intro'])}<div class="hero-inner"><div class="eyebrow">${E(val('heroBadge'))}</div><h1 id="heroHeading" class="fit-title hero-heading">${titleMarkup('heroTitleLine1','heroTitleLine2','title')}</h1><p>${E(val('subTitle'))}</p><div class="hero-actions"><button class="btn" onclick="nav('apply')">참가 신청하기 ↗</button><button class="btn light" onclick="nav('guide')">대회 요강 확인 →</button></div></div>${val('posterUrl')?`<a class="hero-poster-link" href="${E(val('posterUrl'))}" target="_blank" rel="noopener" title="대회 포스터 크게 보기"><img src="${E(val('posterUrl'))}" alt="대회 공식 포스터" loading="lazy"></a>`:''}<div class="billiard" aria-hidden="true"><div class="ball white"></div><div class="ball yellow"></div><div class="ball red"></div></div></div>`}
+// 참가 신청 인원은 전체 신청 인원, 공개 명단은 승인된 선수만 표시합니다.
+function homeApplicantSummary(){
+  const confirmed = Array.isArray(db?.players) ? db.players : [];
+  const names = confirmed.map(p => E(p.name) + '(' + E(p.handicap ?? '-') + ')').join(' · ');
+  return '<div class="home-applicant-summary">' +
+    '<div class="caption">👥 참가 신청 현황</div>' +
+    '<div class="value">' + E(db.appliedCount) + '명 신청 중</div>' +
+    '<div class="home-applicant-names" title="확정 선수 이름(핸디)" aria-label="확정 선수 명단">' +
+    (names || '확정 선수 명단은 아직 공개되지 않았습니다.') + '</div>' +
+    '<div class="home-applicant-hint">전체 공개 명단 보기 ↗</div>' +
+    '</div>';
+}
+function openPublicRoster(){
+  const roster=Array.isArray(db?.players)?db.players:[];
+  const list=roster.length?'<div class="roster-modal-grid">'+roster.map((p,i)=>
+    '<div class="roster-modal-item"><span class="roster-modal-no">'+(i+1)+'.</span><span class="roster-modal-name">'+E(p.name)+'</span><span class="roster-modal-handicap">핸디 '+E(p.handicap??'-')+'</span></div>'
+  ).join('')+'</div>':'<div class="empty">공개 승인된 선수가 아직 없습니다.</div>';
+  const intro='<p class="roster-modal-intro">전체 신청 '+E(db.appliedCount)+'명 · 공개 승인 선수 '+roster.length+'명<br>신청자 개인정보 보호를 위해 공개 승인된 이름과 핸디만 표시합니다.</p>';
+  modal('👥 참가 신청 현황',intro+list,null);
+}
+function home(){return `${hero()}${editable(`<div class="banner">${E(val('noticeBanner'))}</div>`,['noticeBanner'])}<section class="grid">${infoCard('📅 대회 일시',formatDate(true),'mint',['date','time'],true)}${infoCard('🏆 총상금',val('prizeTotal'),'peach',['prizeTotal','prizeDetail'])}${infoCard('📍 대회 장소',venueText(),'lav',['venue','address','phone'],true)}<div class="card pink home-applicant-card" role="button" tabindex="0" aria-label="참가 신청 현황 및 전체 공개 선수 명단 보기" onclick="openPublicRoster()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPublicRoster()}">${homeApplicantSummary()}</div></section><section class="section two">${editable(`<h2><span class="carom-mark" role="img" aria-label="3쿠션 공"><i></i><i></i><i></i></span> 올해의 마지막 승부!</h2><p>${E(val('intro'))}</p><p><strong>단판 토너먼트 · 개인별 핸디 적용</strong></p><button class="btn secondary" onclick="nav('guide')">대회 규정 살펴보기</button>`,['intro','rules'],'panel')}${editable(`<h2>📢 대회 공지</h2>${noticeList(3)}<div style="margin-top:15px"><button class="btn secondary" onclick="nav('guide')">모든 공지 보기</button>${token?'<button class="btn sm" onclick="noticeEditor()">+ 공지 추가</button>':''}</div>`,[],'panel')}</section>`}
 function noticeList(limit=100){const ns=db.notices.slice(0,limit);return ns.length?ns.map(n=>`<div class="notice"><h3>${E(n.title)}</h3><p>${lines(n.body)}</p></div>`).join(''):'<p class="muted">등록된 공지가 없습니다.</p>'}
-function guide(){return `<section class="section"><h2>📋 대회 안내</h2><div class="two guide-cards">${editable(`<h3>대회 개요</h3><p>일시: ${formatDate(true)}<br>주최: ${E(val('organizer'))}<br>장소: ${E(val('venue'))}<br>주소: ${E(val('address'))}<br>문의: ${E(val('phone'))}</p>`,['date','time','organizer','venue','address','phone'],'panel')}${editable(`<h3>참가 및 시상</h3><p>참가비: ${E(val('entryFee'))}<br>모집 정원: ${E(val('capacity')||'제한 미정')}<br>총상금: ${E(val('prizeTotal'))}<br>${lines(val('prizeDetail'))}</p>`,['entryFee','capacity','prizeTotal','prizeDetail'],'panel')}${editable(`<h3>경기 규정</h3><p>${lines(val('rules'))}</p>`,['rules'],'panel')}${editable(`<h3>참가 자격 및 공지</h3><p>${lines(val('eligibility'))}</p>`,['eligibility'],'panel')}</div></section><section class="section panel"><div class="toolbar"><h2 style="margin:0">📢 공지사항</h2>${token?'<button class="btn sm" onclick="noticeEditor()">+ 공지 추가</button>':''}</div>${noticeList()}${token?adminNoticeList():''}</section>`}
-function application(){const open=val('registrationOpen')==='TRUE';return `<section class="section"><h2>📝 온라인 참가 신청</h2><div class="two"><div class="panel"><h3>${open?'참가 신청서':'접수가 마감되었습니다'}</h3>${open?`<form id="applyForm"><div class="field"><label for="pname">선수 이름 *</label><input id="pname" name="name" maxlength="40" required></div><div class="field"><label for="pphone">휴대전화 *</label><input id="pphone" name="phone" inputmode="numeric" autocomplete="tel" maxlength="13" placeholder="010-1234-5678" required></div><div class="field"><label for="phandi">개인 핸디 *</label><input id="phandi" name="handicap" type="number" min="1" max="50" required></div><div class="field"><label for="pclub">소속 클럽 (선택)</label><input id="pclub" name="club" maxlength="60"></div><p class="muted" style="font-size:13px">참가 접수·본인 확인을 위해 입력 정보를 저장합니다. 공개 참가자 명단에는 전화번호를 표시하지 않습니다. 정보 정정 또는 삭제는 대회 운영진에게 문의해 주세요.</p><button class="btn" type="submit">신청서 제출하기</button></form>`:'<p>신청 접수 일정은 대회 운영진에게 문의해 주세요.</p>'}</div><div class="panel"><h3>대회 참가 안내</h3><p>🗓 ${formatDate(false)}</p><p>📍 ${E(val('venue'))}</p><p>💳 참가비: ${E(val('entryFee'))}</p><p>👥 현재 신청: ${db.appliedCount}명</p><p>☎ ${E(val('phone'))}</p><span class="chip">관리자 승인 후 명단 공개</span></div></div></section>`}
+function guideItems(value) {
+  const items = String(value || '').split(String.fromCharCode(10));
+  let output = '';
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i].trim();
+    if (!item) continue;
+    const special = item.charCodeAt(0) === 9733;
+    const content = special ? item.slice(1).trim() : item;
+    output += '<li' + (special ? ' class="featured"' : '') + '>' + E(content) + '</li>';
+  }
+  return output ? '<ul class="guide-list">' + output + '</ul>' : '<p class="muted">추후 안내합니다.</p>';
+}
+function guidePanel(titleKey, defaultTitle, content, keys, color) {
+  const title = E(val(titleKey) || defaultTitle);
+  return editable('<h3 class="guide-heading"><span>' + title + '</span></h3>' + content,
+    [titleKey].concat(keys), 'panel guide-box ' + color);
+}
+function guide() {
+  const newline = String.fromCharCode(10);
+  const overview = guideItems([
+    '일시: ' + val('date') + ' ' + val('time') + '~',
+    '주최: ' + val('organizer'), '장소: ' + val('venue'),
+    '주소: ' + val('address'), '문의: ' + val('phone')
+  ].join(newline));
+  const qualification = '<div class="guide-emphasis"><small>참가비</small><strong>' + E(val('entryFee') || '추후 안내') + '</strong></div>' +
+    guideItems(val('eligibility')) + '<p class="muted">모집 정원: ' + E(val('capacity') || '미정') + '</p>';
+  const awards = '<div class="guide-emphasis"><small>총상금</small><strong>' + E(val('prizeTotal') || '추후 안내') + '</strong></div>' + guideItems(val('prizeDetail'));
+  const cards = [
+    guidePanel('guideOverviewTitle', '대회 개요', overview, ['date','time','organizer','venue','address','phone'], 'guide-mint'),
+    guidePanel('guideEligibilityTitle', '참가 자격 및 참가비', qualification, ['eligibility','entryFee','capacity'], 'guide-peach'),
+    guidePanel('guideAwardsTitle', '시상 내역', awards, ['prizeTotal','prizeDetail'], 'guide-lav'),
+    guidePanel('guideRulesTitle', '경기 규정', guideItems(val('rules')), ['rules'], 'guide-pink')
+  ].join('');
+  const awardRules=editable('<h3>'+E(val('specialAwardTitle')||'특별상 시상 기준')+'</h3><p>'+lines(val('specialAwardRules'))+'</p>',['specialAwardTitle','specialAwardRules'],'award-rules');
+  const addNotice = token ? '<button class="btn sm" onclick="noticeEditor()">+ 공지 추가</button>' : '';
+  const adminNotices = token ? adminNoticeList() : '';
+  return '<section class="section"><h2>📋 대회 안내</h2><div class="two guide-cards">' + cards + '</div>'+awardRules+'</section>' +
+    '<section class="section panel"><div class="toolbar"><h2 style="margin:0">📢 공지사항</h2>' + addNotice +
+    '</div>' + noticeList() + adminNotices + '</section>';
+}
+
+function openApplicationGuide(){
+ const title=val('applicationGuideTitle')||'참가 신청 안내';
+ const body=val('applicationGuideBody')||'참가 신청 방법은 운영진에게 문의해 주세요.';
+ modal(title,'<div style="white-space:pre-line;line-height:1.85">'+E(body)+'</div><p class="muted">개인정보 처리 내용은 신청서 하단에서 확인할 수 있습니다.</p>',null);
+}
+function paymentStatusChanged(){
+ const paid=document.querySelector('input[name="paymentStatus"]:checked')?.value==='완료';
+ const done=$('paidDepositor'),pending=$('pendingDate');
+ if(!done||!pending)return;
+ done.classList.toggle('hide',!paid);pending.classList.toggle('hide',paid);
+ done.querySelector('input').required=paid;
+ pending.querySelector('input').required=!paid;
+}
+function requestCorrectionSms(){
+ const phone=String(val('adminSmsPhone')||'').replace(/[^0-9]/g,'');
+ const message='신청 관련 정보 수정 요청\n비전 당구클럽 동호인 대회\n신청자 성명: (입력)\n수정 요청 내용: (입력)';
+ if(!/^0\d{8,10}$/.test(phone)){toast('관리자 문자 수신 번호가 설정되지 않았습니다. 대회 문의처로 연락해 주세요.');return;}
+ if(isMobile()){
+   const sep=/iPhone|iPad|iPod/i.test(navigator.userAgent)?'&':'?';
+   window.location.href='sms:'+phone+sep+'body='+encodeURIComponent(message);
+ }else{
+   modal('신청 관련 정보 수정 요청','<p>관리자 연락처: '+E(phoneFormat(phone))+'</p><p>아래 문구를 복사하여 문자 앱으로 보내 주세요.</p><div class="field"><textarea id="smsRequestText" rows="5">'+E(message)+'</textarea></div>',async()=>{
+    const t=$('smsRequestText').value;
+    await navigator.clipboard.writeText(t);
+    toast('문자 내용을 복사했습니다.');
+   });
+   const btn=$('modalForm')?.querySelector('button[type="submit"]');if(btn)btn.textContent='문구 복사';
+ }
+}
+function paymentInfo(){
+ const bank=String(val('bankName')||'').trim();
+ const account=String(val('bankAccount')||'').trim();
+ const holder=String(val('accountHolder')||'').trim();
+ const notice=String(val('paymentNotice')||'').trim();
+ return `<div class="payment-info editable">${editBtn(['entryFee','bankName','bankAccount','accountHolder','paymentNotice'])}<div class="payment-fee"><span>💳 참가비</span><strong>${E(val('entryFee')||'추후 안내')}</strong></div><div class="payment-inner"><strong>🏦 무통장 입금 안내</strong>${bank&&account&&holder?`<dl><dt>입금 은행</dt><dd>${E(bank)}</dd><dt>계좌번호</dt><dd class="account-line"><span>${E(account)}</span><button class="btn sm secondary" type="button" onclick="copyBankAccount()" aria-label="입금 계좌번호 복사">📋 복사</button></dd><dt>예금주</dt><dd>${E(holder)}</dd></dl>`:'<p class="muted">입금 계좌는 운영진이 안내할 예정입니다.</p>'}</div>${notice?`<div class="payment-notice"><strong>📌 입금 시 유의사항</strong><p>${lines(notice)}</p></div>`:''}</div>`;
+}
+async function copyBankAccount(){const number=String(val('bankAccount')||'').trim();if(!number)return toast('아직 계좌번호가 등록되지 않았습니다.');try{await navigator.clipboard.writeText(number);toast('계좌번호를 복사했습니다.')}catch(e){const field=document.createElement('textarea');field.value=number;field.style.position='fixed';field.style.opacity='0';document.body.appendChild(field);field.select();try{if(!document.execCommand('copy'))throw new Error('복사 실패');toast('계좌번호를 복사했습니다.')}catch(err){toast('복사할 수 없습니다. 계좌번호를 직접 선택해 주세요.')}finally{field.remove()}}}
+function privacyDetails(){
+ const items=[['수집·이용 주체','privacyOperator'],['이용 목적','privacyPurpose'],['수집 항목','privacyItems'],['보유·이용 기간','privacyRetention'],['개인정보 담당자','privacyOfficer'],['담당자 연락처','privacyContact']];
+ return '<dl class="privacy-details">'+items.map(([label,key])=>'<dt>'+E(label)+'</dt><dd>'+E(val(key)||'운영진 확인 필요')+'</dd>').join('')+'</dl>';
+}
+function privacyNotice(){return '<div class="privacy-block editable">'+editBtn(['privacyOperator','privacyPurpose','privacyItems','privacyRetention','privacyOfficer','privacyContact'])+'<strong>🔒 개인정보 수집·이용 안내</strong>'+privacyDetails()+'<p class="privacy-footnote">동의하지 않으실 수 있으나, 대회 신청에 필요한 정보를 처리할 수 없어 온라인 신청이 제한됩니다. 실제 운영 정책과 보유 기간은 운영진이 확인해 주세요.</p><label class="privacy-agree"><input type="checkbox" name="privacyConsent" value="YES" required> <span>위 개인정보 수집·이용 내용을 확인했으며 동의합니다. (필수)</span></label></div>';}
+function application(){const open=val('registrationOpen')==='TRUE';return `<section class="section"><h2>📝 온라인 참가 신청</h2><div class="two"><div class="panel"><h3>${open?'참가 신청서':'접수가 마감되었습니다'}</h3><div class="application-quickguide"><button type="button" class="btn sm secondary" onclick="openApplicationGuide()">📋 신청 관련 안내</button><button type="button" class="btn sm light" onclick="requestCorrectionSms()">✉ 신청 정보 수정 요청</button>${token?'<button type="button" class="btn sm secondary" onclick="openSettings([&quot;applicationGuideTitle&quot;,&quot;applicationGuideBody&quot;,&quot;adminSmsPhone&quot;])">✏️ 안내 수정</button>':''}</div>${open?`<form id="applyForm"><div class="field"><label for="pname">실명 *</label><input id="pname" name="name" maxlength="40" autocomplete="name" required></div><div class="field"><label for="pnickname">닉네임 (대진표 표시명) *</label><input id="pnickname" name="nickname" maxlength="40" required></div><div class="field"><label for="pphone">휴대전화 *</label><input id="pphone" name="phone" inputmode="numeric" autocomplete="tel" maxlength="13" placeholder="010-1234-5678" required></div><div class="field"><label for="phandi">개인 핸디 *</label><input id="phandi" name="handicap" type="number" min="1" max="50" required></div><div class="field"><label>참가비 입금 여부 *</label><div class="pay-choices"><label><input type="radio" name="paymentStatus" value="미완료" checked onchange="paymentStatusChanged()"> 입금 미완료</label><label><input type="radio" name="paymentStatus" value="완료" onchange="paymentStatusChanged()"> 입금 완료</label></div></div><div id="pendingDate" class="field"><label>입금 예정일 *</label><input name="plannedPaymentDate" type="date" required></div><div id="paidDepositor" class="field hide"><label>입금자명 *</label><input name="depositorName" maxlength="40"></div><div class="field"><label for="pclub">소속 클럽 (선택)</label><input id="pclub" name="club" maxlength="60"></div><p class="muted" style="font-size:13px">공개 대진표에는 닉네임과 핸디만 표시됩니다. 실명·연락처는 관리자용입니다. 정보 정정·삭제는 운영진에게 문의해 주세요.</p>${privacyNotice()}<button class="btn" type="submit">신청서 제출하기</button></form>`:'<p>신청 접수 일정은 대회 운영진에게 문의해 주세요.</p>'}</div><div class="panel"><h3>대회 참가 안내</h3><p>🗓 ${formatDate(false)}</p><p>📍 ${E(val('venue'))}</p>${paymentInfo()}<p>👥 현재 신청: ${db.appliedCount}명</p><p>☎ ${E(val('phone'))}</p><span class="chip">관리자 승인 후 명단 공개</span></div></div></section>`}
+
 function players(){return `<section class="section"><h2>👥 참가 현황</h2><div class="stats-grid">${statCard('신청 인원',db.appliedCount+'명','mint')}${statCard('참가 확정',db.approvedCount+'명','peach')}${statCard('모집 정원',val('capacity')?val('capacity')+'명':'미정','lav')}${statCard('접수 상태',val('registrationOpen')==='TRUE'?'접수 중':'접수 마감','pink')}</div><div class="panel"><div class="toolbar"><h3 style="margin:0">참가 확정 선수</h3>${token?'<button class="btn sm" onclick="playerEditor()">+ 선수 등록</button>':''}</div>${db.players.length?db.players.map((p,i)=>`<div class="rowitem"><span><strong>${i+1}. ${E(p.name)}</strong><small>${E(p.club||'개인 참가')}</small></span><span class="chip">핸디 ${E(p.handicap)}</span></div>`).join(''):'<div class="empty">참가 확정 선수가 없습니다.</div>'}</div></section>${token?adminPlayers():''}`}
-function displayName(id){if(!id)return '진출 대기';if(String(id).startsWith('BYE_'))return '부전승 '+String(id).split('_')[1];const p=[...(admin?.players||[]),...db.players].find(p=>p.id===id);return p?`${p.name} (${p.handicap})`:'선수 정보 없음'}
+function displayName(id){if(!id)return '진출 대기';if(String(id).startsWith('BYE_'))return '부전승 '+String(id).split('_')[1];const p=[...(admin?.players||[]),...db.players].find(p=>p.id===id);return p?`${p.nickname||p.name} (${p.handicap})`:'선수 정보 없음'}
 let previewRoster=null;
 let simulation=null;
 let simTimer=null;
@@ -186,30 +815,38 @@ function askBracket(action){
  const reroll=action==='draw'&&db.matches.length>0;
  const title=action==='reset'?'대진표 초기화 확인':reroll?'다시 배정 확인':'추첨 배정 확인';
  const warning=action==='reset'?'저장된 대진표 및 모든 경기 결과를 삭제합니다. 참가자 명단은 유지됩니다.':reroll?'기존 대진표와 입력된 경기 결과가 모두 삭제되고 무작위로 다시 배정됩니다.':'확정 선수 명단을 무작위로 배치하고 나머지는 부전승으로 채웁니다.';
- modal(title,`<p>${E(warning)}</p><p style="color:#b34b5c;font-weight:700">이 작업은 되돌릴 수 없습니다. 계속하시겠습니까?</p>`,async()=>{
+ modal(title,`<p>${E(warning)}</p><div class="confirm-note">${action==='reset'?'대진표 초기화를 진행합니다. 계속할까요?':reroll?'대진표를 다시 편성합니다. 계속할까요?':'대진표 편성을 진행합니다. 계속할까요?'}</div>`,async()=>{
   stopSimulation(false);
   if(action==='reset') await run('resetBracket',token);
   else await run('generateBracket',token);
+  stage(action==='reset'?'초기화 완료! 대진표 갱신 중…':'대진표 편성 완료! 대진표 표시 중…');
   previewRoster=null;
-  await refresh();
+  await refresh(true);
   nav('bracket');
+  stage('');
  });
  const submit=$('modalForm').querySelector('button[type="submit"]');
- submit.textContent=action==='reset'?'초기화 실행':reroll?'다시 추첨 실행':'추첨 배정 실행';
+ submit.textContent=action==='reset'?'대진표 초기화':reroll?'다시 배정':'대진표 편성';
+ submit.classList.add('secondary');
 }
-function stopSimulation(repaint=true){if(simTimer){clearInterval(simTimer);simTimer=null;} simulation=null;if(repaint&&db)render();}
+function stopSimulation(repaint=true){
+ if(simTimer){clearInterval(simTimer);simTimer=null;}
+ simulation=null;
+ if(repaint&&db)render();
+}
 function startSimulation(){
  if(!token)return;
  if(!db.matches.length){toast('먼저 실제 대진표를 추첨해 주세요.');return;}
- const rows=db.matches.map(m=>({...m,score1:'',score2:'',winner:''}));
- rows.filter(m=>+m.round>1).forEach(m=>{m.player1='';m.player2=''});
+ if(simTimer){clearInterval(simTimer);simTimer=null;}
+ const rows=db.matches.map(m=>({...m,score1:'',score2:'',winner:'',innings1:'',innings2:'',highRun1:'',highRun2:'',highRunFirst:''}));
+ rows.filter(m=>Number(m.round)>1).forEach(m=>{m.player1='';m.player2='';});
  propagateSimulationByes(rows);
- simulation={matches:rows, step:0};
+ simulation={matches:rows,step:0,complete:false};
  previewRoster=null;
  advanceSimulation();
 }
 function propagateSimulationByes(rows){
- const lookup=(r,s)=>rows.find(m=>+m.round===r&&+m.slot===s);
+ const lookup=(r,s)=>rows.find(m=>Number(m.round)===r&&Number(m.slot)===s);
  const sizes={};
  for(let slot=0;slot<16;slot++){
   const m=lookup(1,slot);if(!m)continue;
@@ -227,23 +864,56 @@ function propagateSimulationByes(rows){
   if(ac&&!bc)m.winner=m.player1;
   else if(bc&&!ac)m.winner=m.player2;
  }
+ // 4강에서 패한 두 선수를 3·4위 결정전에 배정합니다.
+ const third=lookup(6,0);
+ if(third){
+  const semi0=lookup(4,0),semi1=lookup(4,1);
+  const loser=m=>m&&m.winner?[m.player1,m.player2].find(id=>id&&id!==m.winner&&!String(id).startsWith('BYE_'))||'':'';
+  third.player1=loser(semi0);third.player2=loser(semi1);
+ }
+}
+function simulationScore(match){
+ const winnerIndex=match.winner===match.player1?1:2;
+ const winnerPlayer=[...(admin?.players||[]),...(db?.players||[])].find(p=>p.id===match.winner);
+ const target=Math.min(50,Math.max(10,Number(winnerPlayer?.handicap)||22));
+ const losing=Math.max(0,target-1-Math.floor(Math.random()*Math.min(target,10)));
+ const innings=18+Math.floor(Math.random()*35);
+ const score1=winnerIndex===1?target:losing;
+ const score2=winnerIndex===2?target:losing;
+ match.score1=score1;match.score2=score2;
+ match.innings1=innings;match.innings2=innings;
+ match.highRun1=Math.min(score1,Math.max(1,Math.ceil(Math.random()*Math.min(9,score1||1))));
+ match.highRun2=score2?Math.min(score2,Math.max(1,Math.ceil(Math.random()*Math.min(9,score2)))):0;
+  match.highRunFirst=Number(match.highRun1)===Number(match.highRun2) ? (Math.random()<.5?match.player1:match.player2) : '';
+}
+function finishSimulation(){
+ if(!simulation||simulation.complete)return;
+ simulation.complete=true;
+ if(simTimer){clearInterval(simTimer);simTimer=null;}
+ render();
+ toast('가상 경기 전체 종료! 최종 순위와 하이런·에버리지 수상자를 확인하세요.');
+ const section=document.getElementById('finalResultsBoard');
+ if(section)section.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function advanceSimulation(){
- if(!simulation)return;
+ if(!simulation||simulation.complete)return;
  const rows=simulation.matches;
- const order=rows.slice().sort((a,b)=>+a.round-+b.round||+a.slot-+b.slot);
- const m=order.find(x=>x.player1&&x.player2&&!x.winner&&!String(x.player1).startsWith('BYE_')&&!String(x.player2).startsWith('BYE_'));
- if(!m){if(simTimer){clearInterval(simTimer);simTimer=null;}render();toast('가상 경기 시뮬레이션이 끝났습니다. 실제 데이터는 변경하지 않았습니다.');return;}
+ const order=rows.slice().sort((a,b)=>Number(a.round)-Number(b.round)||Number(a.slot)-Number(b.slot));
+ const isBye=id=>String(id||'').startsWith('BYE_');
+ const m=order.find(x=>x.player1&&x.player2&&!x.winner&&!isBye(x.player1)&&!isBye(x.player2));
+ if(!m){finishSimulation();return;}
  m.winner=Math.random()<.5?m.player1:m.player2;
- m.score1=m.winner===m.player1?'승':'패';m.score2=m.winner===m.player2?'승':'패';
+ simulationScore(m);
  simulation.step++;
  propagateSimulationByes(rows);
  render();
+ const remaining=rows.some(x=>x.player1&&x.player2&&!x.winner&&!isBye(x.player1)&&!isBye(x.player2));
+ if(!remaining)finishSimulation();
 }
 function autoSimulation(){
  if(!simulation)startSimulation();
- if(!simulation||simTimer)return;
- simTimer=setInterval(()=>{if(simulation)advanceSimulation()},420);
+ if(!simulation||simulation.complete||simTimer)return;
+ simTimer=setInterval(()=>{if(simulation)advanceSimulation();},260);
  render();
 }
 function toggleSimPause(){if(simTimer){clearInterval(simTimer);simTimer=null;render();}}
@@ -292,6 +962,85 @@ function drawTourConnectors(){
  }
 }
 window.addEventListener('resize',()=>requestAnimationFrame(drawTourConnectors));
+function awardsBoard(list) {
+  if (!list || !list.length) return '';
+  const a=statisticsLocal(simulation?simulation.matches:list);
+  const athlete=id=>id?E(displayName(id)):'미확정';
+  const badges=a.complete?a.ranks.map(r=>'<div class="final-rank"><strong>'+r.rank+'위</strong><span>'+athlete(r.id)+'</span></div>').join(''):'<p class="final-muted">결승과 3·4위 결정전 종료 후 1~4위가 확정됩니다.</p>';
+  const topRun=a.highestRun||[];
+  const uncertain=topRun.length>1&&topRun[0].matchId===topRun[1].matchId&&!topRun[0].highRunFirst&&topRun[0].highRun===topRun[1].highRun;
+  const runList=topRun.length?topRun.map((r,i)=>'<div class="run-entry '+(i===0?'champion':'')+'"><span>'+(uncertain&&i<2?'확인 필요':r.place+'순위')+'</span><span>'+athlete(r.id)+' <span class="run-round">· '+E(recordRound(r.round,r.slot))+'</span></span><span class="run-score">H '+E(r.highRun)+'</span></div>').join(''):'<div class="final-muted">기록 없음</div>';
+  const topAverage=a.highestAverage||[];
+  const avgList=topAverage.length?topAverage.map((r,i)=>'<div class="run-entry '+(i===0?'champion':'')+'"><span>'+r.place+'순위</span><span>'+athlete(r.id)+' <span class="run-round">· 최고 기록 '+E(recordRound(r.bestRound,r.bestSlot))+'</span></span><span class="average-score">'+Number(r.average).toFixed(3)+'</span></div>').join(''):'<div class="final-muted">기록 없음</div>';
+  return '<section id="finalResultsBoard" class="final-board"><h2>🏆 '+(a.complete?(simulation?'시뮬레이션 최종 결과':'대회 최종 결과'):'대회 결과 및 개인 기록')+'</h2><div class="final-grid">'+badges+'</div><div class="final-extras"><div class="final-extra"><strong>⚡ 하이런 순위 · 5위까지 (동점 포함)</strong>'+runList+(uncertain?'<div class="final-muted">⚠ 같은 경기의 최고 하이런 동점: 선기록자 확인 필요</div>':'')+'<div class="final-muted">점수가 같은 선수는 모두 표시하며, 먼저 기록한 경기 순서대로 나열합니다.</div></div><div class="final-extra"><strong>📊 단일 경기 최고 에버리지 · TOP 5</strong>'+avgList+'<div class="final-muted">각 선수의 경기별 득점 ÷ 이닝 중 최고값을 사용합니다. 동일 선수는 최고 기록 한 경기만 반영하며, 기록 경기를 표시합니다.</div></div></div><div class="final-muted">경기별 에버리지 = 해당 경기 득점 ÷ 이닝 · 가상 기록은 실제 DB에 저장되지 않습니다.</div></section>';
+}
+function statisticsLocal(matches) {
+  const all=Array.isArray(matches)?matches:[];
+  const statsById={};const recordList=[];
+  const sorted=all.slice().sort((a,b)=>Number(a.round)-Number(b.round)||Number(a.slot)-Number(b.slot));
+  sorted.forEach(m=>{
+    if(!m.winner)return;
+    [1,2].forEach(i=>{
+      const id=m['player'+i];
+      if(!id||String(id).startsWith('BYE_'))return;
+      const st=statsById[id]||(statsById[id]={id,points:0,innings:0,highRun:null,games:0,bestAverage:null,bestRound:null,bestSlot:null});
+      const rawScore=m['score'+i],rawInnings=m['innings'+i],rawRun=m['highRun'+i];
+      const score=Number(rawScore),innings=Number(rawInnings),run=Number(rawRun);
+      if(rawScore!==''&&rawScore!=null&&rawInnings!==''&&rawInnings!=null&&Number.isFinite(score)&&score>=0&&Number.isFinite(innings)&&innings>0){st.points+=score;st.innings+=innings;st.games++;const average=score/innings;if(st.bestAverage===null||average>st.bestAverage+1e-10){st.bestAverage=average;st.bestRound=Number(m.round);st.bestSlot=Number(m.slot);}}
+      if(rawRun!==''&&rawRun!=null&&Number.isFinite(run)&&run>0){
+        st.highRun=Math.max(st.highRun??0,run);
+        recordList.push({id,highRun:run,round:Number(m.round),slot:Number(m.slot),matchId:m.id,highRunFirst:m.highRunFirst||''});
+      }
+    });
+  });
+  const stats=Object.values(statsById).map(st=>({...st,average:st.bestAverage}));
+  // Each player's best individual high run and its earliest occurrence count once.
+  const byId={};
+  recordList.forEach(r=>{
+    const old=byId[r.id];
+    if(!old||r.highRun>old.highRun||(r.highRun===old.highRun&&(r.round<old.round||(r.round===old.round&&r.slot<old.slot))))byId[r.id]=r;
+  });
+  const orderedRuns=Object.values(byId).sort((a,b)=>b.highRun-a.highRun||a.round-b.round||a.slot-b.slot||(a.matchId===b.matchId?(a.highRunFirst===a.id?-1:b.highRunFirst===b.id?1:0):0));
+  // Competition ranks: six players tied for first all rank 1; the next player ranks 7.
+  let runPlace=0,lastRun=null;
+  orderedRuns.forEach((r,i)=>{if(lastRun===null||r.highRun!==lastRun)runPlace=i+1;r.place=runPlace;lastRun=r.highRun;});
+  const highestRun=orderedRuns.filter(r=>r.place<=5);
+  const orderedAverage=stats.filter(st=>st.average!==null).sort((a,b)=>b.average-a.average||a.bestRound-b.bestRound||a.bestSlot-b.bestSlot||String(a.id).localeCompare(String(b.id)));
+  // Competition ranks, with all exact ties at any rank through fifth included.
+  let avgPlace=0,lastAvg=null;
+  orderedAverage.forEach((st,i)=>{if(lastAvg===null||Math.abs(st.average-lastAvg)>=1e-10)avgPlace=i+1;st.place=avgPlace;lastAvg=st.average;});
+  const highestAverage=orderedAverage.filter(st=>st.place<=5);
+  const final=all.find(m=>Number(m.round)===5&&Number(m.slot)===0);
+  const third=all.find(m=>Number(m.round)===6&&Number(m.slot)===0);
+  const loser=m=>m&&m.winner?[m.player1,m.player2].find(id=>id&&id!==m.winner)||'':'';
+  const complete=!!(final?.winner&&third?.winner&&(!simulation||simulation.complete));
+  return {complete,ranks:complete?[{rank:1,id:final.winner},{rank:2,id:loser(final)},{rank:3,id:third.winner},{rank:4,id:loser(third)}]:[],highestRun,highestAverage,stats};
+}
+function recordRound(round,slot){const names={1:'32강',2:'16강',3:'8강',4:'4강',5:'결승',6:'3·4위전'};return (names[round]||round+'라운드')+' · '+(Number(slot)+1)+'경기';}
+function matchPlayerStats(m, isFirst){
+ const i=isFirst?1:2;
+ const score=m['score'+i];
+ const innings=m['innings'+i];
+ const run=m['highRun'+i];
+ const valid=v=>v!==''&&v!==null&&v!==undefined&&Number.isFinite(Number(v))&&Number(v)>=0;
+ const pts=valid(score)?String(score):'-';
+ const high=valid(run)?String(run):'-';
+ const avg=valid(score)&&valid(innings)&&Number(innings)>0?(Number(score)/Number(innings)).toFixed(3):'-';
+  const top=statisticsLocal(simulation?simulation.matches:db.matches).highestRun;
+  const highlight=valid(run)&&top.some(r=>r.highRun===Number(run)&&r.matchId===m.id&&r.id===m['player'+i]);
+ return '<span class="tour-player-stats"><span class="tour-stat point" title="득점">득점 '+E(pts)+'</span><span class="tour-stat run '+(highlight?'record-top':'')+'" title="최고 하이런">H '+E(high)+'</span><span class="tour-stat avg" title="에버리지">AVG '+E(avg)+'</span></span>';
+}
+function simulatedMatchResults(){
+ if(!simulation?.complete)return '';
+ const rows=simulation.matches.filter(m=>m.winner&&m.player1&&m.player2&&!String(m.player1).startsWith('BYE_')&&!String(m.player2).startsWith('BYE_'));
+ const labels={1:'32강',2:'16강',3:'8강',4:'4강',5:'결승',6:'3·4위전'};
+ return '<section class="sim-results"><h3>📋 가상 경기 전체 결과 ('+rows.length+'경기)</h3><div class="sim-results-list">'+rows.map(m=>'<div class="sim-result-row"><span class="sim-round-label">'+labels[m.round]+' · '+(Number(m.slot)+1)+'경기</span><span class="sim-result-player"><strong>'+E(displayName(m.player1))+'</strong>'+matchPlayerStats(m,true)+'</span><span class="sim-round-label">vs</span><span class="sim-result-player"><strong>'+E(displayName(m.player2))+'</strong>'+matchPlayerStats(m,false)+'</span><span class="sim-round-label">승자: '+E(displayName(m.winner))+'</span></div>').join('')+'</div><div class="final-muted">가상 점수, 이닝 및 하이런은 실제 DB에 저장되지 않습니다.</div></section>';
+}
+function thirdMatchCard(slotView){
+  const m=(simulation?simulation.matches:db.matches).find(x=>Number(x.round)===6);
+  if(!m)return '<div class="third-place"><h3>🥉 3·4위 결정전</h3><p>기록 추가 준비 중입니다. 관리자에게 문의해 주세요.</p></div>';
+  return '<div class="third-place"><h3>🥉 3·4위 결정전</h3><div class="tour-match state-'+matchVisualState(m).type+'"><div class="tour-match-label">4강 패자 2명이 경기합니다.</div>'+slotView(m.player1,m,true)+slotView(m.player2,m,false)+(token&&!simulation&&m.player1&&m.player2?'<button onclick="matchEditor(\''+E(m.id)+'\')">✏️ 승자 / 점수 기록</button>':'')+'</div></div>';
+}
 function bracket(showResults=false){
  const arr=[...(simulation?simulation.matches:db.matches)].sort((a,b)=>+a.round-+b.round||+a.slot-+b.slot);
  const rounds=[1,2,3,4,5];
@@ -299,38 +1048,40 @@ function bracket(showResults=false){
  const final=arr.find(m=>+m.round===5), champion=final?.winner?displayName(final.winner):'';
  const slotView=(pid,m,isFirst)=>{const win=m.winner===pid&&!!pid;const lose=m.winner&&pid&&pid!==m.winner;
  const bye=String(pid||'').startsWith('BYE_');const name=pid?displayName(pid):'진출 대기';const score=isFirst?m.score1:m.score2;
- return `<div data-position="${isFirst?'first':'second'}" class="tour-player ${win?'win':''} ${lose?'lose':''} ${bye?'bye':''}"><span>${E(name)}</span><span class="score">${E(score||'')}</span></div>`};
- return `<div class="tour-page"><div class="tour-head"><div><h1 class="tour-title">🏆 ${E(val('title'))} · 32강 대진표</h1><div class="tour-sub">단판 토너먼트 · 개인 핸디 · 참가 확정 선수 자동 배치</div></div><div class="tour-toolbar"><button class="tour-btn" onclick="nav('home')">⌂ HOME</button>${token?`<button class="tour-btn light" onclick="sampleRoster()">👥 참가자 불러오기</button><button class="tour-btn primary" onclick="askBracket('draw')">🎲 ${db.matches.length?'다시 배정':'추첨 배정'}</button><button class="tour-btn danger" onclick="askBracket('reset')">↺ 초기화</button><button class="tour-btn sim" onclick="startSimulation()">▶ 시뮬레이션</button>${simulation?`<button class="tour-btn" onclick="advanceSimulation()">다음 경기</button><button class="tour-btn" onclick="autoSimulation()" ${simTimer?'disabled':''}>전체 자동 진행</button><button class="tour-btn" onclick="toggleSimPause()">일시 정지</button><button class="tour-btn warning" onclick="stopSimulation()">시뮬레이션 종료</button>`:''}`:''}</div></div>
- <div class="tour-status"><span>경기 진행 <strong style="color:#a5b4fc">${completed} / 31</strong> · 참가 확정 <strong>${db.approvedCount}명</strong> · 부전승 <strong>${Math.max(0,32-db.approvedCount)}명</strong></span><span>${champion?'👑 우승 '+E(champion):'우승자 미정'}</span></div>
- ${simulation?`<div class="tour-preview"><span class="tour-sim-label">🧪 시뮬레이션 모드</span>　가상 경기 ${simulation.step}회 진행 · 실제 Matches 데이터는 변경되지 않습니다.</div>`:''}
+ return `<div data-position="${isFirst?'first':'second'}" class="tour-player ${win?'win':''} ${lose?'lose':''} ${bye?'bye':''}"><span class="tour-player-name">${E(name)}</span>${pid&&!bye?matchPlayerStats(m,isFirst):''}</div>`};
+ return `<div class="tour-page"><div class="tour-head"><div><h1 class="tour-title">🏆 ${E(val('title'))} · 32강 대진표</h1><div class="tour-sub">단판 토너먼트 · 개인 핸디 · 참가 확정 선수 자동 배치</div></div><div class="tour-toolbar"><button class="tour-btn" onclick="nav('home')">⌂ HOME</button>${token?`<button class="tour-btn light" onclick="sampleRoster()">👥 참가자 불러오기</button><button class="tour-btn primary" onclick="askBracket('draw')">🎲 ${db.matches.length?'다시 배정':'추첨 배정'}</button><button class="tour-btn" onclick="askBracket('reset')">↺ 초기화</button><button class="tour-btn sim" onclick="startSimulation()">▶ 시뮬레이션</button>${simulation?`<button class="tour-btn" onclick="advanceSimulation()" ${simulation.complete?'disabled':''}>다음 경기</button><button class="tour-btn" onclick="autoSimulation()" ${simTimer||simulation.complete?'disabled':''}>전체 자동 진행</button><button class="tour-btn" onclick="toggleSimPause()">일시 정지</button><button class="tour-btn warning" onclick="stopSimulation()">시뮬레이션 종료</button>`:''}`:''}</div></div>
+ <div class="tour-status"><span>경기 진행 <strong style="color:#a5b4fc">${completed} / 32</strong> · 참가 확정 <strong>${db.approvedCount}명</strong> · 부전승 <strong>${Math.max(0,32-db.approvedCount)}명</strong></span><span>${champion?'👑 우승 '+E(champion):'우승자 미정'}</span></div>
+ ${awardsBoard(db.matches)}${simulation?.complete?simulatedMatchResults():''}${thirdMatchCard(slotView)}
+ ${simulation?`<div class="tour-preview"><span class="tour-sim-label">🧪 시뮬레이션 ${simulation.complete?'완료':'진행 중'}</span>　가상 경기 ${simulation.step}회 진행 · 실제 Matches 데이터는 변경되지 않습니다.</div>`:''}
  ${previewRoster&&!simulation?`<div class="tour-preview"><strong>불러온 선수 명단 (${previewRoster.length}명)</strong><p>현재는 미리보기입니다. 추첨 배정 버튼을 눌러야 실제 대진표에 반영됩니다.</p><div class="tour-roster">${previewRoster.map(p=>`<span>${E(p.name)} (${E(p.handicap)})</span>`).join('')}${Array.from({length:Math.max(0,32-previewRoster.length)},(_,i)=>`<span class="bye">부전승 ${i+1}</span>`).join('')}</div></div>`:''}
  ${arr.length?`<div class="tour-legend"><span><i class="tour-dot done"></i>경기 완료</span><span><i class="tour-dot live"></i>진행 중</span><span><i class="tour-dot pending"></i>경기 전·진출 대기</span><span><i class="tour-dot bye"></i>부전승 자동 진출</span></div><div class="tour-track"><div class="tour-grid" id="tourGrid"><svg id="tourSvg" class="tour-connectors" aria-hidden="true"></svg>${rounds.map(r=>`<div class="tour-round"><div class="tour-round-title">${['32강','16강','8강','4강','결승'][r-1]}</div><div class="tour-matches">${arr.filter(m=>+m.round===r).map(m=>`<div id="tour-match-${r}-${m.slot}" class="tour-match state-${matchVisualState(m).type}"><div class="tour-match-label" style="display:flex;gap:8px;align-items:center">${r}라운드 · ${+m.slot+1}경기 <span class="tour-match-state">${matchVisualState(m).label}</span></div>${slotView(m.player1,m,true)}${slotView(m.player2,m,false)}${token&&!simulation&&m.player1&&m.player2&&!String(m.player1).startsWith('BYE_')&&!String(m.player2).startsWith('BYE_')?`<button onclick="matchEditor('${E(m.id)}')">✏️ 승자 / 점수 등록</button>`:''}</div>`).join('')}</div></div>`).join('')}<div class="tour-round" style="justify-content:center"><div class="tour-round-title">CHAMPION</div><div id="tour-champion" class="tour-champ">🏆<br>${E(champion||'우승자 대기')}</div></div></div></div>`:`<div class="tour-empty">대진표가 아직 생성되지 않았습니다.${token?' 위의 참가자 불러오기 버튼으로 대진표를 생성하세요.':' 관리자가 참가 확정 후 공개할 예정입니다.'}</div>`}
  <div class="tour-note">※ 부전승은 별도 경기 없이 자동 진출합니다. 대진표 수정 및 경기 결과 입력은 관리자만 가능합니다.</div></div>`
 }
 function adminPage(){if(!token)return `<section class="section panel" style="max-width:460px;margin-left:auto;margin-right:auto"><h2>🔐 관리자 로그인</h2><form id="loginForm"><div class="field"><label for="pass">관리자 비밀번호</label><input id="pass" type="password" autocomplete="current-password" required></div><button type="submit" class="btn">로그인</button></form></section>`;return `<section class="section"><h2>⚙ 대회 관리자</h2><div class="grid">${infoCard('전체 신청',db.appliedCount+'명','mint',[])}${infoCard('참가 확정',db.approvedCount+'명','peach',[])}${infoCard('경기 수',db.matches.length+'경기','lav',[])}${infoCard('접수 상태',val('registrationOpen')==='TRUE'?'접수 중':'마감','pink',['registrationOpen'])}</div><div class="panel" style="margin-top:20px"><div class="toolbar"><button class="btn" onclick="openSettings()">✏️ 전체 대회 정보 수정</button><button class="btn secondary" onclick="playerEditor()">+ 선수 등록</button><button class="btn secondary" onclick="noticeEditor()">+ 공지 등록</button><button class="btn secondary" onclick="askBracket('draw')">🎲 대진표 추첨</button>${admin?.role==='admin'?'<button class="btn secondary" onclick="passwordEditor()">🔒 비밀번호 변경</button>':''}</div><p class="muted">다른 메뉴에서 선수 승인, 경기 기록 및 영역별 연필 수정을 진행할 수 있습니다.</p></div>${adminPlayers()}${adminNoticeList()}</section>`}
-function adminPlayers(){if(!token)return '';return `<section class="section panel"><h3>관리자 · 신청자 관리 (${admin?.players?.length||0}명)</h3>${(admin?.players||[]).map(p=>`<div class="rowitem"><div><strong>${E(p.name)}</strong> <span class="chip">${E(p.status)}</span><small>핸디 ${E(p.handicap)} · ${E(p.phone)} · ${E(p.club)}</small></div><div class="player-actions"><button class="btn sm secondary" onclick="messageEditor('${E(p.id)}')">✉ 문자</button><button class="btn sm secondary" onclick="playerEditor('${E(p.id)}')">✏️ 편집</button></div></div>`).join('')||'<p>아직 신청자가 없습니다.</p>'}</section>`}
+function adminPlayers(){if(!token)return '';return `<section class="section panel"><h3>관리자 · 신청자 관리 (${admin?.players?.length||0}명)</h3>${(admin?.players||[]).map(p=>`<div class="rowitem"><div><strong>${E(p.nickname||p.name)}</strong> <span class="chip">${E(p.status)}</span><small>실명: ${E(p.name)}</small><small>핸디 ${E(p.handicap)} · ${E(p.phone)} · ${E(p.club)}</small><small>입금: ${E(p.paymentStatus||'미입력')}${p.paymentStatus==='완료'?' · 입금자 '+E(p.depositorName||'-'):' · 예정일 '+E(p.plannedPaymentDate||'-')}</small></div><div class="player-actions"><button class="btn sm secondary" onclick="messageEditor('${E(p.id)}')">✉ 문자</button><button class="btn sm secondary" onclick="playerEditor('${E(p.id)}')">✏️ 편집</button></div></div>`).join('')||'<p>아직 신청자가 없습니다.</p>'}</section>`}
 function adminNoticeList(){if(!token)return '';return `<section class="section panel"><h3>관리자 · 공지 관리</h3>${(admin?.notices||[]).map(n=>`<div class="rowitem"><span>${E(n.title)} <small>${n.visible==='TRUE'?'공개':'비공개'}</small></span><button class="btn sm secondary" onclick="noticeEditor('${E(n.id)}')">✏️ 편집</button></div>`).join('')||'<p>등록된 공지가 없습니다.</p>'}</section>`}
-function render(){if(!db)return;document.body.classList.toggle('tournament-mode',page==='bracket');document.body.classList.toggle('admin-on',!!token);$('adminbar').classList.toggle('hide',!token);$('app').innerHTML=({home,guide,apply:application,players,bracket,results:()=>bracket(true),admin:adminPage}[page]||home)();$('footerText').textContent=val('appName')+' · '+val('organizer');$('brandTitle').textContent=val('appName')||'비전 당구 클럽 동호인 대회';document.title=val('appName');if(page==='bracket')requestAnimationFrame(()=>requestAnimationFrame(drawTourConnectors));}
-async function refresh(){try{db=await call('getPublic');if(token)admin=await call('getAdmin',token);render()}catch(e){$('app').innerHTML=`<div class="empty">정보를 불러오지 못했습니다. ${E(e.message)}<br><button class="btn" onclick="refresh()">다시 시도</button></div>`}}
-function modal(title,content,onSubmit){closeModal();$('modalRoot').innerHTML=`<div class="modalback" id="backdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modalhead"><h2 id="modalTitle">${E(title)}</h2><button class="x" id="modalClose" aria-label="닫기">✕</button></div><form id="modalForm">${content}<div class="toolbar" style="justify-content:flex-end;margin-top:20px"><button type="button" class="btn secondary" id="cancelModal">닫기</button><button type="submit" class="btn">저장하기</button></div></form></div></div>`;$('backdrop').addEventListener('click',e=>{if(e.target.id==='backdrop')closeModal()});$('modalClose').onclick=closeModal;$('cancelModal').onclick=closeModal;$('modalForm').onsubmit=async e=>{e.preventDefault();try{await onSubmit(new FormData(e.target));closeModal();await refresh();toast('저장했습니다.')}catch(e){}};modalCloser=e=>{if(e.key==='Escape')closeModal()};document.addEventListener('keydown',modalCloser);$('modalClose').focus()}
-function closeModal(){if(modalCloser)document.removeEventListener('keydown',modalCloser);modalCloser=null;$('modalRoot').innerHTML=''}
-const FIELDS={appName:['홈페이지명','text'],title:['대회명','text'],subTitle:['대회 부제','text'],heroBadge:['상단 영문 문구','text'],intro:['대회 소개','textarea'],date:['대회 날짜','date'],time:['시작 시간','time'],organizer:['주최','text'],venue:['대회 장소','text'],address:['주소','text'],phone:['전화번호','text'],prizeTotal:['총상금 표시','text'],prizeDetail:['시상 내역','textarea'],entryFee:['참가비','text'],capacity:['모집 정원(미정은 빈칸)','number'],deadline:['접수 마감일(미정은 빈칸)','date'],registrationOpen:['참가 접수','toggle'],rules:['경기 규정','textarea'],eligibility:['참가 자격','textarea'],posterUrl:['포스터 이미지 URL','url'],noticeBanner:['상단 알림 문구','text']};
+function render(){if(!db)return;document.body.classList.toggle('tournament-mode',page==='bracket');document.body.classList.toggle('admin-on',!!token);$('adminbar').classList.toggle('hide',!token);$('app').innerHTML=({home,guide,apply:application,players,bracket,results:()=>bracket(true),admin:adminPage}[page]||home)();$('footerText').textContent=val('appName')+' · '+val('organizer');$('brandTitle').innerHTML=titleMarkup('appNameLine1','appNameLine2','appName');document.title=val('appName')||'비전 당구 클럽 동호인 대회';requestAnimationFrame(fitVisibleTitles);if(page==='bracket')requestAnimationFrame(()=>requestAnimationFrame(drawTourConnectors));}
+async function refresh(strict=false){const initial=!db;if(initial)firstLoad.start();try{const next=await call('getPublic');if(token)admin=await call('getAdmin',token);db=next;render();if(initial)firstLoad.complete()}catch(e){if(initial)firstLoad.fail(e);if(strict)throw e;$('app').innerHTML=`<div class="empty">정보를 불러오지 못했습니다. ${E(e.message)}<br><button class="btn" onclick="refresh()">다시 시도</button></div>`}}
+function modal(title,content,onSubmit){closeModal();$('modalRoot').innerHTML=`<div class="modalback" id="backdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modalhead"><h2 id="modalTitle">${E(title)}</h2><button class="x" id="modalClose" aria-label="닫기">✕</button></div><form id="modalForm">${content}<div class="toolbar" style="justify-content:flex-end;margin-top:20px"><button type="button" class="btn secondary" id="cancelModal">닫기</button><button type="submit" class="btn">저장하기</button></div></form></div></div>`;$('backdrop').addEventListener('click',e=>{if(e.target.id==='backdrop')closeModal()});$('modalClose').onclick=closeModal;$('cancelModal').onclick=closeModal;if(typeof onSubmit!=='function'){$('modalForm').querySelector('button[type="submit"]').remove();}else $('modalForm').onsubmit=async e=>{e.preventDefault();if(e.target.dataset.submitting==='1')return;e.target.dataset.submitting='1';try{await onSubmit(new FormData(e.target));stage('저장 성공! 화면 불러오는 중…');await refresh(true);closeModal();stage('');toast('저장했습니다.')}catch(e){stage('');toast('작업을 완료하지 못했습니다. '+(e.message||e))}finally{if(e.target.isConnected)e.target.dataset.submitting='0'}};modalCloser=e=>{if(e.key==='Escape')closeModal()};document.addEventListener('keydown',modalCloser);focusFirstField('#modalForm')}
+function closeModal(){automaticFocusSequence++;if(modalCloser)document.removeEventListener('keydown',modalCloser);modalCloser=null;$('modalRoot').innerHTML=''}
+const FIELDS={adminSmsPhone:['신청 수정 요청 문자 수신 번호','text'],applicationGuideTitle:['신청 관련 안내 모달 제목','text'],applicationGuideBody:['신청 관련 안내 내용','textarea'],specialAwardTitle:['특별상 안내 제목','text'],specialAwardRules:['하이런·에버리지 시상 규정','textarea'],appNameLine1:['홈페이지 제목 첫째 줄 (비우면 기존 홈페이지명 사용)','text'],appNameLine2:['홈페이지 제목 둘째 줄 (선택)','text'],heroTitleLine1:['홈 대회 제목 첫째 줄 (비우면 기존 대회명 사용)','text'],heroTitleLine2:['홈 대회 제목 둘째 줄 (선택)','text'],privacyOperator:['개인정보 이용 주체','text'],privacyPurpose:['개인정보 이용 목적','textarea'],privacyItems:['수집 항목','textarea'],privacyRetention:['보유·이용 기간','text'],privacyOfficer:['개인정보 담당자','text'],privacyContact:['담당자 연락처','text'],guideOverviewTitle:['대회 개요 카드 제목','text'],guideEligibilityTitle:['참가 자격·참가비 카드 제목','text'],guideAwardsTitle:['시상 내역 카드 제목','text'],guideRulesTitle:['경기 규정 카드 제목','text'],appName:['홈페이지명','text'],title:['대회명','text'],subTitle:['대회 부제','text'],heroBadge:['상단 영문 문구','text'],intro:['대회 소개','textarea'],date:['대회 날짜','date'],time:['시작 시간','time'],organizer:['주최','text'],venue:['대회 장소','text'],address:['주소','text'],phone:['전화번호','text'],prizeTotal:['총상금 표시','text'],prizeDetail:['시상 내역','textarea'],entryFee:['참가비','text'],bankName:['입금 은행','text'],bankAccount:['입금 계좌번호','text'],accountHolder:['예금주','text'],paymentNotice:['무통장 입금 안내 문구','textarea'],capacity:['모집 정원(미정은 빈칸)','number'],deadline:['접수 마감일(미정은 빈칸)','date'],registrationOpen:['참가 접수','toggle'],rules:['경기 규정','textarea'],eligibility:['참가 자격','textarea'],posterUrl:['포스터 이미지 URL','url'],noticeBanner:['상단 알림 문구','text']};
 function openSettings(keys){if(!token)return;const names=keys?.length?keys:Object.keys(FIELDS);modal('✏️ 대회 정보 수정',names.map(k=>{const [label,type]=FIELDS[k];return `<div class="field"><label for="f_${k}">${E(label)}</label>${type==='textarea'?`<textarea id="f_${k}" name="${k}">${E(val(k))}</textarea>`:type==='toggle'?`<select id="f_${k}" name="${k}"><option value="TRUE" ${val(k)==='TRUE'?'selected':''}>접수 중</option><option value="FALSE" ${val(k)==='FALSE'?'selected':''}>마감</option></select>`:`<input id="f_${k}" name="${k}" type="${type}" value="${E(val(k))}">`}</div>`}).join(''),async fd=>await run('saveSettings',token,Object.fromEntries(fd.entries())))}
-function playerEditor(id){const p=admin?.players?.find(x=>x.id===id)||{};modal(id?'✏️ 선수 수정':'➕ 선수 등록',`<div class="formgrid"><div class="field"><label>선수 이름 *</label><input name="name" value="${E(p.name||'')}" required></div><div class="field"><label>연락처</label><input name="phone" inputmode="numeric" maxlength="13" value="${E(p.phone||'')}"></div><div class="field"><label>개인 핸디 *</label><input type="number" min="1" max="50" name="handicap" value="${E(p.handicap||'')}" required></div><div class="field"><label>소속 클럽</label><input name="club" value="${E(p.club||'')}"></div><div class="field"><label>신청 상태</label><select name="status">${['대기','승인','취소'].map(s=>`<option ${p.status===s?'selected':''}>${s}</option>`).join('')}</select></div></div>${id?'<p class="muted">삭제가 필요하면 아래 버튼을 이용해 주세요.</p><button type="button" class="btn sm danger" id="deleteEntry">선수 삭제</button>':''}`,async fd=>await run('upsertPlayer',token,{...Object.fromEntries(fd.entries()),id:id||''}));if(id)$('deleteEntry').onclick=()=>confirmDelete('정말 선수를 삭제하시겠습니까?',()=>run('removePlayer',token,id))}
+function playerEditor(id){const p=admin?.players?.find(x=>x.id===id)||{};modal(id?'✏️ 선수 수정':'➕ 선수 등록',`<div class="formgrid"><div class="field"><label>실명 *</label><input name="name" value="${E(p.name||'')}" required></div><div class="field"><label>닉네임 *</label><input name="nickname" value="${E(p.nickname||p.name||'')}" required></div><div class="field"><label>연락처</label><input name="phone" inputmode="numeric" maxlength="13" value="${E(p.phone||'')}"></div><div class="field"><label>개인 핸디 *</label><input type="number" min="1" max="50" name="handicap" value="${E(p.handicap||'')}" required></div><div class="field"><label>입금 상태</label><select name="paymentStatus"><option value="미완료" ${p.paymentStatus!=='완료'?'selected':''}>미완료</option><option value="완료" ${p.paymentStatus==='완료'?'selected':''}>완료</option></select></div><div class="field"><label>입금자명</label><input name="depositorName" value="${E(p.depositorName||'')}"></div><div class="field"><label>입금 예정일</label><input name="plannedPaymentDate" type="date" value="${E(p.plannedPaymentDate||'')}"></div><div class="field"><label>소속 클럽</label><input name="club" value="${E(p.club||'')}"></div><div class="field"><label>신청 상태</label><select name="status">${['대기','승인','취소'].map(s=>`<option ${p.status===s?'selected':''}>${s}</option>`).join('')}</select></div></div>${id?'<p class="muted">삭제가 필요하면 아래 버튼을 이용해 주세요.</p><button type="button" class="btn sm danger" id="deleteEntry">선수 삭제</button>':''}`,async fd=>await run('upsertPlayer',token,{...Object.fromEntries(fd.entries()),id:id||''}));if(id)$('deleteEntry').onclick=()=>confirmDelete('정말 선수를 삭제하시겠습니까?',()=>run('removePlayer',token,id))}
 function noticeEditor(id){const n=admin?.notices?.find(x=>x.id===id)||{};modal(id?'✏️ 공지 수정':'➕ 공지 등록',`<div class="field"><label>공지 제목</label><input name="title" required value="${E(n.title||'')}"></div><div class="field"><label>내용</label><textarea name="body">${E(n.body||'')}</textarea></div><div class="field"><label>노출 여부</label><select name="visible"><option value="TRUE" ${n.visible!=='FALSE'?'selected':''}>공개</option><option value="FALSE" ${n.visible==='FALSE'?'selected':''}>비공개</option></select></div>${id?'<button type="button" id="deleteEntry" class="btn sm danger">공지 삭제</button>':''}`,async fd=>await run('upsertNotice',token,{...Object.fromEntries(fd.entries()),id:id||''}));if(id)$('deleteEntry').onclick=()=>confirmDelete('정말 공지를 삭제하시겠습니까?',()=>run('removeNotice',token,id))}
 function confirmDelete(question,action){modal('삭제 확인',`<p>${E(question)}</p>`,async()=>{await action()})}
 function matchEditor(id){
  const m=db.matches.find(x=>x.id===id);
  if(!m)return;
- const playerOne=E(displayName(m.player1));
- const playerTwo=E(displayName(m.player2));
- const options=[m.player1,m.player2].filter(Boolean).map(pid=>`<option value="${E(pid)}" ${m.winner===pid?'selected':''}>${E(displayName(pid))}</option>`).join('');
- modal('✏️ 경기 결과 기록',`<p class="muted">${playerOne} vs ${playerTwo}</p><div class="formgrid"><div class="field"><label for="matchScore1">${playerOne} 점수</label><input id="matchScore1" name="score1" type="number" min="0" value="${E(m.score1)}"></div><div class="field"><label for="matchScore2">${playerTwo} 점수</label><input id="matchScore2" name="score2" type="number" min="0" value="${E(m.score2)}"></div></div><div class="field"><label for="matchWinner">승자</label><select id="matchWinner" name="winner" required><option value="">선택해 주세요</option>${options}</select></div>`,async fd=>await run('saveMatch',token,id,fd.get('score1'),fd.get('score2'),fd.get('winner')));
+ const a=E(displayName(m.player1)),b=E(displayName(m.player2));
+ const fields=(i,name)=>'<div class="panel"><strong>'+name+'</strong><div class="field"><label>득점</label><input type="number" name="score'+i+'" min="0" value="'+E(m['score'+i]||'')+'"></div><div class="field"><label>이닝 수</label><input type="number" name="innings'+i+'" min="1" value="'+E(m['innings'+i]||'')+'"></div><div class="field"><label>최고 하이런</label><input type="number" name="highRun'+i+'" min="0" value="'+E(m['highRun'+i]||'')+'"></div></div>';
+ const options=[m.player1,m.player2].filter(Boolean).map(pid=>'<option value="'+E(pid)+'" '+(m.winner===pid?'selected':'')+'>'+E(displayName(pid))+'</option>').join('');
+ modal('✏️ 경기 결과 및 개인 기록','<div class="two">'+fields(1,a)+fields(2,b)+'</div><div class="field"><label>동일 경기 최고 하이런 선기록자 (동점인 경우 필수)</label><select name="highRunFirst"><option value="">동점이 아니거나 아직 확인되지 않음</option><option value="'+E(m.player1)+'" '+(m.highRunFirst===m.player1?'selected':'')+'>'+a+'</option><option value="'+E(m.player2)+'" '+(m.highRunFirst===m.player2?'selected':'')+'>'+b+'</option></select><small>최고 하이런 점수가 같다면 실제로 먼저 기록한 선수를 선택하세요.</small></div><div class="field"><label>승자</label><select name="winner" required><option value="">승자를 선택해 주세요</option>'+options+'</select></div>',async fd=>await run('saveMatch',token,id,fd.get('score1'),fd.get('score2'),fd.get('winner'),{innings1:fd.get('innings1'),innings2:fd.get('innings2'),highRun1:fd.get('highRun1'),highRun2:fd.get('highRun2'),highRunFirst:fd.get('highRunFirst')}));
 }
 function createBracket(){return askBracket('draw')}
-function passwordEditor(){modal('관리자 비밀번호 변경',`<div class="field"><label>새 비밀번호 (8자 이상)</label><input name="password" type="password" minlength="8" required autocomplete="new-password"></div>`,async fd=>await run('changePassword',token,fd.get('password')))}
+function passwordEditor(){modal('관리자 비밀번호 변경',`<div class="field"><label>새 비밀번호 (8자 이상)</label><input name="password" type="password" minlength="8" required autocomplete="new-password"></div>`,async fd=>{await run('changePassword',token,fd.get('password'));token='';admin=null;})}
 async function signout(){try{await call('logout',token)}catch(e){}token='';admin=null;nav('home');toast('로그아웃했습니다.')}
 document.addEventListener('input',e=>{if(e.target.id==='pphone'||(e.target.name==='phone'&&e.target.closest('#modalForm'))){const el=e.target;const pos=el.selectionStart;el.value=phoneFormat(el.value);if(pos===el.value.length-1)el.setSelectionRange(el.value.length,el.value.length)}});
-document.addEventListener('submit',async e=>{if(e.target.id==='loginForm'){e.preventDefault();try{const result=await run('login',$('pass').value);token=result.token;admin=await call('getAdmin',token);await refresh();toast('관리자 로그인 성공')}catch(e){} }else if(e.target.id==='applyForm'){e.preventDefault();const data=Object.fromEntries(new FormData(e.target).entries());try{const result=await run('register',data);e.target.reset();await refresh();toast(result.message)}catch(e){}}});
-refresh();
+document.addEventListener('submit',async e=>{if(e.target.id==='loginForm'){e.preventDefault();if(busy)return;try{const result=await run('login',$('pass').value);if(!result?.token)throw Error('인증 결과를 확인할 수 없습니다.');token=result.token;stage('로그인 성공! 관리자 화면 불러오는 중…');admin=await call('getAdmin',token);await refresh(true);nav('admin');stage('');toast('✓ 로그인 성공! 관리자 화면을 열었습니다.')}catch(e){stage('');token='';admin=null;render();toast('관리자 화면을 열지 못했습니다. '+(e.message||e))} }else if(e.target.id==='applyForm'){e.preventDefault();if(busy)return;const data=Object.fromEntries(new FormData(e.target).entries());try{const result=await run('register',data);stage('참가 신청 완료! 참가 현황 불러오는 중…');await refresh(true);e.target.reset();stage('');nav('players');toast(result.message)}catch(e){stage('');toast(e.message||String(e))}}});
+window.addEventListener('resize',()=>requestAnimationFrame(fitVisibleTitles));
+refresh().then(()=>{if(page==='admin'&&!token)focusFirstField('#loginForm');else if(page==='apply')focusFirstField('#applyForm')});
 </script></div></body></html>
