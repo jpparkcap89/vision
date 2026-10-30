@@ -544,6 +544,46 @@ function setDesignTheme(theme){
 setDesignTheme('light');
 themeToggle.addEventListener('click',()=>setDesignTheme(document.documentElement.dataset.theme==='dark'?'light':'dark'));
 
+// Each completed mutation closes its dialog before refreshing. A failed read never asks users to repeat a successful write.
+let mutationRevision=0;
+async function submitModal(event,onSubmit){
+  event.preventDefault();const form=event.target;
+  if(form.dataset.submitting==='1')return;
+  form.dataset.submitting='1';const before=mutationRevision;let saved=false;
+  try{
+    await onSubmit(new FormData(form));
+    saved=mutationRevision>before;
+    if(form.isConnected)closeModal();
+    if(saved){stage('저장 완료 · 화면을 갱신하고 있습니다.');await refresh(true);toast('저장했습니다.');}
+  }catch(error){
+    toast(saved?'저장은 완료되었습니다. 화면 갱신에 실패했습니다. 새로고침해 주세요.':'작업을 완료하지 못했습니다. '+(error.message||error));
+  }finally{
+    stage('');if(form.isConnected)form.dataset.submitting='0';
+  }
+}
+async function submitLogin(event){
+  const form=event.target;if(form.dataset.submitting==='1'||busy)return;
+  form.dataset.submitting='1';
+  try{
+    const result=await run('login',$('pass').value);
+    if(!result?.token)throw Error('인증 결과를 확인할 수 없습니다.');
+    token=result.token;stage('관리자 화면을 불러오고 있습니다.');
+    await refresh(true);nav('admin');toast('관리자 로그인 성공');
+  }catch(error){token='';admin=null;render();toast('관리자 화면을 열지 못했습니다. '+(error.message||error));}
+  finally{stage('');if(form.isConnected)form.dataset.submitting='0';}
+}
+async function submitRegistration(event){
+  const form=event.target;if(form.dataset.submitting==='1'||busy)return;
+  form.dataset.submitting='1';let registered=false;
+  try{
+    const data=Object.fromEntries(new FormData(form).entries());
+    const result=await run('register',data);registered=true;form.reset();
+    nav('players');stage('신청 완료 · 참가 현황을 갱신하고 있습니다.');
+    await refresh(true);toast(result.message);
+  }catch(error){toast(registered?'참가 신청은 완료되었습니다. 화면만 새로고침해 주세요.':(error.message||String(error)));}
+  finally{stage('');if(form.isConnected)form.dataset.submitting='0';}
+}
+
 let db=null,admin=null,token='',page='home',busy=false,modalCloser=null;
 const $=id=>document.getElementById(id);
 const E=s=>String(s??'').replace(/\u{1f3b1}/gu,'⚪ 🟡 🔴').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -631,9 +671,9 @@ async function run(method,...args){
   const original=btn?.textContent;
   stage(label);
   if(btn){btn.disabled=true;btn.classList.add('loading');btn.textContent=label;btn.setAttribute('aria-busy','true')}
-  try{return await call(method,...args)}
+  try{const result=await call(method,...args);if(!['login','logout','getPublic','getAdmin'].includes(method))mutationRevision++;return result;}
   catch(e){stage('');toast('⚠ '+e.message);throw e}
-  finally{busy=false;if(btn?.isConnected){btn.disabled=false;btn.classList.remove('loading');btn.textContent=original;btn.removeAttribute('aria-busy')}if(method!=='login')stage('')}
+  finally{busy=false;if(btn?.isConnected){btn.disabled=false;btn.classList.remove('loading');btn.textContent=original;btn.removeAttribute('aria-busy')}stage('')}
 }
 function editBtn(keys){return token?`<button class="pencil" aria-label="이 영역 수정" onclick='openSettings(${JSON.stringify(keys)})'>✏️ 수정</button>`:''}
 function editable(html,keys,cls=''){return `<div class="editable ${cls}">${editBtn(keys)}${html}</div>`}
@@ -821,7 +861,6 @@ function askBracket(action){
   else await run('generateBracket',token);
   stage(action==='reset'?'초기화 완료! 대진표 갱신 중…':'대진표 편성 완료! 대진표 표시 중…');
   previewRoster=null;
-  await refresh(true);
   nav('bracket');
   stage('');
  });
@@ -1061,8 +1100,8 @@ function adminPage(){if(!token)return `<section class="section panel" style="max
 function adminPlayers(){if(!token)return '';return `<section class="section panel"><h3>관리자 · 신청자 관리 (${admin?.players?.length||0}명)</h3>${(admin?.players||[]).map(p=>`<div class="rowitem"><div><strong>${E(p.nickname||p.name)}</strong> <span class="chip">${E(p.status)}</span><small>실명: ${E(p.name)}</small><small>핸디 ${E(p.handicap)} · ${E(p.phone)} · ${E(p.club)}</small><small>입금: ${E(p.paymentStatus||'미입력')}${p.paymentStatus==='완료'?' · 입금자 '+E(p.depositorName||'-'):' · 예정일 '+E(p.plannedPaymentDate||'-')}</small></div><div class="player-actions"><button class="btn sm secondary" onclick="messageEditor('${E(p.id)}')">✉ 문자</button><button class="btn sm secondary" onclick="playerEditor('${E(p.id)}')">✏️ 편집</button></div></div>`).join('')||'<p>아직 신청자가 없습니다.</p>'}</section>`}
 function adminNoticeList(){if(!token)return '';return `<section class="section panel"><h3>관리자 · 공지 관리</h3>${(admin?.notices||[]).map(n=>`<div class="rowitem"><span>${E(n.title)} <small>${n.visible==='TRUE'?'공개':'비공개'}</small></span><button class="btn sm secondary" onclick="noticeEditor('${E(n.id)}')">✏️ 편집</button></div>`).join('')||'<p>등록된 공지가 없습니다.</p>'}</section>`}
 function render(){if(!db)return;document.body.classList.toggle('tournament-mode',page==='bracket');document.body.classList.toggle('admin-on',!!token);$('adminbar').classList.toggle('hide',!token);$('app').innerHTML=({home,guide,apply:application,players,bracket,results:()=>bracket(true),admin:adminPage}[page]||home)();$('footerText').textContent=val('appName')+' · '+val('organizer');$('brandTitle').innerHTML=titleMarkup('appNameLine1','appNameLine2','appName');document.title=val('appName')||'비전 당구 클럽 동호인 대회';requestAnimationFrame(fitVisibleTitles);if(page==='bracket')requestAnimationFrame(()=>requestAnimationFrame(drawTourConnectors));}
-async function refresh(strict=false){const initial=!db;if(initial)firstLoad.start();try{const next=await call('getPublic');if(token)admin=await call('getAdmin',token);db=next;render();if(initial)firstLoad.complete()}catch(e){if(initial)firstLoad.fail(e);if(strict)throw e;$('app').innerHTML=`<div class="empty">정보를 불러오지 못했습니다. ${E(e.message)}<br><button class="btn" onclick="refresh()">다시 시도</button></div>`}}
-function modal(title,content,onSubmit){closeModal();$('modalRoot').innerHTML=`<div class="modalback" id="backdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modalhead"><h2 id="modalTitle">${E(title)}</h2><button class="x" id="modalClose" aria-label="닫기">✕</button></div><form id="modalForm">${content}<div class="toolbar" style="justify-content:flex-end;margin-top:20px"><button type="button" class="btn secondary" id="cancelModal">닫기</button><button type="submit" class="btn">저장하기</button></div></form></div></div>`;$('backdrop').addEventListener('click',e=>{if(e.target.id==='backdrop')closeModal()});$('modalClose').onclick=closeModal;$('cancelModal').onclick=closeModal;if(typeof onSubmit!=='function'){$('modalForm').querySelector('button[type="submit"]').remove();}else $('modalForm').onsubmit=async e=>{e.preventDefault();if(e.target.dataset.submitting==='1')return;e.target.dataset.submitting='1';try{await onSubmit(new FormData(e.target));stage('저장 성공! 화면 불러오는 중…');await refresh(true);closeModal();stage('');toast('저장했습니다.')}catch(e){stage('');toast('작업을 완료하지 못했습니다. '+(e.message||e))}finally{if(e.target.isConnected)e.target.dataset.submitting='0'}};modalCloser=e=>{if(e.key==='Escape')closeModal()};document.addEventListener('keydown',modalCloser);focusFirstField('#modalForm')}
+let refreshSequence=0;async function refresh(strict=false){const sequence=++refreshSequence;const initial=!db;if(initial)firstLoad.start();try{const [next,nextAdmin]=await Promise.all([call('getPublic'),token?call('getAdmin',token):Promise.resolve(null)]);if(sequence!==refreshSequence)return;db=next;admin=nextAdmin;render();if(initial)firstLoad.complete()}catch(e){if(sequence!==refreshSequence)return;if(initial)firstLoad.fail(e);if(strict)throw e;if(db){toast('화면 갱신에 실패했습니다. 다시 시도해 주세요.');return;}$('app').innerHTML=`<div class="empty">정보를 불러오지 못했습니다. ${E(e.message)}<br><button class="btn" onclick="refresh()">다시 시도</button></div>`}}
+function modal(title,content,onSubmit){closeModal();$('modalRoot').innerHTML=`<div class="modalback" id="backdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modalhead"><h2 id="modalTitle">${E(title)}</h2><button class="x" id="modalClose" aria-label="닫기">✕</button></div><form id="modalForm">${content}<div class="toolbar" style="justify-content:flex-end;margin-top:20px"><button type="button" class="btn secondary" id="cancelModal">닫기</button><button type="submit" class="btn">저장하기</button></div></form></div></div>`;$('backdrop').addEventListener('click',e=>{if(e.target.id==='backdrop')closeModal()});$('modalClose').onclick=closeModal;$('cancelModal').onclick=closeModal;if(typeof onSubmit!=='function'){$('modalForm').querySelector('button[type="submit"]').remove();}else $('modalForm').onsubmit=e=>submitModal(e,onSubmit);modalCloser=e=>{if(e.key==='Escape')closeModal()};document.addEventListener('keydown',modalCloser);focusFirstField('#modalForm')}
 function closeModal(){automaticFocusSequence++;if(modalCloser)document.removeEventListener('keydown',modalCloser);modalCloser=null;$('modalRoot').innerHTML=''}
 const FIELDS={adminSmsPhone:['신청 수정 요청 문자 수신 번호','text'],applicationGuideTitle:['신청 관련 안내 모달 제목','text'],applicationGuideBody:['신청 관련 안내 내용','textarea'],specialAwardTitle:['특별상 안내 제목','text'],specialAwardRules:['하이런·에버리지 시상 규정','textarea'],appNameLine1:['홈페이지 제목 첫째 줄 (비우면 기존 홈페이지명 사용)','text'],appNameLine2:['홈페이지 제목 둘째 줄 (선택)','text'],heroTitleLine1:['홈 대회 제목 첫째 줄 (비우면 기존 대회명 사용)','text'],heroTitleLine2:['홈 대회 제목 둘째 줄 (선택)','text'],privacyOperator:['개인정보 이용 주체','text'],privacyPurpose:['개인정보 이용 목적','textarea'],privacyItems:['수집 항목','textarea'],privacyRetention:['보유·이용 기간','text'],privacyOfficer:['개인정보 담당자','text'],privacyContact:['담당자 연락처','text'],guideOverviewTitle:['대회 개요 카드 제목','text'],guideEligibilityTitle:['참가 자격·참가비 카드 제목','text'],guideAwardsTitle:['시상 내역 카드 제목','text'],guideRulesTitle:['경기 규정 카드 제목','text'],appName:['홈페이지명','text'],title:['대회명','text'],subTitle:['대회 부제','text'],heroBadge:['상단 영문 문구','text'],intro:['대회 소개','textarea'],date:['대회 날짜','date'],time:['시작 시간','time'],organizer:['주최','text'],venue:['대회 장소','text'],address:['주소','text'],phone:['전화번호','text'],prizeTotal:['총상금 표시','text'],prizeDetail:['시상 내역','textarea'],entryFee:['참가비','text'],bankName:['입금 은행','text'],bankAccount:['입금 계좌번호','text'],accountHolder:['예금주','text'],paymentNotice:['무통장 입금 안내 문구','textarea'],capacity:['모집 정원(미정은 빈칸)','number'],deadline:['접수 마감일(미정은 빈칸)','date'],registrationOpen:['참가 접수','toggle'],rules:['경기 규정','textarea'],eligibility:['참가 자격','textarea'],posterUrl:['포스터 이미지 URL','url'],noticeBanner:['상단 알림 문구','text']};
 function openSettings(keys){if(!token)return;const names=keys?.length?keys:Object.keys(FIELDS);modal('✏️ 대회 정보 수정',names.map(k=>{const [label,type]=FIELDS[k];return `<div class="field"><label for="f_${k}">${E(label)}</label>${type==='textarea'?`<textarea id="f_${k}" name="${k}">${E(val(k))}</textarea>`:type==='toggle'?`<select id="f_${k}" name="${k}"><option value="TRUE" ${val(k)==='TRUE'?'selected':''}>접수 중</option><option value="FALSE" ${val(k)==='FALSE'?'selected':''}>마감</option></select>`:`<input id="f_${k}" name="${k}" type="${type}" value="${E(val(k))}">`}</div>`}).join(''),async fd=>await run('saveSettings',token,Object.fromEntries(fd.entries())))}
@@ -1081,7 +1120,7 @@ function createBracket(){return askBracket('draw')}
 function passwordEditor(){modal('관리자 비밀번호 변경',`<div class="field"><label>새 비밀번호 (8자 이상)</label><input name="password" type="password" minlength="8" required autocomplete="new-password"></div>`,async fd=>{await run('changePassword',token,fd.get('password'));token='';admin=null;})}
 async function signout(){try{await call('logout',token)}catch(e){}token='';admin=null;nav('home');toast('로그아웃했습니다.')}
 document.addEventListener('input',e=>{if(e.target.id==='pphone'||(e.target.name==='phone'&&e.target.closest('#modalForm'))){const el=e.target;const pos=el.selectionStart;el.value=phoneFormat(el.value);if(pos===el.value.length-1)el.setSelectionRange(el.value.length,el.value.length)}});
-document.addEventListener('submit',async e=>{if(e.target.id==='loginForm'){e.preventDefault();if(busy)return;try{const result=await run('login',$('pass').value);if(!result?.token)throw Error('인증 결과를 확인할 수 없습니다.');token=result.token;stage('로그인 성공! 관리자 화면 불러오는 중…');admin=await call('getAdmin',token);await refresh(true);nav('admin');stage('');toast('✓ 로그인 성공! 관리자 화면을 열었습니다.')}catch(e){stage('');token='';admin=null;render();toast('관리자 화면을 열지 못했습니다. '+(e.message||e))} }else if(e.target.id==='applyForm'){e.preventDefault();if(busy)return;const data=Object.fromEntries(new FormData(e.target).entries());try{const result=await run('register',data);stage('참가 신청 완료! 참가 현황 불러오는 중…');await refresh(true);e.target.reset();stage('');nav('players');toast(result.message)}catch(e){stage('');toast(e.message||String(e))}}});
+document.addEventListener('submit',e=>{if(e.target.id==='loginForm'){e.preventDefault();submitLogin(e);}else if(e.target.id==='applyForm'){e.preventDefault();submitRegistration(e);}});
 window.addEventListener('resize',()=>requestAnimationFrame(fitVisibleTitles));
 refresh().then(()=>{if(page==='admin'&&!token)focusFirstField('#loginForm');else if(page==='apply')focusFirstField('#applyForm')});
 </script></div></body></html>
